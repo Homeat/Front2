@@ -110,6 +110,14 @@ class HomeViewController: UIViewController {
         self.payCheckButton.addTarget(self, action: #selector(tabCheckButton), for: .touchUpInside)
         self.payAnalyzeButton.addTarget(self, action: #selector(tabAnalyzeButton), for: .touchUpInside)
     }
+    //HomeView가 나타날 때 tabBar 다시 띄우기 및 저장버튼 삭제
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tabBarController?.tabBar.isHidden = false
+        tabBarController?.tabBar.isTranslucent = false
+        
+        self.navigationItem.setRightBarButton(nil, animated: false)
+    }
     
     func setView() {
         self.view.addSubview(self.buttonContainer)
@@ -163,10 +171,12 @@ class HomeViewController: UIViewController {
         let backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil) // title 부분 수정
             backBarButtonItem.tintColor = .white
             self.navigationItem.backBarButtonItem = backBarButtonItem
+
     }
     // 지출추가 뷰에서 back 버튼을 눌렀을 때
     @objc func backAddButton(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
+        
         
     }
     
@@ -181,6 +191,10 @@ class HomeViewController: UIViewController {
     // 지출확인 뷰에서 back 버튼을 눌렀을 때
     @objc func backCheckButton(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    @objc func saveButton(_ sender: Any) {
+        //구현예정
     }
     
     // 지출분석 버튼을 클릭했을 때

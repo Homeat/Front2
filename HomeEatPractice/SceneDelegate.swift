@@ -37,7 +37,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // 윈도우 씬 설정
         window?.windowScene = windowScene
         
-        mainTC.tabBar.backgroundColor = .darkGray
+//        mainTC.tabBar.backgroundColor = .darkGray
         
     }
 

@@ -7,6 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2D789C2F2B53284B00D543EA /* RegisterDoneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D789C2E2B53284B00D543EA /* RegisterDoneViewController.swift */; };
+		2D789C312B53380600D543EA /* AddBirthInformViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D789C302B53380600D543EA /* AddBirthInformViewController.swift */; };
+		2D789C332B533BC700D543EA /* AddLocationInfromViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D789C322B533BC700D543EA /* AddLocationInfromViewController.swift */; };
+		2D789C352B5341ED00D543EA /* SelectMangeUnitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D789C342B5341ED00D543EA /* SelectMangeUnitViewController.swift */; };
+		2D7E0E6E2B52F506001D11DC /* LaunchScreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D7E0E6D2B52F506001D11DC /* LaunchScreen.png */; };
+		2D94A9362B52F71600AA1358 /* RegisterSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D94A9352B52F71600AA1358 /* RegisterSelectViewController.swift */; };
+		2D94A93E2B5301CC00AA1358 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D94A93D2B5301CC00AA1358 /* RegisterViewController.swift */; };
+		2D94A9402B5311EE00AA1358 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D94A93F2B5311EE00AA1358 /* LoginViewController.swift */; };
+		2DD053A22B52F16600546885 /* HomeatIcon.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 2DD053A12B52F16600546885 /* HomeatIcon.pdf */; };
+		2DD053A42B52F18500546885 /* HomeatLogo.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 2DD053A32B52F18500546885 /* HomeatLogo.pdf */; };
 		409AA3282B43A0470096CDBB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409AA3272B43A0470096CDBB /* AppDelegate.swift */; };
 		409AA32A2B43A0470096CDBB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409AA3292B43A0470096CDBB /* SceneDelegate.swift */; };
 		409AA3312B43A0480096CDBB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 409AA3302B43A0480096CDBB /* Assets.xcassets */; };
@@ -24,6 +34,16 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2D789C2E2B53284B00D543EA /* RegisterDoneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterDoneViewController.swift; sourceTree = "<group>"; };
+		2D789C302B53380600D543EA /* AddBirthInformViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBirthInformViewController.swift; sourceTree = "<group>"; };
+		2D789C322B533BC700D543EA /* AddLocationInfromViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLocationInfromViewController.swift; sourceTree = "<group>"; };
+		2D789C342B5341ED00D543EA /* SelectMangeUnitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectMangeUnitViewController.swift; sourceTree = "<group>"; };
+		2D7E0E6D2B52F506001D11DC /* LaunchScreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LaunchScreen.png; sourceTree = "<group>"; };
+		2D94A9352B52F71600AA1358 /* RegisterSelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterSelectViewController.swift; sourceTree = "<group>"; };
+		2D94A93D2B5301CC00AA1358 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		2D94A93F2B5311EE00AA1358 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		2DD053A12B52F16600546885 /* HomeatIcon.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = HomeatIcon.pdf; sourceTree = "<group>"; };
+		2DD053A32B52F18500546885 /* HomeatLogo.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = HomeatLogo.pdf; sourceTree = "<group>"; };
 		409AA3242B43A0470096CDBB /* HomeEatPractice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HomeEatPractice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		409AA3272B43A0470096CDBB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		409AA3292B43A0470096CDBB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -53,6 +73,30 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2D5CB7062B51DE090026B922 /* RegisterVC */ = {
+			isa = PBXGroup;
+			children = (
+				2D94A9352B52F71600AA1358 /* RegisterSelectViewController.swift */,
+				2D94A93D2B5301CC00AA1358 /* RegisterViewController.swift */,
+				2D94A93F2B5311EE00AA1358 /* LoginViewController.swift */,
+				2D789C2E2B53284B00D543EA /* RegisterDoneViewController.swift */,
+				2D789C302B53380600D543EA /* AddBirthInformViewController.swift */,
+				2D789C322B533BC700D543EA /* AddLocationInfromViewController.swift */,
+				2D789C342B5341ED00D543EA /* SelectMangeUnitViewController.swift */,
+			);
+			path = RegisterVC;
+			sourceTree = "<group>";
+		};
+		2DD0539E2B52F11300546885 /* LaunchScreenImage */ = {
+			isa = PBXGroup;
+			children = (
+				2DD053A12B52F16600546885 /* HomeatIcon.pdf */,
+				2DD053A32B52F18500546885 /* HomeatLogo.pdf */,
+				2D7E0E6D2B52F506001D11DC /* LaunchScreen.png */,
+			);
+			path = LaunchScreenImage;
+			sourceTree = "<group>";
+		};
 		409AA31B2B43A0470096CDBB = {
 			isa = PBXGroup;
 			children = (
@@ -72,6 +116,7 @@
 		409AA3262B43A0470096CDBB /* HomeEatPractice */ = {
 			isa = PBXGroup;
 			children = (
+				2DD0539E2B52F11300546885 /* LaunchScreenImage */,
 				588A09272B4E680400638D16 /* Controller */,
 				409AA3272B43A0470096CDBB /* AppDelegate.swift */,
 				409AA3292B43A0470096CDBB /* SceneDelegate.swift */,
@@ -85,6 +130,7 @@
 		588A09272B4E680400638D16 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				2D5CB7062B51DE090026B922 /* RegisterVC */,
 				588A092A2B4E987A00638D16 /* TalkVC */,
 				409AA3432B43E98A0096CDBB /* MyPageViewController.swift */,
 				409AA33F2B43E9640096CDBB /* CashViewController.swift */,
@@ -166,7 +212,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				409AA3342B43A0480096CDBB /* LaunchScreen.storyboard in Resources */,
+				2DD053A42B52F18500546885 /* HomeatLogo.pdf in Resources */,
 				409AA3312B43A0480096CDBB /* Assets.xcassets in Resources */,
+				2DD053A22B52F16600546885 /* HomeatIcon.pdf in Resources */,
+				2D7E0E6E2B52F506001D11DC /* LaunchScreen.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -180,11 +229,18 @@
 				409AA3402B43E9640096CDBB /* CashViewController.swift in Sources */,
 				588A09262B4E5BE200638D16 /* WriteViewController.swift in Sources */,
 				409AA3282B43A0470096CDBB /* AppDelegate.swift in Sources */,
+				2D789C352B5341ED00D543EA /* SelectMangeUnitViewController.swift in Sources */,
+				2D94A9402B5311EE00AA1358 /* LoginViewController.swift in Sources */,
 				409AA3482B467EFB0096CDBB /* PayAnalyzeViewController.swift in Sources */,
 				409AA3422B43E9760096CDBB /* TalkViewController.swift in Sources */,
 				409AA34A2B46815E0096CDBB /* PayCheckViewController.swift in Sources */,
 				409AA33E2B43E94B0096CDBB /* HomeViewController.swift in Sources */,
+				2D789C312B53380600D543EA /* AddBirthInformViewController.swift in Sources */,
+				2D94A9362B52F71600AA1358 /* RegisterSelectViewController.swift in Sources */,
 				409AA33C2B43A6B20096CDBB /* MainTabBarController.swift in Sources */,
+				2D789C2F2B53284B00D543EA /* RegisterDoneViewController.swift in Sources */,
+				2D789C332B533BC700D543EA /* AddLocationInfromViewController.swift in Sources */,
+				2D94A93E2B5301CC00AA1358 /* RegisterViewController.swift in Sources */,
 				409AA3462B453F3B0096CDBB /* PayAddViewController.swift in Sources */,
 				409AA32A2B43A0470096CDBB /* SceneDelegate.swift in Sources */,
 				588A09292B4E6ED400638D16 /* InfoViewController.swift in Sources */,
@@ -325,13 +381,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = TSGF3YP7J3;
+				DEVELOPMENT_TEAM = GH95G7PN63;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = HomeEatPractice/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -353,13 +410,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = TSGF3YP7J3;
+				DEVELOPMENT_TEAM = GH95G7PN63;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = HomeEatPractice/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";

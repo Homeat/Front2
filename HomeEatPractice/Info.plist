@@ -19,5 +19,14 @@
 			</array>
 		</dict>
 	</dict>
+	<key>UILaunchScreens</key>
+	<dict>
+		<key>UIDefaultLaunchScreen</key>
+		<string></string>
+		<key>UILaunchScreenDefinitions</key>
+		<array/>
+		<key>UIURLToLaunchScreenAssociations</key>
+		<dict/>
+	</dict>
 </dict>
 </plist>
