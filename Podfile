@@ -9,5 +9,5 @@ target 'HomeEatPractice' do
 	pod 'Tabman', '~> 3.0'
 	pod 'Then'
 	pod 'SnapKit'
-        pod 'IQKeyboardManagerSwift'
+	pod 'Charts'
 end

@@ -93,7 +93,6 @@ class AddBirthInformViewController : UIViewController {
         monthTextField.delegate = self
         dayTextField.delegate = self
         
->>>>>>> KMS
         self.inputContainer.addArrangedSubview(yearTextField)
         self.inputContainer.addArrangedSubview(monthTextField)
         self.inputContainer.addArrangedSubview(dayTextField)

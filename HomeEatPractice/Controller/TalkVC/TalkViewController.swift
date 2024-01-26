@@ -40,22 +40,17 @@ class TalkViewController: TabmanViewController {
         tabbar.dataSource = self
         dataSource = self
     }
-    
-    //HomeView가 나타날 때 tabBar 다시 띄우기 및 저장버튼 삭제
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        tabBarController?.tabBar.isHidden = false
-        tabBarController?.tabBar.isTranslucent = false
-        
-        self.navigationItem.setRightBarButton(nil, animated: false)
-    }
-    
+
     func setViewcontroller() {
         let firstVC = WriteViewController()
         let secondVC = InfoViewController()
         viewcontrollers.append(contentsOf: [firstVC,secondVC])
     }
-
+    override func viewWillAppear(_ animated: Bool) {
+            super.viewWillAppear(animated)
+            tabBarController?.tabBar.isHidden = false
+            tabBarController?.tabBar.isTranslucent = false
+        }
     func setConstraints() {
         addBar(tabbar, dataSource: self, at: .custom(view: containerView, layout: nil))
     

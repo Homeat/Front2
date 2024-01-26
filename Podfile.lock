@@ -1,32 +1,38 @@
 PODS:
-  - IQKeyboardManagerSwift (7.0.0)
+  - Charts (4.1.0):
+    - Charts/Core (= 4.1.0)
+  - Charts/Core (4.1.0):
+    - SwiftAlgorithms (~> 1.0)
   - Pageboy (4.0.2)
   - SnapKit (5.6.0)
+  - SwiftAlgorithms (1.0.0)
   - Tabman (3.0.2):
     - Pageboy (~> 4.0.2)
   - Then (3.0.0)
 
 DEPENDENCIES:
-  - IQKeyboardManagerSwift
+  - Charts
   - SnapKit
   - Tabman (~> 3.0)
   - Then
 
 SPEC REPOS:
   trunk:
-    - IQKeyboardManagerSwift
+    - Charts
     - Pageboy
     - SnapKit
+    - SwiftAlgorithms
     - Tabman
     - Then
 
 SPEC CHECKSUMS:
-  IQKeyboardManagerSwift: bd69f3a49f6ead9cb6ce17723cf0c6c9b948d83e
+  Charts: ce0768268078eee0336f122c3c4ca248e4e204c5
   Pageboy: 34ff11e8d1041b81769d5bcde9b19a0cb7218bd9
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
+  SwiftAlgorithms: 38dda4731d19027fdeee1125f973111bf3386b53
   Tabman: 6326ec3a792da1c2a6e79c7eddb56af7b591c9d6
   Then: 844265ae87834bbe1147d91d5d41a404da2ec27d
 
-PODFILE CHECKSUM: 36620089e3b8412a651cc7f679c2255b232d7c77
+PODFILE CHECKSUM: 0e57fd01b9c9409202528de91054c5e46a8b9efc
 
 COCOAPODS: 1.8.4

@@ -1,6 +1,7 @@
 ${PODS_ROOT}/Target Support Files/Pods-HomeEatPractice/Pods-HomeEatPractice-frameworks.sh
-${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework
+${BUILT_PRODUCTS_DIR}/Charts/Charts.framework
 ${BUILT_PRODUCTS_DIR}/Pageboy/Pageboy.framework
 ${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework
+${BUILT_PRODUCTS_DIR}/SwiftAlgorithms/Algorithms.framework
 ${BUILT_PRODUCTS_DIR}/Tabman/Tabman.framework
 ${BUILT_PRODUCTS_DIR}/Then/Then.framework

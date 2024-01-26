@@ -7,55 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-<<<<<<< HEAD
-		2D2C55FF2B5CBFE0000A9013 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2C55D52B5CBFE0000A9013 /* HomeViewController.swift */; };
-		2D2C56002B5CBFE0000A9013 /* BadgeCheckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2C55D72B5CBFE0000A9013 /* BadgeCheckViewController.swift */; };
-		2D2C56012B5CBFE0000A9013 /* CashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2C55D82B5CBFE0000A9013 /* CashViewController.swift */; };
-		2D2C56022B5CBFE0000A9013 /* CashCheckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2C55D92B5CBFE0000A9013 /* CashCheckViewController.swift */; };
-		2D2C56032B5CBFE0000A9013 /* TableViewCellOne.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2C55DD2B5CBFE0000A9013 /* TableViewCellOne.swift */; };
-		2D2C56042B5CBFE0000A9013 /* MyItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2C55DF2B5CBFE0000A9013 /* MyItem.swift */; };
-		2D2C56052B5CBFE0000A9013 /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2C55E12B5CBFE0000A9013 /* InfoViewController.swift */; };
-		2D2C56062B5CBFE0000A9013 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2C55E22B5CBFE0000A9013 /* PostViewController.swift */; };
-		2D2C56072B5CBFE0000A9013 /* InfoWritingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2C55E32B5CBFE0000A9013 /* InfoWritingViewController.swift */; };
-		2D2C56082B5CBFE0000A9013 /* WriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2C55E52B5CBFE0000A9013 /* WriteViewController.swift */; };
-		2D2C56092B5CBFE0000A9013 /* TalkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2C55E62B5CBFE0000A9013 /* TalkViewController.swift */; };
-		2D2C560A2B5CBFE0000A9013 /* StatisticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2C55E92B5CBFE0000A9013 /* StatisticsViewController.swift */; };
-		2D2C560B2B5CBFE0000A9013 /* PayCheckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2C55EA2B5CBFE0000A9013 /* PayCheckViewController.swift */; };
-		2D2C560C2B5CBFE0000A9013 /* CalendarCheckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2C55EC2B5CBFE0000A9013 /* CalendarCheckViewController.swift */; };
-		2D2C560D2B5CBFE0000A9013 /* AddLocationInfromViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2C55EE2B5CBFE0000A9013 /* AddLocationInfromViewController.swift */; };
-		2D2C560E2B5CBFE0000A9013 /* AddBirthInformViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2C55EF2B5CBFE0000A9013 /* AddBirthInformViewController.swift */; };
-		2D2C560F2B5CBFE0000A9013 /* AddBudgetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2C55F02B5CBFE0000A9013 /* AddBudgetViewController.swift */; };
-		2D2C56102B5CBFE0000A9013 /* AddIncomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2C55F12B5CBFE0000A9013 /* AddIncomeViewController.swift */; };
-		2D2C56112B5CBFE0000A9013 /* AddAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2C55F22B5CBFE0000A9013 /* AddAccountViewController.swift */; };
-		2D2C56122B5CBFE0000A9013 /* RegisterSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2C55F32B5CBFE0000A9013 /* RegisterSelectViewController.swift */; };
-		2D2C56132B5CBFE0000A9013 /* RegisterDoneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2C55F42B5CBFE0000A9013 /* RegisterDoneViewController.swift */; };
-		2D2C56142B5CBFE0000A9013 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2C55F52B5CBFE0000A9013 /* LoginViewController.swift */; };
-		2D2C56152B5CBFE0000A9013 /* TermsOfUseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2C55F62B5CBFE0000A9013 /* TermsOfUseViewController.swift */; };
-		2D2C56162B5CBFE0000A9013 /* SelectMangeUnitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2C55F72B5CBFE0000A9013 /* SelectMangeUnitViewController.swift */; };
-		2D2C56172B5CBFE0000A9013 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2C55F82B5CBFE0000A9013 /* RegisterViewController.swift */; };
-		2D2C56182B5CBFE0000A9013 /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2C55FA2B5CBFE0000A9013 /* EditViewController.swift */; };
-		2D2C56192B5CBFE0000A9013 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2C55FB2B5CBFE0000A9013 /* MyPageViewController.swift */; };
-		2D2C561A2B5CBFE0000A9013 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2C55FC2B5CBFE0000A9013 /* MainTabBarController.swift */; };
-		2D2C561B2B5CBFE0000A9013 /* PayAddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2C55FD2B5CBFE0000A9013 /* PayAddViewController.swift */; };
-		2D2C561C2B5CBFE0000A9013 /* PayAnalyzeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2C55FE2B5CBFE0000A9013 /* PayAnalyzeViewController.swift */; };
-		2D5B573A2B5CD57600124BB9 /* cameraIcon.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 2D5B57392B5CD57600124BB9 /* cameraIcon.pdf */; };
-		2D5B573C2B5FCD4C00124BB9 /* AddSexViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5B573B2B5FCD4C00124BB9 /* AddSexViewController.swift */; };
-		2D5B573E2B5FCDCC00124BB9 /* SearchLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5B573D2B5FCDCC00124BB9 /* SearchLocationViewController.swift */; };
-		2D5B57402B5FD9A500124BB9 /* BankCertifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5B573F2B5FD9A500124BB9 /* BankCertifyViewController.swift */; };
-<<<<<<< HEAD
-=======
->>>>>>> KMS
-=======
-		2D5B57502B60103700124BB9 /* BankSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5B574F2B60103700124BB9 /* BankSelectViewController.swift */; };
->>>>>>> 197acce5cc70835a7bc26a2d685c94690ca90af0
 		2D8CFEB82B5A301000FDE2E5 /* HomeatIcon.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 2D8CFEB52B5A301000FDE2E5 /* HomeatIcon.pdf */; };
 		2D8CFEB92B5A301000FDE2E5 /* LaunchScreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D8CFEB62B5A301000FDE2E5 /* LaunchScreen.png */; };
 		2D8CFEBA2B5A301000FDE2E5 /* HomeatLogo.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 2D8CFEB72B5A301000FDE2E5 /* HomeatLogo.pdf */; };
 		409AA3282B43A0470096CDBB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409AA3272B43A0470096CDBB /* AppDelegate.swift */; };
 		409AA3312B43A0480096CDBB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 409AA3302B43A0480096CDBB /* Assets.xcassets */; };
 		409AA3342B43A0480096CDBB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 409AA3322B43A0480096CDBB /* LaunchScreen.storyboard */; };
-<<<<<<< HEAD
-=======
 		409AA33C2B43A6B20096CDBB /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409AA33B2B43A6B20096CDBB /* MainTabBarController.swift */; };
 		409AA33E2B43E94B0096CDBB /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409AA33D2B43E94B0096CDBB /* HomeViewController.swift */; };
 		409AA3402B43E9640096CDBB /* CashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409AA33F2B43E9640096CDBB /* CashViewController.swift */; };
@@ -88,53 +45,24 @@
 		588A09342B50EC5900638D16 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588A09332B50EC5900638D16 /* PostViewController.swift */; };
 		58A40D732B56AF190053E302 /* InfoWritingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A40D722B56AF190053E302 /* InfoWritingViewController.swift */; };
 		58A40D772B57DD730053E302 /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A40D762B57DD730053E302 /* EditViewController.swift */; };
->>>>>>> KMS
 		58A40D792B5805520053E302 /* UIColor + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A40D782B5805520053E302 /* UIColor + Extension.swift */; };
+		58A40D7E2B5BEFAA0053E302 /* StatisticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A40D7D2B5BEFAA0053E302 /* StatisticsViewController.swift */; };
+		58A40D802B5BEFC40053E302 /* CalendarCheckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A40D7F2B5BEFC40053E302 /* CalendarCheckViewController.swift */; };
+		58A40D822B5C00D30053E302 /* TagPlusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A40D812B5C00D30053E302 /* TagPlusViewController.swift */; };
+		58A40D852B5C05330053E302 /* CashCheckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A40D842B5C05330053E302 /* CashCheckViewController.swift */; };
+		58A40D872B5C054F0053E302 /* BadgeCheckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A40D862B5C054F0053E302 /* BadgeCheckViewController.swift */; };
+		58A40D8E2B5D01F70053E302 /* WeekCashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A40D8D2B5D01F70053E302 /* WeekCashViewController.swift */; };
+		58A40D952B5FAC1B0053E302 /* MealViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A40D942B5FAC1B0053E302 /* MealViewCell.swift */; };
+		58A40D972B5FAC490053E302 /* MealPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A40D962B5FAC490053E302 /* MealPostViewController.swift */; };
+		58A40D992B5FAC6A0053E302 /* MealWritingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A40D982B5FAC6A0053E302 /* MealWritingViewController.swift */; };
+		58A40D9B2B5FACAF0053E302 /* MealSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A40D9A2B5FACAF0053E302 /* MealSource.swift */; };
+		58A40D9E2B5FF1560053E302 /* TabbarInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A40D9D2B5FF1560053E302 /* TabbarInfo.swift */; };
+		58A40DA02B6120970053E302 /* DeclareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A40D9F2B6120970053E302 /* DeclareViewController.swift */; };
+		58A40DA22B6120B70053E302 /* DeclareWriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A40DA12B6120B70053E302 /* DeclareWriteViewController.swift */; };
 		8ECF68A20C6802496B2B5BE9 /* Pods_HomeEatPractice.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827ED5B3B017327767649ADC /* Pods_HomeEatPractice.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-<<<<<<< HEAD
-		2D2C55D52B5CBFE0000A9013 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
-		2D2C55D72B5CBFE0000A9013 /* BadgeCheckViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BadgeCheckViewController.swift; sourceTree = "<group>"; };
-		2D2C55D82B5CBFE0000A9013 /* CashViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CashViewController.swift; sourceTree = "<group>"; };
-		2D2C55D92B5CBFE0000A9013 /* CashCheckViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CashCheckViewController.swift; sourceTree = "<group>"; };
-		2D2C55DD2B5CBFE0000A9013 /* TableViewCellOne.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCellOne.swift; sourceTree = "<group>"; };
-		2D2C55DF2B5CBFE0000A9013 /* MyItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyItem.swift; sourceTree = "<group>"; };
-		2D2C55E12B5CBFE0000A9013 /* InfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoViewController.swift; sourceTree = "<group>"; };
-		2D2C55E22B5CBFE0000A9013 /* PostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
-		2D2C55E32B5CBFE0000A9013 /* InfoWritingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoWritingViewController.swift; sourceTree = "<group>"; };
-		2D2C55E52B5CBFE0000A9013 /* WriteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WriteViewController.swift; sourceTree = "<group>"; };
-		2D2C55E62B5CBFE0000A9013 /* TalkViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TalkViewController.swift; sourceTree = "<group>"; };
-		2D2C55E92B5CBFE0000A9013 /* StatisticsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatisticsViewController.swift; sourceTree = "<group>"; };
-		2D2C55EA2B5CBFE0000A9013 /* PayCheckViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PayCheckViewController.swift; sourceTree = "<group>"; };
-		2D2C55EC2B5CBFE0000A9013 /* CalendarCheckViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarCheckViewController.swift; sourceTree = "<group>"; };
-		2D2C55EE2B5CBFE0000A9013 /* AddLocationInfromViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddLocationInfromViewController.swift; sourceTree = "<group>"; };
-		2D2C55EF2B5CBFE0000A9013 /* AddBirthInformViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddBirthInformViewController.swift; sourceTree = "<group>"; };
-		2D2C55F02B5CBFE0000A9013 /* AddBudgetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddBudgetViewController.swift; sourceTree = "<group>"; };
-		2D2C55F12B5CBFE0000A9013 /* AddIncomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddIncomeViewController.swift; sourceTree = "<group>"; };
-		2D2C55F22B5CBFE0000A9013 /* AddAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddAccountViewController.swift; sourceTree = "<group>"; };
-		2D2C55F32B5CBFE0000A9013 /* RegisterSelectViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterSelectViewController.swift; sourceTree = "<group>"; };
-		2D2C55F42B5CBFE0000A9013 /* RegisterDoneViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterDoneViewController.swift; sourceTree = "<group>"; };
-		2D2C55F52B5CBFE0000A9013 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
-		2D2C55F62B5CBFE0000A9013 /* TermsOfUseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TermsOfUseViewController.swift; sourceTree = "<group>"; };
-		2D2C55F72B5CBFE0000A9013 /* SelectMangeUnitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectMangeUnitViewController.swift; sourceTree = "<group>"; };
-		2D2C55F82B5CBFE0000A9013 /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
-		2D2C55FA2B5CBFE0000A9013 /* EditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditViewController.swift; sourceTree = "<group>"; };
-		2D2C55FB2B5CBFE0000A9013 /* MyPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
-		2D2C55FC2B5CBFE0000A9013 /* MainTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
-		2D2C55FD2B5CBFE0000A9013 /* PayAddViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PayAddViewController.swift; sourceTree = "<group>"; };
-		2D2C55FE2B5CBFE0000A9013 /* PayAnalyzeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PayAnalyzeViewController.swift; sourceTree = "<group>"; };
-		2D5B57392B5CD57600124BB9 /* cameraIcon.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = cameraIcon.pdf; sourceTree = "<group>"; };
-		2D5B573B2B5FCD4C00124BB9 /* AddSexViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSexViewController.swift; sourceTree = "<group>"; };
-		2D5B573D2B5FCDCC00124BB9 /* SearchLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SearchLocationViewController.swift; path = ../../../../../../Movies/SearchLocationViewController.swift; sourceTree = "<group>"; };
-		2D5B573F2B5FD9A500124BB9 /* BankCertifyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankCertifyViewController.swift; sourceTree = "<group>"; };
-<<<<<<< HEAD
-=======
->>>>>>> KMS
-=======
-		2D5B574F2B60103700124BB9 /* BankSelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankSelectViewController.swift; sourceTree = "<group>"; };
->>>>>>> 197acce5cc70835a7bc26a2d685c94690ca90af0
 		2D8CFEB52B5A301000FDE2E5 /* HomeatIcon.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = HomeatIcon.pdf; sourceTree = "<group>"; };
 		2D8CFEB62B5A301000FDE2E5 /* LaunchScreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LaunchScreen.png; sourceTree = "<group>"; };
 		2D8CFEB72B5A301000FDE2E5 /* HomeatLogo.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = HomeatLogo.pdf; sourceTree = "<group>"; };
@@ -143,8 +71,6 @@
 		409AA3302B43A0480096CDBB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		409AA3332B43A0480096CDBB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		409AA3352B43A0480096CDBB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-<<<<<<< HEAD
-=======
 		409AA33B2B43A6B20096CDBB /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		409AA33D2B43E94B0096CDBB /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		409AA33F2B43E9640096CDBB /* CashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CashViewController.swift; sourceTree = "<group>"; };
@@ -177,8 +103,20 @@
 		588A09332B50EC5900638D16 /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		58A40D722B56AF190053E302 /* InfoWritingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoWritingViewController.swift; sourceTree = "<group>"; };
 		58A40D762B57DD730053E302 /* EditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewController.swift; sourceTree = "<group>"; };
->>>>>>> KMS
 		58A40D782B5805520053E302 /* UIColor + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor + Extension.swift"; sourceTree = "<group>"; };
+		58A40D7D2B5BEFAA0053E302 /* StatisticsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsViewController.swift; sourceTree = "<group>"; };
+		58A40D7F2B5BEFC40053E302 /* CalendarCheckViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarCheckViewController.swift; sourceTree = "<group>"; };
+		58A40D812B5C00D30053E302 /* TagPlusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagPlusViewController.swift; sourceTree = "<group>"; };
+		58A40D842B5C05330053E302 /* CashCheckViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CashCheckViewController.swift; sourceTree = "<group>"; };
+		58A40D862B5C054F0053E302 /* BadgeCheckViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeCheckViewController.swift; sourceTree = "<group>"; };
+		58A40D8D2B5D01F70053E302 /* WeekCashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekCashViewController.swift; sourceTree = "<group>"; };
+		58A40D942B5FAC1B0053E302 /* MealViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealViewCell.swift; sourceTree = "<group>"; };
+		58A40D962B5FAC490053E302 /* MealPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealPostViewController.swift; sourceTree = "<group>"; };
+		58A40D982B5FAC6A0053E302 /* MealWritingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealWritingViewController.swift; sourceTree = "<group>"; };
+		58A40D9A2B5FACAF0053E302 /* MealSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealSource.swift; sourceTree = "<group>"; };
+		58A40D9D2B5FF1560053E302 /* TabbarInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarInfo.swift; sourceTree = "<group>"; };
+		58A40D9F2B6120970053E302 /* DeclareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeclareViewController.swift; sourceTree = "<group>"; };
+		58A40DA12B6120B70053E302 /* DeclareWriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeclareWriteViewController.swift; sourceTree = "<group>"; };
 		5CF3251AB730DFAD7043486D /* Pods-HomeEatPractice.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HomeEatPractice.debug.xcconfig"; path = "Target Support Files/Pods-HomeEatPractice/Pods-HomeEatPractice.debug.xcconfig"; sourceTree = "<group>"; };
 		827ED5B3B017327767649ADC /* Pods_HomeEatPractice.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HomeEatPractice.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBD28DEFC31B1BB454FB5CB1 /* Pods-HomeEatPractice.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HomeEatPractice.release.xcconfig"; path = "Target Support Files/Pods-HomeEatPractice/Pods-HomeEatPractice.release.xcconfig"; sourceTree = "<group>"; };
@@ -196,170 +134,10 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-<<<<<<< HEAD
-		2D2C55D32B5CBFE0000A9013 /* Controller */ = {
-			isa = PBXGroup;
-			children = (
-				2D2C55D42B5CBFE0000A9013 /* HomeVC */,
-				2D2C55D62B5CBFE0000A9013 /* CashVC */,
-				2D2C55DA2B5CBFE0000A9013 /* TalkVC */,
-				2D2C55E72B5CBFE0000A9013 /* PayCheckVC */,
-				2D2C55ED2B5CBFE0000A9013 /* RegisterVC */,
-				2D2C55F92B5CBFE0000A9013 /* MypageVC */,
-				2D2C55FC2B5CBFE0000A9013 /* MainTabBarController.swift */,
-				2D2C55FD2B5CBFE0000A9013 /* PayAddViewController.swift */,
-				2D2C55FE2B5CBFE0000A9013 /* PayAnalyzeViewController.swift */,
-			);
-			path = Controller;
-			sourceTree = "<group>";
-		};
-		2D2C55D42B5CBFE0000A9013 /* HomeVC */ = {
-			isa = PBXGroup;
-			children = (
-				2D2C55D52B5CBFE0000A9013 /* HomeViewController.swift */,
-			);
-			path = HomeVC;
-			sourceTree = "<group>";
-		};
-		2D2C55D62B5CBFE0000A9013 /* CashVC */ = {
-			isa = PBXGroup;
-			children = (
-				2D2C55D72B5CBFE0000A9013 /* BadgeCheckViewController.swift */,
-				2D2C55D82B5CBFE0000A9013 /* CashViewController.swift */,
-				2D2C55D92B5CBFE0000A9013 /* CashCheckViewController.swift */,
-			);
-			path = CashVC;
-			sourceTree = "<group>";
-		};
-		2D2C55DA2B5CBFE0000A9013 /* TalkVC */ = {
-			isa = PBXGroup;
-			children = (
-				2D2C55DB2B5CBFE0000A9013 /* InfoVC */,
-				2D2C55E42B5CBFE0000A9013 /* MealVC */,
-				2D2C55E62B5CBFE0000A9013 /* TalkViewController.swift */,
-			);
-			path = TalkVC;
-			sourceTree = "<group>";
-		};
-		2D2C55DB2B5CBFE0000A9013 /* InfoVC */ = {
-			isa = PBXGroup;
-			children = (
-				2D2C55DC2B5CBFE0000A9013 /* Cell */,
-				2D2C55DE2B5CBFE0000A9013 /* Model */,
-				2D2C55E02B5CBFE0000A9013 /* Control */,
-			);
-			path = InfoVC;
-			sourceTree = "<group>";
-		};
-		2D2C55DC2B5CBFE0000A9013 /* Cell */ = {
-			isa = PBXGroup;
-			children = (
-				2D2C55DD2B5CBFE0000A9013 /* TableViewCellOne.swift */,
-			);
-			path = Cell;
-			sourceTree = "<group>";
-		};
-		2D2C55DE2B5CBFE0000A9013 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				2D2C55DF2B5CBFE0000A9013 /* MyItem.swift */,
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
-		2D2C55E02B5CBFE0000A9013 /* Control */ = {
-			isa = PBXGroup;
-			children = (
-				2D2C55E12B5CBFE0000A9013 /* InfoViewController.swift */,
-				2D2C55E22B5CBFE0000A9013 /* PostViewController.swift */,
-				2D2C55E32B5CBFE0000A9013 /* InfoWritingViewController.swift */,
-			);
-			path = Control;
-			sourceTree = "<group>";
-		};
-		2D2C55E42B5CBFE0000A9013 /* MealVC */ = {
-			isa = PBXGroup;
-			children = (
-				2D2C55E52B5CBFE0000A9013 /* WriteViewController.swift */,
-			);
-			path = MealVC;
-			sourceTree = "<group>";
-		};
-		2D2C55E72B5CBFE0000A9013 /* PayCheckVC */ = {
-			isa = PBXGroup;
-			children = (
-				2D2C55E82B5CBFE0000A9013 /* StatisticsVC */,
-				2D2C55EA2B5CBFE0000A9013 /* PayCheckViewController.swift */,
-				2D2C55EB2B5CBFE0000A9013 /* CalendarCheckVC */,
-			);
-			path = PayCheckVC;
-			sourceTree = "<group>";
-		};
-		2D2C55E82B5CBFE0000A9013 /* StatisticsVC */ = {
-			isa = PBXGroup;
-			children = (
-				2D2C55E92B5CBFE0000A9013 /* StatisticsViewController.swift */,
-			);
-			path = StatisticsVC;
-			sourceTree = "<group>";
-		};
-		2D2C55EB2B5CBFE0000A9013 /* CalendarCheckVC */ = {
-			isa = PBXGroup;
-			children = (
-				2D2C55EC2B5CBFE0000A9013 /* CalendarCheckViewController.swift */,
-			);
-			path = CalendarCheckVC;
-			sourceTree = "<group>";
-		};
-		2D2C55ED2B5CBFE0000A9013 /* RegisterVC */ = {
-			isa = PBXGroup;
-			children = (
-				2D2C55EE2B5CBFE0000A9013 /* AddLocationInfromViewController.swift */,
-				2D2C55EF2B5CBFE0000A9013 /* AddBirthInformViewController.swift */,
-				2D2C55F02B5CBFE0000A9013 /* AddBudgetViewController.swift */,
-				2D2C55F12B5CBFE0000A9013 /* AddIncomeViewController.swift */,
-				2D2C55F22B5CBFE0000A9013 /* AddAccountViewController.swift */,
-				2D5B573B2B5FCD4C00124BB9 /* AddSexViewController.swift */,
-				2D5B573F2B5FD9A500124BB9 /* BankCertifyViewController.swift */,
-				2D5B574F2B60103700124BB9 /* BankSelectViewController.swift */,
-				2D5B573D2B5FCDCC00124BB9 /* SearchLocationViewController.swift */,
-				2D2C55F32B5CBFE0000A9013 /* RegisterSelectViewController.swift */,
-				2D2C55F82B5CBFE0000A9013 /* RegisterViewController.swift */,
-				2D2C55F42B5CBFE0000A9013 /* RegisterDoneViewController.swift */,
-				2D2C55F52B5CBFE0000A9013 /* LoginViewController.swift */,
-				2D7870412B62F4A40098843C /* PolicyVC */,
-				2D2C55F72B5CBFE0000A9013 /* SelectMangeUnitViewController.swift */,
-			);
-			path = RegisterVC;
-			sourceTree = "<group>";
-		};
-		2D2C55F92B5CBFE0000A9013 /* MypageVC */ = {
-			isa = PBXGroup;
-			children = (
-				2D2C55FA2B5CBFE0000A9013 /* EditViewController.swift */,
-				2D2C55FB2B5CBFE0000A9013 /* MyPageViewController.swift */,
-			);
-			path = MypageVC;
-			sourceTree = "<group>";
-		};
-		2D7870412B62F4A40098843C /* PolicyVC */ = {
-			isa = PBXGroup;
-			children = (
-				2D2C55F62B5CBFE0000A9013 /* TermsOfUseViewController.swift */,
-			);
-			path = PolicyVC;
-			sourceTree = "<group>";
-		};
-		2D8CFEB42B5A301000FDE2E5 /* LaunchScreenImage */ = {
-			isa = PBXGroup;
-			children = (
-				2D5B57392B5CD57600124BB9 /* cameraIcon.pdf */,
-=======
 		2D8CFEB42B5A301000FDE2E5 /* LaunchScreenImage */ = {
 			isa = PBXGroup;
 			children = (
 				582A98A02B636EA0008F30CA /* cameraIcon.pdf */,
->>>>>>> KMS
 				2D8CFEB52B5A301000FDE2E5 /* HomeatIcon.pdf */,
 				2D8CFEB62B5A301000FDE2E5 /* LaunchScreen.png */,
 				2D8CFEB72B5A301000FDE2E5 /* HomeatLogo.pdf */,
@@ -389,13 +167,9 @@
 			isa = PBXGroup;
 			children = (
 				2D8CFEB42B5A301000FDE2E5 /* LaunchScreenImage */,
+				588A09272B4E680400638D16 /* Controller */,
 				409AA3272B43A0470096CDBB /* AppDelegate.swift */,
-<<<<<<< HEAD
-				409AA3292B43A0470096CDBB /* SceneDelegate.swift */,
-				2D2C55D32B5CBFE0000A9013 /* Controller */,
-=======
 				582A98A42B636F2F008F30CA /* SceneDelegate.swift */,
->>>>>>> KMS
 				409AA3302B43A0480096CDBB /* Assets.xcassets */,
 				409AA3322B43A0480096CDBB /* LaunchScreen.storyboard */,
 				409AA3352B43A0480096CDBB /* Info.plist */,
@@ -404,10 +178,6 @@
 			path = HomeEatPractice;
 			sourceTree = "<group>";
 		};
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-=======
 		582A98A62B637053008F30CA /* RegisterVC */ = {
 			isa = PBXGroup;
 			children = (
@@ -438,7 +208,6 @@
 			path = PolicyVC;
 			sourceTree = "<group>";
 		};
->>>>>>> KMS
 		5875D9C92B5169D600F484DF /* MypageVC */ = {
 			isa = PBXGroup;
 			children = (
@@ -610,9 +379,6 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-<<<<<<< HEAD
-
-=======
 		58A40D9C2B5FF13C0053E302 /* TabbarVC */ = {
 			isa = PBXGroup;
 			children = (
@@ -622,9 +388,6 @@
 			path = TabbarVC;
 			sourceTree = "<group>";
 		};
->>>>>>> KMS
-=======
->>>>>>> 197acce5cc70835a7bc26a2d685c94690ca90af0
 		677FA46ECB419986B9424595 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -708,7 +471,6 @@
 				409AA3312B43A0480096CDBB /* Assets.xcassets in Resources */,
 				2D8CFEB92B5A301000FDE2E5 /* LaunchScreen.png in Resources */,
 				2D8CFEB82B5A301000FDE2E5 /* HomeatIcon.pdf in Resources */,
-				2D5B573A2B5CD57600124BB9 /* cameraIcon.pdf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -761,21 +523,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				409AA3282B43A0470096CDBB /* AppDelegate.swift in Sources */,
-				2D2C56072B5CBFE0000A9013 /* InfoWritingViewController.swift in Sources */,
-				2D2C56012B5CBFE0000A9013 /* CashViewController.swift in Sources */,
-				2D2C56022B5CBFE0000A9013 /* CashCheckViewController.swift in Sources */,
-				2D2C56002B5CBFE0000A9013 /* BadgeCheckViewController.swift in Sources */,
-				2D2C560F2B5CBFE0000A9013 /* AddBudgetViewController.swift in Sources */,
-				2D2C56082B5CBFE0000A9013 /* WriteViewController.swift in Sources */,
-				2D2C561B2B5CBFE0000A9013 /* PayAddViewController.swift in Sources */,
-				2D2C560A2B5CBFE0000A9013 /* StatisticsViewController.swift in Sources */,
-				2D5B573C2B5FCD4C00124BB9 /* AddSexViewController.swift in Sources */,
-				2D2C56052B5CBFE0000A9013 /* InfoViewController.swift in Sources */,
-				2D2C56042B5CBFE0000A9013 /* MyItem.swift in Sources */,
-				2D2C56132B5CBFE0000A9013 /* RegisterDoneViewController.swift in Sources */,
-				2D5B573E2B5FCDCC00124BB9 /* SearchLocationViewController.swift in Sources */,
-<<<<<<< HEAD
 				588A09302B4FF9A900638D16 /* MyItem.swift in Sources */,
 				58A40D872B5C054F0053E302 /* BadgeCheckViewController.swift in Sources */,
 				582A98A52B636F2F008F30CA /* SceneDelegate.swift in Sources */,
@@ -803,40 +550,6 @@
 				58A40D772B57DD730053E302 /* EditViewController.swift in Sources */,
 				582A98BD2B637053008F30CA /* RegisterDoneViewController.swift in Sources */,
 				409AA33E2B43E94B0096CDBB /* HomeViewController.swift in Sources */,
-<<<<<<< HEAD
-				2D8CFEB22B5A2F1400FDE2E5 /* LoginViewController.swift in Sources */,
-
-=======
->>>>>>> 197acce5cc70835a7bc26a2d685c94690ca90af0
-				58A40D792B5805520053E302 /* UIColor + Extension.swift in Sources */,
-				2D5B57402B5FD9A500124BB9 /* BankCertifyViewController.swift in Sources */,
-				2D2C560C2B5CBFE0000A9013 /* CalendarCheckViewController.swift in Sources */,
-				2D2C56152B5CBFE0000A9013 /* TermsOfUseViewController.swift in Sources */,
-				2D2C56142B5CBFE0000A9013 /* LoginViewController.swift in Sources */,
-				2D2C56162B5CBFE0000A9013 /* SelectMangeUnitViewController.swift in Sources */,
-				2D2C56102B5CBFE0000A9013 /* AddIncomeViewController.swift in Sources */,
-				2D2C56122B5CBFE0000A9013 /* RegisterSelectViewController.swift in Sources */,
-				2D2C560E2B5CBFE0000A9013 /* AddBirthInformViewController.swift in Sources */,
-				2D5B57502B60103700124BB9 /* BankSelectViewController.swift in Sources */,
-				409AA32A2B43A0470096CDBB /* SceneDelegate.swift in Sources */,
-				2D2C560D2B5CBFE0000A9013 /* AddLocationInfromViewController.swift in Sources */,
-				2D2C56112B5CBFE0000A9013 /* AddAccountViewController.swift in Sources */,
-				2D2C561C2B5CBFE0000A9013 /* PayAnalyzeViewController.swift in Sources */,
-				2D2C56092B5CBFE0000A9013 /* TalkViewController.swift in Sources */,
-				2D2C56182B5CBFE0000A9013 /* EditViewController.swift in Sources */,
-				2D2C56172B5CBFE0000A9013 /* RegisterViewController.swift in Sources */,
-				2D2C56192B5CBFE0000A9013 /* MyPageViewController.swift in Sources */,
-				2D2C56032B5CBFE0000A9013 /* TableViewCellOne.swift in Sources */,
-				2D2C55FF2B5CBFE0000A9013 /* HomeViewController.swift in Sources */,
-				2D2C561A2B5CBFE0000A9013 /* MainTabBarController.swift in Sources */,
-				2D2C560B2B5CBFE0000A9013 /* PayCheckViewController.swift in Sources */,
-				2D2C56062B5CBFE0000A9013 /* PostViewController.swift in Sources */,
-<<<<<<< HEAD
-
-=======
-				58A40DA02B6120970053E302 /* DeclareViewController.swift in Sources */,
->>>>>>> KMS
-=======
 				58A40D792B5805520053E302 /* UIColor + Extension.swift in Sources */,
 				409AA33C2B43A6B20096CDBB /* MainTabBarController.swift in Sources */,
 				582A98C52B637080008F30CA /* SearchLocationViewController.swift in Sources */,
@@ -848,7 +561,6 @@
 				58A40DA02B6120970053E302 /* DeclareViewController.swift in Sources */,
 				582A98C12B637053008F30CA /* LoginViewController.swift in Sources */,
 				582A98C32B637053008F30CA /* RegisterViewController.swift in Sources */,
->>>>>>> KMS
 				58A40D852B5C05330053E302 /* CashCheckViewController.swift in Sources */,
 				588A092D2B4FB9F200638D16 /* TableViewCellOne.swift in Sources */,
 				588A09292B4E6ED400638D16 /* InfoViewController.swift in Sources */,
@@ -857,9 +569,6 @@
 				409AA3442B43E98A0096CDBB /* MyPageViewController.swift in Sources */,
 				58A40DA22B6120B70053E302 /* DeclareWriteViewController.swift in Sources */,
 				58A40D7E2B5BEFAA0053E302 /* StatisticsViewController.swift in Sources */,
-
-=======
->>>>>>> 197acce5cc70835a7bc26a2d685c94690ca90af0
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

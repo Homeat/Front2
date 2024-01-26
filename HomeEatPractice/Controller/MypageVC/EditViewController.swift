@@ -39,13 +39,28 @@ class EditViewController: UIViewController {
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         addSubView()
         configUI()
+        navigationControl()
         
+    }
+    func navigationControl() {
+        let backbutton = UIBarButtonItem(image: UIImage(named: "back2"), style: .plain, target: self, action: #selector(back(_:)))
+        //간격을 배열로 설정
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        flexibleSpace.width = 5.0
+        navigationItem.leftBarButtonItem = backbutton
+        let rightBarButton = UIBarButtonItem(title: "수정", style: .plain, target: self, action: #selector(save(_:)))
+        rightBarButton.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: .normal)
+        navigationItem.rightBarButtonItem = rightBarButton
+        self.navigationItem.title = "회원정보"
+        //title 흰색으로 설정
+        if let navigationBar = navigationController?.navigationBar {
+            navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+            }
     }
     func addSubView() {
         view.addSubview(circleView)
         circleView.addSubview(profileImageView)
         view.addSubview(profileEditBtn)
-        view.backgroundColor = .black
     }
     func configUI() {
         NSLayoutConstraint.activate([
@@ -64,6 +79,15 @@ class EditViewController: UIViewController {
            profileEditBtn.topAnchor.constraint(equalTo:circleView.topAnchor, constant:72),
            profileEditBtn.leadingAnchor.constraint(equalTo:view.leadingAnchor,constant:217)
            ])
+    }
+    //뒤로가기
+    @objc func back(_ sender: Any) {
+         self.navigationController?.popViewController(animated: true)
+        print("back click")
+     }
+    //저장
+    @objc func save(_ sender: UIBarButtonItem) {
+        
     }
 
 }

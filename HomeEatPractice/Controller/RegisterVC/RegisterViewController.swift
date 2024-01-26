@@ -75,8 +75,6 @@ class RegisterViewController : UIViewController ,UITextFieldDelegate{
         label.textAlignment = .left
         return label
     }()
-<<<<<<< HEAD
-=======
     
     private lazy var notiLabel1 : UILabel = {
         let label = makeNotiLabel(massage: " ")
@@ -137,68 +135,7 @@ class RegisterViewController : UIViewController ,UITextFieldDelegate{
         return TextField
         
     }()
->>>>>>> 197acce5cc70835a7bc26a2d685c94690ca90af0
     
-    private lazy var notiLabel1 : UILabel = {
-        let label = makeNotiLabel(massage: " ")
-        return label
-    }()
-    
-    private lazy var notiLabel2 : UILabel = {
-        let label = makeNotiLabel(massage: " ")
-        return label
-    }()
-    private lazy var notiLabel3 : UILabel = {
-        let label = makeNotiLabel(massage: " ")
-        return label
-    }()
-    private lazy var notiLabel4 : UILabel = {
-        let label = makeNotiLabel(massage: " ")
-        return label
-    }()
-    private lazy var notiLabel5 : UILabel = {
-        let label = makeNotiLabel(massage: " ")
-        label.textColor = .white
-        return label
-    }()
-    
-    
-    
-    private let emailTextField : UITextField = {
-        let TextField = makeTextField()
-        TextField.attributedPlaceholder = NSAttributedString(string: "이메일을 입력해 주세요.", attributes: [NSAttributedString.Key.foregroundColor: UIColor(named: "searchfont") ?? .white])
-        return TextField
-        
-    }()
-    
-    private let emailCheckTextField : UITextField = {
-        let TextField = makeTextField()
-        TextField.attributedPlaceholder = NSAttributedString(string: "이메일에 전송된 번호를 입력해주세요.", attributes: [NSAttributedString.Key.foregroundColor: UIColor(named: "searchfont") ?? .white])
-        return TextField
-        
-    }()
-    
-    private let pwTextField : UITextField = {
-        let TextField = makeTextField()
-        TextField.attributedPlaceholder = NSAttributedString(string: "비밀번호는 8~20자로 입력해주세요.", attributes: [NSAttributedString.Key.foregroundColor: UIColor(named: "searchfont") ?? .white])
-        return TextField
-        
-    }()
-    
-    private let pwCheckTextField : UITextField = {
-        let TextField = makeTextField()
-        TextField.attributedPlaceholder = NSAttributedString(string: "비밀번호를 한 번 더 입력해주세요.", attributes: [NSAttributedString.Key.foregroundColor: UIColor(named: "searchfont") ?? .white])
-        return TextField
-        
-    }()
-    
-    private let nickNameTextField : UITextField = {
-        let TextField = makeTextField()
-        TextField.attributedPlaceholder = NSAttributedString(string: "한국어, 영어 모두 가능해요.", attributes: [NSAttributedString.Key.foregroundColor: UIColor(named: "searchfont") ?? .white])
-        return TextField
-        
->>>>>>> KMS
-    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -226,10 +163,6 @@ class RegisterViewController : UIViewController ,UITextFieldDelegate{
         emailCheckTextField.addTarget(self, action: #selector(didTextFieldChanged), for: .editingChanged)
         nickNameTextField.addTarget(self, action: #selector(didTextFieldChanged), for: .editingChanged)
         
-<<<<<<< HEAD
->>>>>>> KMS
-=======
->>>>>>> 197acce5cc70835a7bc26a2d685c94690ca90af0
         self.registerContainer.addArrangedSubview(tagLabel1)
         self.registerContainer.addArrangedSubview(emailTextField)
         self.registerContainer.addArrangedSubview(notiLabel1)
@@ -246,10 +179,6 @@ class RegisterViewController : UIViewController ,UITextFieldDelegate{
         self.registerContainer.addArrangedSubview(pwCheckTextField)
         self.registerContainer.addArrangedSubview(notiLabel4)
         
-<<<<<<< HEAD
->>>>>>> KMS
-=======
->>>>>>> 197acce5cc70835a7bc26a2d685c94690ca90af0
         self.registerContainer.addArrangedSubview(tagLabel5)
         self.registerContainer.addArrangedSubview(nickNameTextField)
         self.registerContainer.addArrangedSubview(notiLabel5)
@@ -262,10 +191,6 @@ class RegisterViewController : UIViewController ,UITextFieldDelegate{
         //        registerContainer.setCustomSpacing(38, after: nickNameTextField)
         
         
-<<<<<<< HEAD
->>>>>>> KMS
-=======
->>>>>>> 197acce5cc70835a7bc26a2d685c94690ca90af0
         
         
         
@@ -278,10 +203,6 @@ class RegisterViewController : UIViewController ,UITextFieldDelegate{
             
         ])
         
-<<<<<<< HEAD
->>>>>>> KMS
-=======
->>>>>>> 197acce5cc70835a7bc26a2d685c94690ca90af0
         
     }
     

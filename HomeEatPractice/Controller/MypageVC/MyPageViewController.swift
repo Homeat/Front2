@@ -12,44 +12,34 @@ import SnapKit
 
 class MyPageViewController: UIViewController {
     //네비게이션 바 구분 선
-    lazy var borderView: UIView = {
-        let borderView = UIView()
-        borderView.backgroundColor = UIColor(named: "gray1")
-        borderView.translatesAutoresizingMaskIntoConstraints = false
-        return borderView
-    } ()
+    private let borderView = UIView().then {
+        $0.backgroundColor = UIColor(named: "gray1")
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
     //프로필이미지 넣을 원형뷰
-    lazy var circleView: UIView = {
-        let view = UIView()
-        view.layer.cornerRadius = 43
-        view.layer.borderWidth = 3.0 // 흰 테두리 두께 조절
-        view.layer.borderColor = UIColor.white.cgColor // 흰 테두리 색상 설정
-        view.layer.masksToBounds = true
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = UIColor(named: "green")
-        return view
-    }()
+    private let circleView = UIView().then {
+        $0.layer.cornerRadius = 43
+        $0.layer.borderWidth = 3.0 // 흰 테두리 두께 조절
+        $0.layer.borderColor = UIColor.white.cgColor // 흰 테두리 색상 설정
+        $0.layer.masksToBounds = true
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.backgroundColor = UIColor(named: "green")
+    }
     //프로필 이미지
-    lazy var profileImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "Mypage4") // 실제 프로필 이미지의 이름으로 변경
-        imageView.contentMode = .scaleAspectFit
-        imageView.clipsToBounds = true
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
+    private let profileImageView = UIImageView().then {
+        $0.image = UIImage(named: "Mypage4") // 실제 프로필 이미지의 이름으로 변경
+        $0.contentMode = .scaleAspectFit
+        $0.clipsToBounds = true
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
     //프로필 이름
-    lazy var profileName : UILabel = {
-        let label = UILabel()
-        label.text = "예진 님"
-        label.textColor = .white
-        
-        label.textAlignment = .center
-        label.font = UIFont.boldSystemFont(ofSize: 24)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-        
-    } ()
+    private let profileName = UILabel().then {
+        $0.text = "예진 님"
+        $0.textColor = .white
+        $0.textAlignment = .center
+        $0.font = UIFont.boldSystemFont(ofSize: 24)
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
     //프로필 아이디 뷰
     lazy var profileIdView : UIView = {
         let view = UIView()
@@ -60,15 +50,13 @@ class MyPageViewController: UIViewController {
         return view
     } ()
     //프로필 아이디 label
-    lazy var profileIdLabel : UILabel = {
-        let label = UILabel()
-        label.text = "@yejin_woo"
-        label.textColor = .black
-        label.textAlignment = .center
-        label.font = UIFont.boldSystemFont(ofSize: 15)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    } ()
+    private let profileIdLabel = UILabel().then {
+        $0.text = "@yejin_woo"
+        $0.textColor = .black
+        $0.textAlignment = .center
+        $0.font = UIFont.boldSystemFont(ofSize: 15)
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
     //회원 정보 수정 버튼
     private let profileEditBtn = UIButton().then {
         $0.setTitle("회원 정보 수정", for: .normal)
@@ -89,37 +77,20 @@ class MyPageViewController: UIViewController {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.semanticContentAttribute = .forceRightToLeft
         $0.contentHorizontalAlignment = .left // 이미지 오른쪽 정렬
+        $0.addTarget(self, action: #selector(navigateToCashCheckViewController), for: .touchUpInside)
     }
     //화살표 버튼
     private let arrowBtn = UIImageView().then {
         $0.image = UIImage(named: "Mypage3")
         $0.contentMode = .scaleAspectFit
         $0.translatesAutoresizingMaskIntoConstraints = false
+        
     }
     private let UnderlineBar = UIView().then {
         $0.backgroundColor = .white
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
-    //캐릭터 설정
-    private let settingCharacter =  UIButton().then {
-        $0.setTitle("캐릭터 설정", for: .normal)
-        $0.setTitleColor(UIColor.white, for: .normal)
-        $0.backgroundColor = .clear
-        $0.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
-        $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.semanticContentAttribute = .forceRightToLeft
-        $0.contentHorizontalAlignment = .left // 이미지 오른쪽 정렬
-    }
-    //화살표 버튼
-    private let arrowBtn2 = UIImageView().then {
-        $0.image = UIImage(named: "Mypage3")
-        $0.contentMode = .scaleAspectFit
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
-    private let UnderlineBar2 = UIView().then {
-        $0.backgroundColor = .white
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
+    
     //비밀번호 변경
     private let settingPassword =  UIButton().then {
         $0.setTitle("비밀번호 변경", for: .normal)
@@ -188,16 +159,11 @@ class MyPageViewController: UIViewController {
         configUI()
     }
     
-    //HomeView가 나타날 때 tabBar 다시 띄우기 및 저장버튼 삭제
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        tabBarController?.tabBar.isHidden = false
-        tabBarController?.tabBar.isTranslucent = false
-        
-        self.navigationItem.setRightBarButton(nil, animated: false)
-    }
-
-    
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+//        tabBarController?.tabBar.isHidden = true
+//        tabBarController?.tabBar.isTranslucent = false
+//    }
     func addSubView() {
         view.addSubview(borderView)
         view.addSubview(circleView)
@@ -209,9 +175,6 @@ class MyPageViewController: UIViewController {
         view.addSubview(settingCash)
         view.addSubview(arrowBtn)
         view.addSubview(UnderlineBar)
-        view.addSubview(settingCharacter)
-        view.addSubview(arrowBtn2)
-        view.addSubview(UnderlineBar2)
         view.addSubview(settingPassword)
         view.addSubview(arrowBtn3)
         view.addSubview(UnderlineBar3)
@@ -277,35 +240,15 @@ class MyPageViewController: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
-            settingCharacter.widthAnchor.constraint(equalToConstant: 78),
-            settingCharacter.heightAnchor.constraint(equalToConstant: 17),
-            settingCharacter.topAnchor.constraint(equalTo: UnderlineBar.bottomAnchor, constant: 23),
-            settingCharacter.leadingAnchor.constraint(equalTo: settingCash.leadingAnchor)
-        ])
-        NSLayoutConstraint.activate([
-            arrowBtn2.widthAnchor.constraint(equalToConstant: 11.3),
-            arrowBtn2.heightAnchor.constraint(equalToConstant: 11.3),
-            arrowBtn2.topAnchor.constraint(equalTo: UnderlineBar.bottomAnchor, constant: 25.3),
-            arrowBtn2.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -27)
-        ])
-
-        NSLayoutConstraint.activate([
-            UnderlineBar2.widthAnchor.constraint(equalToConstant: 354),
-            UnderlineBar2.heightAnchor.constraint(equalToConstant: 1),
-            UnderlineBar2.topAnchor.constraint(equalTo: settingCharacter.bottomAnchor, constant: 22),
-            UnderlineBar2.leadingAnchor.constraint(equalTo: settingCharacter.leadingAnchor)
-        ])
-        
-        NSLayoutConstraint.activate([
             settingPassword.widthAnchor.constraint(equalToConstant: 92),
             settingPassword.heightAnchor.constraint(equalToConstant: 17),
-            settingPassword.topAnchor.constraint(equalTo: UnderlineBar2.bottomAnchor, constant: 23),
+            settingPassword.topAnchor.constraint(equalTo: UnderlineBar.bottomAnchor, constant: 23),
             settingPassword.leadingAnchor.constraint(equalTo: settingCash.leadingAnchor)
         ])
         NSLayoutConstraint.activate([
             arrowBtn3.widthAnchor.constraint(equalToConstant: 11.3),
             arrowBtn3.heightAnchor.constraint(equalToConstant: 11.3),
-            arrowBtn3.topAnchor.constraint(equalTo: UnderlineBar2.bottomAnchor, constant: 25.3),
+            arrowBtn3.topAnchor.constraint(equalTo: UnderlineBar.bottomAnchor, constant: 25.3),
             arrowBtn3.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -27)
         ])
 
@@ -352,10 +295,16 @@ class MyPageViewController: UIViewController {
     //회원 정보 수정 으로 넘어감 
     @objc func navigateToEditViewController(_ sender: Any) {
         let editVC = EditViewController()
-        tabBarController?.tabBar.isHidden = false
-        tabBarController?.tabBar.isTranslucent = false
+        tabBarController?.tabBar.isHidden = true //하단 탭바 안보이게 전환
+
         self.navigationController?.pushViewController(editVC, animated: true)
         print("present click")
+    }
+    @objc func navigateToCashCheckViewController(_ sender: Any) {
+        let cashCheckVC = CashCheckViewController()
+
+        self.navigationController?.pushViewController(cashCheckVC, animated: true)
+        print("cashcheck click")
     }
 //    @objc func backAddButton(_ sender:Any) {
 //        self.navigationController?.popViewController(animated: true)

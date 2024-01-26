@@ -7,9 +7,14 @@
 
 import Foundation
 import UIKit
+import Charts
+import Then
 
 class HomeViewController: UIViewController {
-    
+    private let pieChartView = PieChartView().then {
+        
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
     private let logo: UIImageView = {
         let logo = UIImageView()
         logo.image = UIImage(named: "Home2")
@@ -121,6 +126,7 @@ class HomeViewController: UIViewController {
         view.backgroundColor = UIColor(named: "gray2")
         setView()
         setConstraints()
+        setupPieChart() 
         self.payAddButton.addTarget(self, action: #selector(tabAddButton), for: .touchUpInside)
         self.payCheckButton.addTarget(self, action: #selector(tabCheckButton), for: .touchUpInside)
         self.payAnalyzeButton.addTarget(self, action: #selector(tabAnalyzeButton), for: .touchUpInside)
@@ -142,6 +148,7 @@ class HomeViewController: UIViewController {
         self.buttonContainer.addArrangedSubview(self.payCheckButton)
         self.buttonContainer.addArrangedSubview(self.payAnalyzeButton)
         self.view.addSubview(self.progressView)
+        progressView.addSubview(pieChartView)
         self.view.addSubview(self.infoLabel1)
         self.view.addSubview(self.infoLabel2)
         self.view.addSubview(self.logo)
@@ -156,8 +163,38 @@ class HomeViewController: UIViewController {
         self.logo.translatesAutoresizingMaskIntoConstraints = false
         
     }
-    
+    //차트 엔트리 값 설정
+    func setupPieChart() {
+        
+        var entries = [ChartDataEntry]()
+        entries.append(PieChartDataEntry(value: 45))
+        entries.append(PieChartDataEntry(value: 50))
+
+        let dataSet = PieChartDataSet(entries: entries)
+        
+        if let customGreenColor = UIColor(named: "green") {
+                let otherColor = UIColor.black
+                dataSet.colors = [customGreenColor, otherColor]
+        }
+        dataSet.drawValuesEnabled = false
+        dataSet.drawIconsEnabled = false
+
+        let data = PieChartData(dataSet: dataSet)
+        pieChartView.holeRadiusPercent = 0.75 // 0%로 설정하면 외곽선이 없어집니다.
+        pieChartView.holeColor = UIColor.gray // hole 색을 그레이로 설정
+
+        pieChartView.data = data
+        pieChartView.legend.enabled = false
+
+    }
     func setConstraints() {
+        NSLayoutConstraint.activate([
+            pieChartView.centerXAnchor.constraint(equalTo: progressView.centerXAnchor),
+            pieChartView.centerYAnchor.constraint(equalTo: progressView.centerYAnchor),
+            pieChartView.heightAnchor.constraint(equalToConstant: 206),
+            pieChartView.widthAnchor.constraint(equalToConstant: 206),
+                    
+        ])
         NSLayoutConstraint.activate([
             self.buttonContainer.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20),
             self.buttonContainer.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20),

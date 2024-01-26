@@ -125,19 +125,11 @@ class LoginViewController : UIViewController {
         emailTextField.attributedPlaceholder = NSAttributedString(string: "이메일을 입력", attributes: [NSAttributedString.Key.foregroundColor: UIColor(named: "searchfont") ?? .white])
         let pwTextField = makeTextField()
         pwTextField.attributedPlaceholder = NSAttributedString(string: "비밀번호 입력", attributes: [NSAttributedString.Key.foregroundColor: UIColor(named: "searchfont") ?? .white])
-<<<<<<< HEAD
->>>>>>> KMS
-=======
->>>>>>> 197acce5cc70835a7bc26a2d685c94690ca90af0
         self.loginContainer.addArrangedSubview(tagLabel1)
         self.loginContainer.addArrangedSubview(emailTextField)
         self.loginContainer.addArrangedSubview(tagLabel2)
         self.loginContainer.addArrangedSubview(pwTextField)
         let loginButton = makeCustomButton(viewController: self, nextVC: MainTabBarController())
-<<<<<<< HEAD
->>>>>>> KMS
-=======
->>>>>>> 197acce5cc70835a7bc26a2d685c94690ca90af0
         loginButton.setTitle("로그인", for: .normal)
         loginButton.configuration?.background.backgroundColor = UIColor(named: "searchfont")
         

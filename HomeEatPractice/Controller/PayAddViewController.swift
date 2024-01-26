@@ -68,8 +68,8 @@ class PayAddViewController : UIViewController, UITextFieldDelegate{
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "메모"
         label.font = UIFont.systemFont(ofSize: 17, weight: .bold)
-        label.backgroundColor = UIColor(named: "gray2")
-        label.textColor = UIColor(named: "green")
+        label.backgroundColor = .black
+        label.textColor = .green
         label.textAlignment = .left
         return label
     }()
@@ -88,6 +88,39 @@ class PayAddViewController : UIViewController, UITextFieldDelegate{
         return label
     }()
     
+    //MARK: - UItextField
+    
+//    private let priceLabel : UITextField = {
+//        let textField = UITextField()
+//        textField.translatesAutoresizingMaskIntoConstraints = false
+////        textField.backgroundColor = .darkGray
+//        textField.font = UIFont.systemFont(ofSize: 30, weight: .bold)
+////        textField.attributedPlaceholder = NSAttributedString(string: "오늘의 지출이 담고 있는 이야기는?", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+//        textField.textColor = .white
+//        
+//        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 18, height: textField.frame.height))
+//        textField.leftView = paddingView
+//        textField.leftViewMode = .always
+//        return textField
+//    }()
+    
+    
+    private let postTextField : UITextField = {
+        let textField = UITextField()
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.backgroundColor = .darkGray
+        textField.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+        textField.attributedPlaceholder = NSAttributedString(string: "오늘의 지출이 담고 있는 이야기는?", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+        textField.layer.cornerRadius = 10
+        textField.layer.masksToBounds = true
+        textField.textColor = .white
+        textField.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 18, height: textField.frame.height))
+        textField.leftView = paddingView
+        textField.leftViewMode = .always
+        return textField
+    }()
     
 
     //MARK: - container 파트
@@ -108,7 +141,6 @@ class PayAddViewController : UIViewController, UITextFieldDelegate{
         let button = UIButton()
         let imageConfig = UIImage.SymbolConfiguration(pointSize: 50, weight: .light)
         let image = UIImage(systemName: "camera.fill", withConfiguration: imageConfig)?.withTintColor(.white, renderingMode: .alwaysOriginal)
-        
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("사진 추가", for: .normal)
         button.setImage(image, for: .normal)
@@ -130,7 +162,7 @@ class PayAddViewController : UIViewController, UITextFieldDelegate{
         
         //네비게이션 바
         let saveButtonItem = UIBarButtonItem(title: "저장", style: .plain, target: self, action: nil)
-        saveButtonItem.tintColor = UIColor(named: "searchfont")
+        saveButtonItem.tintColor = .green
         self.navigationItem.setRightBarButton(saveButtonItem, animated: false)
 
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_ :)), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -139,11 +171,10 @@ class PayAddViewController : UIViewController, UITextFieldDelegate{
         self.tabBarController?.tabBar.isHidden = true
         self.title = "지출 추가"
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-        let postTextField = makeTextField()
-        postTextField.attributedPlaceholder = NSAttributedString(string: "오늘의 지출이 담고 있는 이야기는?", attributes: [NSAttributedString.Key.foregroundColor: UIColor(named: "searchfont") ?? .white])
+
         postTextField.delegate = self
         
-        self.view.backgroundColor = UIColor(named: "gray2")
+        self.view.backgroundColor = .black
         self.view.addSubview(self.hashContainer)
         self.hashContainer.addArrangedSubview(tagLabel1)
         self.hashContainer.addArrangedSubview(tagLabel2)
@@ -157,37 +188,28 @@ class PayAddViewController : UIViewController, UITextFieldDelegate{
         self.view.addSubview(customButton)
 //MARK: - 제약설정
         NSLayoutConstraint.activate([
+            self.hashContainer.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 37),
+            self.hashContainer.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -37),
+            self.hashContainer.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 426),
+            self.hashContainer.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -386),
+            
+            self.postLabel.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 491),
+            self.postLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20),
+            
+            self.postTextField.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20),
+            self.postTextField.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20),
+            self.postTextField.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 530),
+            self.postTextField.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -272),
+            
+            self.priceLabel.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 355),
+            self.priceLabel.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -463),
+            self.priceLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+
             
             customButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 150),
             customButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 108),
             customButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -109),
-            customButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -526),
-//            customButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            customButton.widthAnchor.constraint(equalToConstant: 176),
-            customButton.heightAnchor.constraint(equalToConstant: 176),
-            
-            
-            self.priceLabel.topAnchor.constraint(equalTo: customButton.bottomAnchor, constant: 29),
-            self.priceLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            
-            
-            self.hashContainer.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 37),
-            self.hashContainer.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -37),
-            self.hashContainer.topAnchor.constraint(equalTo: customButton.bottomAnchor, constant: 100),
-            self.hashContainer.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -386),
-            
-            self.postLabel.topAnchor.constraint(equalTo: self.hashContainer.bottomAnchor, constant: 25),
-            self.postLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20),
-            
-            postTextField.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20),
-            postTextField.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20),
-            postTextField.topAnchor.constraint(equalTo: self.postLabel.bottomAnchor, constant: 5),
-            postTextField.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -272)
-            
-            
-
-            
-        
+            customButton.bottomAnchor.constraint(equalTo: self.priceLabel.topAnchor, constant: -29)
             
         ])
        
@@ -203,17 +225,18 @@ class PayAddViewController : UIViewController, UITextFieldDelegate{
         config.attributedTitle = attributedTitle
         let pointSize = CGFloat(30)
         let imageConfig = UIImage.SymbolConfiguration(pointSize: pointSize)
-        config.image = UIImage(named: "cameraIcon")
+        config.image = UIImage(systemName: "camera.fill")
         config.preferredSymbolConfigurationForImage = imageConfig
 
         config.imagePlacement = .top
-        config.background.backgroundColor = UIColor(named: "gray4")
-        config.baseForegroundColor = UIColor(named: "searchfont")
+        config.background.backgroundColor = .darkGray
+        config.baseForegroundColor = .lightGray
+//        config.baseBackgroundColor = .darkGray
         config.cornerStyle = .small
 
         // 이미지와 텍스트 간격 조절
-        config.imagePadding = 10
-        
+        config.imagePadding = 12.7
+        config.titlePadding = 10
 
         let customButton = UIButton(configuration: config)
         customButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
@@ -242,7 +265,6 @@ class PayAddViewController : UIViewController, UITextFieldDelegate{
         
     }
     
-    //화면 터치해서 키패트 내리기
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
              self.view.endEditing(true)
              }
@@ -259,6 +281,15 @@ class PayAddViewController : UIViewController, UITextFieldDelegate{
 
 // 키보드 숨기기
 extension UIViewController {
+//    func hideKeyboardWhenTappedAround() {
+//        let tap = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
+//        tap.cancelsTouchesInView = false
+//        view.addGestureRecognizer(tap)
+//    }
+//    
+//    @objc func dismissKeyboard() {
+//        view.endEditing(true)
+//    }
     
     //키보드 올라갔다는 알림을 받으면 실행되는 메서드
     @objc func keyboardWillShow(_ sender:Notification){

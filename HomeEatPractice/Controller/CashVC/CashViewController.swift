@@ -37,7 +37,7 @@ class CashViewController: TabmanViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "홈잇러버 OO님"
+        self.title = "홈잇리포트"
         
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         self.view.backgroundColor = UIColor(r: 30, g: 32, b: 33)
@@ -49,8 +49,8 @@ class CashViewController: TabmanViewController {
     }
     func setViewcontroller() {
         let badgeCheckViewController = BadgeCheckViewController()
-        let cashCheckViewController = CashCheckViewController()
-        viewcontrollers.append(contentsOf: [badgeCheckViewController,cashCheckViewController])
+        let weekCashViewController = WeekCashViewController()
+        viewcontrollers.append(contentsOf: [badgeCheckViewController,weekCashViewController])
     }
     func setConstraints() {
         addBar(tabbar, dataSource: self,  at: .custom(view: containerView, layout: nil))
@@ -82,7 +82,7 @@ extension CashViewController: PageboyViewControllerDataSource, TMBarDataSource {
     }
     
     func barItem(for bar: TMBar, at index: Int) -> TMBarItemable {
-        let title = index == 0 ? "홈잇뱃지" : "홈잇캐시"
+        let title = index == 0 ? "소비분석" : "주별조회"
         return TMBarItem(title: title)
     }
 }
