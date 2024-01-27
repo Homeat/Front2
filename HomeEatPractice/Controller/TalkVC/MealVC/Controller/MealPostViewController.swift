@@ -102,6 +102,7 @@ class MealPostViewController: UIViewController {
         self.view.backgroundColor = UIColor(r: 30, g: 32, b: 33)
         tabBarController?.tabBar.isHidden = true
         tabBarController?.tabBar.isTranslucent = true
+        navigationcontrol()
         addViews()
         setConstraints()
     }
@@ -116,6 +117,14 @@ class MealPostViewController: UIViewController {
         }
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        // 다른 화면으로 넘어갈 때 커스텀 탭바를 다시 보이게 합니다.
+        if let tabBarController = self.tabBarController as? MainTabBarController {
+            tabBarController.customTabBar.isHidden = false
+        }
+    }
     // MARK: - ViewSet
     private func addViews() {
         self.view.addSubview(self.profileView)
@@ -167,6 +176,19 @@ class MealPostViewController: UIViewController {
         ])
     }
     
+    private func navigationcontrol() {
+        let backbutton = UIBarButtonItem(image: UIImage(named: "back2"), style: .plain, target: self, action: #selector(back(_:)))
+        //간격을 배열로 설정
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        flexibleSpace.width = 5.0
+        navigationItem.leftBarButtonItem = backbutton
+        self.navigationItem.title = "집밥토크"
+        //title 흰색으로 설정
+        if let navigationBar = navigationController?.navigationBar {
+            navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+            }
+    }
+    
     // MARK: - @objc 메서드
     @objc func delcareAction() {
         let declareVC = DeclareViewController()
@@ -174,8 +196,8 @@ class MealPostViewController: UIViewController {
     }
     
     
-    @objc func backButton(_ sender: Any) {
-        self.navigationController?.popViewController(animated: true)
-        tabBarController?.tabBar.isHidden = false
-    }
+    @objc func back(_ sender: Any) {
+         self.navigationController?.popViewController(animated: true)
+        print("back click")
+     }
 }

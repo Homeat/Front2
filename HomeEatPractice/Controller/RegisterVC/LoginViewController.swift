@@ -113,6 +113,37 @@ class LoginViewController : UIViewController {
     //        return button
     //    }()
     
+    private lazy var loginButton : UIButton = {
+            var config = UIButton.Configuration.plain()
+            var attributedTitle = AttributedString("로그인")
+            attributedTitle.font = .systemFont(ofSize: 18, weight: .medium)
+            config.attributedTitle = attributedTitle
+            config.background.backgroundColor = UIColor(named: "green")
+            config.baseForegroundColor = .black
+            let buttonAction = UIAction{ _ in
+                
+                let newRootViewController = MainTabBarController()
+
+                    // 애니메이션을 설정합니다.
+                    let transition = CATransition()
+                    transition.duration = 0.3
+                    transition.type = CATransitionType.push
+                    transition.subtype = CATransitionSubtype.fromRight
+                    transition.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
+
+                    // 애니메이션을 적용하고 루트 뷰 컨트롤러를 변경합니다.
+                    if let window = UIApplication.shared.keyWindow {
+                        window.layer.add(transition, forKey: kCATransition)
+                        window.rootViewController = newRootViewController
+                    }
+            }
+        
+            let button = UIButton(configuration: config, primaryAction: buttonAction)
+            button.heightAnchor.constraint(equalToConstant: 57).isActive = true
+
+            return button
+        }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "gray2")
@@ -129,9 +160,7 @@ class LoginViewController : UIViewController {
         self.loginContainer.addArrangedSubview(emailTextField)
         self.loginContainer.addArrangedSubview(tagLabel2)
         self.loginContainer.addArrangedSubview(pwTextField)
-        let loginButton = makeCustomButton(viewController: self, nextVC: MainTabBarController())
-        loginButton.setTitle("로그인", for: .normal)
-        loginButton.configuration?.background.backgroundColor = UIColor(named: "searchfont")
+       
         
         self.loginContainer.addArrangedSubview(loginButton)
         loginContainer.setCustomSpacing(41, after: emailTextField)
