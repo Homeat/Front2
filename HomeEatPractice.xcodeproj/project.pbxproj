@@ -10,6 +10,8 @@
 		2D8CFEB82B5A301000FDE2E5 /* HomeatIcon.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 2D8CFEB52B5A301000FDE2E5 /* HomeatIcon.pdf */; };
 		2D8CFEB92B5A301000FDE2E5 /* LaunchScreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D8CFEB62B5A301000FDE2E5 /* LaunchScreen.png */; };
 		2D8CFEBA2B5A301000FDE2E5 /* HomeatLogo.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 2D8CFEB72B5A301000FDE2E5 /* HomeatLogo.pdf */; };
+		4008C9932B66515200DA943F /* MealItemData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4008C9922B66515200DA943F /* MealItemData.swift */; };
+		4008C9952B6651B700DA943F /* MealGeneralAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4008C9942B6651B700DA943F /* MealGeneralAPI.swift */; };
 		409AA3282B43A0470096CDBB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409AA3272B43A0470096CDBB /* AppDelegate.swift */; };
 		409AA3312B43A0480096CDBB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 409AA3302B43A0480096CDBB /* Assets.xcassets */; };
 		409AA3342B43A0480096CDBB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 409AA3322B43A0480096CDBB /* LaunchScreen.storyboard */; };
@@ -66,6 +68,8 @@
 		2D8CFEB52B5A301000FDE2E5 /* HomeatIcon.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = HomeatIcon.pdf; sourceTree = "<group>"; };
 		2D8CFEB62B5A301000FDE2E5 /* LaunchScreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LaunchScreen.png; sourceTree = "<group>"; };
 		2D8CFEB72B5A301000FDE2E5 /* HomeatLogo.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = HomeatLogo.pdf; sourceTree = "<group>"; };
+		4008C9922B66515200DA943F /* MealItemData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MealItemData.swift; path = ../../../../../../../HomeEatPractice/MealItemData.swift; sourceTree = "<group>"; };
+		4008C9942B6651B700DA943F /* MealGeneralAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MealGeneralAPI.swift; path = ../../../../../../../HomeEatPractice/MealGeneralAPI.swift; sourceTree = "<group>"; };
 		409AA3242B43A0470096CDBB /* HomeEatPractice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HomeEatPractice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		409AA3272B43A0470096CDBB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		409AA3302B43A0480096CDBB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -143,6 +147,15 @@
 				2D8CFEB72B5A301000FDE2E5 /* HomeatLogo.pdf */,
 			);
 			path = LaunchScreenImage;
+			sourceTree = "<group>";
+		};
+		4008C9912B66513000DA943F /* MealNetwork */ = {
+			isa = PBXGroup;
+			children = (
+				4008C9922B66515200DA943F /* MealItemData.swift */,
+				4008C9942B6651B700DA943F /* MealGeneralAPI.swift */,
+			);
+			path = MealNetwork;
 			sourceTree = "<group>";
 		};
 		409AA31B2B43A0470096CDBB = {
@@ -327,6 +340,7 @@
 		58A40D882B5CEA530053E302 /* MealVC */ = {
 			isa = PBXGroup;
 			children = (
+				4008C9912B66513000DA943F /* MealNetwork */,
 				58A40D932B5FABF60053E302 /* Model */,
 				58A40D922B5FABEB0053E302 /* Controller */,
 				58A40D912B5FABE10053E302 /* Cell */,
@@ -534,6 +548,7 @@
 				58A40D972B5FAC490053E302 /* MealPostViewController.swift in Sources */,
 				58A40D9B2B5FACAF0053E302 /* MealSource.swift in Sources */,
 				58A40D9E2B5FF1560053E302 /* TabbarInfo.swift in Sources */,
+				4008C9932B66515200DA943F /* MealItemData.swift in Sources */,
 				58A40D802B5BEFC40053E302 /* CalendarCheckViewController.swift in Sources */,
 				409AA3282B43A0470096CDBB /* AppDelegate.swift in Sources */,
 				58A40D992B5FAC6A0053E302 /* MealWritingViewController.swift in Sources */,
@@ -560,6 +575,7 @@
 				409AA3462B453F3B0096CDBB /* PayAddViewController.swift in Sources */,
 				58A40DA02B6120970053E302 /* DeclareViewController.swift in Sources */,
 				582A98C12B637053008F30CA /* LoginViewController.swift in Sources */,
+				4008C9952B6651B700DA943F /* MealGeneralAPI.swift in Sources */,
 				582A98C32B637053008F30CA /* RegisterViewController.swift in Sources */,
 				58A40D852B5C05330053E302 /* CashCheckViewController.swift in Sources */,
 				588A092D2B4FB9F200638D16 /* TableViewCellOne.swift in Sources */,

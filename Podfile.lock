@@ -1,4 +1,5 @@
 PODS:
+  - Alamofire (5.8.1)
   - Charts (4.1.0):
     - Charts/Core (= 4.1.0)
   - Charts/Core (4.1.0):
@@ -11,6 +12,7 @@ PODS:
   - Then (3.0.0)
 
 DEPENDENCIES:
+  - Alamofire
   - Charts
   - SnapKit
   - Tabman (~> 3.0)
@@ -18,6 +20,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - Alamofire
     - Charts
     - Pageboy
     - SnapKit
@@ -26,6 +29,7 @@ SPEC REPOS:
     - Then
 
 SPEC CHECKSUMS:
+  Alamofire: 3ca42e259043ee0dc5c0cdd76c4bc568b8e42af7
   Charts: ce0768268078eee0336f122c3c4ca248e4e204c5
   Pageboy: 34ff11e8d1041b81769d5bcde9b19a0cb7218bd9
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
@@ -33,6 +37,6 @@ SPEC CHECKSUMS:
   Tabman: 6326ec3a792da1c2a6e79c7eddb56af7b591c9d6
   Then: 844265ae87834bbe1147d91d5d41a404da2ec27d
 
-PODFILE CHECKSUM: 0e57fd01b9c9409202528de91054c5e46a8b9efc
+PODFILE CHECKSUM: 5dd02ac9bf52cce2aa5829e21e79774bc4475cad
 
 COCOAPODS: 1.14.3

@@ -10,7 +10,6 @@ class MealWritingViewController: UIViewController{
     
     private lazy var customButton: UIButton = makeCustomButton()
     
-    var originalNavigationBarColor: UIColor!
     // MARK: - ScrollView 생성
     private let scrollView: UIScrollView = {
         let view = UIScrollView()
@@ -363,10 +362,25 @@ class MealWritingViewController: UIViewController{
          self.navigationController?.popViewController(animated: true)
         print("back click")
      }
+    
     //저장
     @objc func save(_ sender: UIBarButtonItem) {
-        
-    }
+        guard let name = nameTextField.text, let memo = memoTextView.text, let tag = breackfastButton.titleLabel?.text else {
+            // title 또는 content가 nil이라면 에러 처리 또는 사용자에게 알림
+                return
+        }
+
+        MealGeneralAPI.saveFoodTalk(name: name, memo: memo, tag: tag) { result in
+            switch result {
+                case .success:
+                    print("API 호출 성공")
+                    // 성공 시 처리할 내용 추가
+                case .failure(let error):
+                    print("API 호출 실패: \(error.localizedDescription)")
+                    // 실패 시 처리할 내용 추가
+                }
+            }
+        }
     // 버튼 액션 함수
     @objc func touchUpImageAddButton(button: UIButton) {
         // 갤러리 접근 권한 허용 여부 체크

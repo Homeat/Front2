@@ -10,4 +10,5 @@ target 'HomeEatPractice' do
 	pod 'Then'
 	pod 'SnapKit'
 	pod 'Charts'
+	pod 'Alamofire'
 end
