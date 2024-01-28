@@ -119,6 +119,7 @@ class MyPageViewController: UIViewController {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.semanticContentAttribute = .forceRightToLeft
         $0.contentHorizontalAlignment = .left // 이미지 오른쪽 정렬
+        $0.addTarget(self, action: #selector(tapLogoutButton), for: .touchUpInside)
     }
     //화살표 버튼
     private let arrowBtn4 = UIImageView().then {
@@ -293,6 +294,26 @@ class MyPageViewController: UIViewController {
         ])
         }
     //회원 정보 수정 으로 넘어감 
+    
+    @objc func tapLogoutButton(_ sender: Any) {
+        self.navigationController?.pushViewController(RegisterSelectViewController(), animated: true)
+        let navigationController = UINavigationController(rootViewController: RegisterSelectViewController())
+
+            // 애니메이션을 설정합니다.
+            let transition = CATransition()
+            transition.duration = 0.3
+            transition.type = CATransitionType.push
+            transition.subtype = CATransitionSubtype.fromRight
+            transition.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
+
+            // 애니메이션을 적용하고 루트 뷰 컨트롤러를 변경합니다.
+            if let window = UIApplication.shared.keyWindow {
+                window.layer.add(transition, forKey: kCATransition)
+                window.rootViewController = navigationController
+            }
+        
+    }
+    
     @objc func navigateToEditViewController(_ sender: Any) {
         let editVC = EditViewController()
         tabBarController?.tabBar.isHidden = true //하단 탭바 안보이게 전환

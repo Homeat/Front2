@@ -37,7 +37,8 @@ class SearchLocationViewController : UIViewController {
     }
     
     private lazy var currentLocationButton : UIButton = {
-        let currentLocationButton = makeCustomButton(viewController: self, nextVC: SearchLocationViewController())
+        let currentLocationButton = makeCustomButton(viewController: self, nextVC: MapViewController())
+        currentLocationButton.translatesAutoresizingMaskIntoConstraints = false
         currentLocationButton.setTitle("현재 위치로 찾기", for: .normal)
         currentLocationButton.configuration?.image = UIImage(named: "gpsIcon")
         currentLocationButton.configuration?.imagePadding = 9
@@ -90,7 +91,7 @@ class SearchLocationViewController : UIViewController {
         
         NSLayoutConstraint.activate([
             
-            self.currentLocationButton.topAnchor.constraint(equalTo: self.view.topAnchor,constant: 202),
+            self.currentLocationButton.topAnchor.constraint(equalTo: self.SearchView.bottomAnchor,constant: 27),
             self.currentLocationButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20),
             self.currentLocationButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20),
             self.currentLocationButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -601)

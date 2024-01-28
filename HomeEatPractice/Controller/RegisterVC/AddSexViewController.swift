@@ -56,19 +56,22 @@ class AddSexViewController : UIViewController {
         config.background.strokeWidth = 2
         
         //테두리 변경
-        let buttonAction = UIAction{ _ in
-            if config.background.strokeColor == UIColor(r: 83, g: 85, b: 86) {
-                config.background.strokeColor = UIColor(named: "green")
-                config.baseForegroundColor = UIColor(named: "green")
-            }
-            else
-            {
-                config.background.strokeColor = UIColor(r: 83, g: 85, b: 86)
-                config.baseForegroundColor = .white
-            }
-            
-            self.maleButton.configuration = config
-        }
+//        let buttonAction = UIAction{ _ in
+//            if config.background.strokeColor == UIColor(r: 83, g: 85, b: 86) {
+//                config.background.strokeColor = UIColor(named: "green")
+//                config.baseForegroundColor = UIColor(named: "green")
+//            }
+//            else
+//            {
+//                config.background.strokeColor = UIColor(r: 83, g: 85, b: 86)
+//                config.baseForegroundColor = .white
+//            }
+//            
+//            self.maleButton.configuration = config
+//        }
+        let buttonAction = UIAction { _ in
+             self.handleGenderSelection(isMale: true)
+         }
         
         let button = UIButton(configuration: config, primaryAction: buttonAction )
 
@@ -88,19 +91,22 @@ class AddSexViewController : UIViewController {
         config.background.strokeWidth = 2
         
         //테두리 변경
-        let buttonAction = UIAction{ _ in
-            if config.background.strokeColor == UIColor(r: 83, g: 85, b: 86) {
-                config.background.strokeColor = UIColor(named: "green")
-                config.baseForegroundColor = UIColor(named: "green")
-            }
-            else
-            {
-                config.background.strokeColor = UIColor(r: 83, g: 85, b: 86)
-                config.baseForegroundColor = .white
-            }
-            
-            self.femaleButton.configuration = config
-        }
+//        let buttonAction = UIAction{ _ in
+//            if config.background.strokeColor == UIColor(r: 83, g: 85, b: 86) {
+//                config.background.strokeColor = UIColor(named: "green")
+//                config.baseForegroundColor = UIColor(named: "green")
+//            }
+//            else
+//            {
+//                config.background.strokeColor = UIColor(r: 83, g: 85, b: 86)
+//                config.baseForegroundColor = .white
+//            }
+//            
+//            self.femaleButton.configuration = config
+//        }
+        let buttonAction = UIAction { _ in
+                    self.handleGenderSelection(isMale: false)
+                }
         
         let button = UIButton(configuration: config, primaryAction: buttonAction )
 
@@ -108,9 +114,49 @@ class AddSexViewController : UIViewController {
         return button
     }()
     
+    lazy var continueButton : UIButton = {
+        var config = UIButton.Configuration.plain()
+        var attributedTitle = AttributedString("계속하기")
+        attributedTitle.font = .systemFont(ofSize: 18, weight: .medium)
+        config.attributedTitle = attributedTitle
+        config.background.backgroundColor = UIColor(named: "searchfont")
+        config.baseForegroundColor = .black
+        config.cornerStyle = .small
+
+        let buttonAction = UIAction{ _ in
+            self.navigationController?.pushViewController(AddLocationInfromViewController(), animated: true)
+            
+            //나중에 남자/여자 정보 보낼 부분
+            if self.maleButton.configuration?.baseForegroundColor == UIColor(named: "green"){
+                print("남")
+            }else{
+                print("여")
+            }
+            
+        }
+        let customButton = UIButton(configuration: config, primaryAction: buttonAction)
+        customButton.heightAnchor.constraint(equalToConstant: 57).isActive = true
+        
+        return customButton
+    }()
+    
+    private func handleGenderSelection(isMale: Bool) {
+            if isMale {
+                maleButton.configuration?.background.strokeColor = UIColor(named: "green")
+                maleButton.configuration?.baseForegroundColor = UIColor(named: "green")
+                femaleButton.configuration?.background.strokeColor = UIColor(r: 83, g: 85, b: 86)
+                femaleButton.configuration?.baseForegroundColor = .white
+            } else {
+                maleButton.configuration?.background.strokeColor = UIColor(r: 83, g: 85, b: 86)
+                maleButton.configuration?.baseForegroundColor = .white
+                femaleButton.configuration?.background.strokeColor = UIColor(named: "green")
+                femaleButton.configuration?.baseForegroundColor = UIColor(named: "green")
+            }
+        }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let _ = continueButton
         self.view.backgroundColor = UIColor(named: "gray2")
         self.view.addSubview(registerContainer)
         self.view.addSubview(selectContainer)
@@ -120,9 +166,6 @@ class AddSexViewController : UIViewController {
         self.view.addSubview(selectContainer)
         self.selectContainer.addArrangedSubview(maleButton)
         self.selectContainer.addArrangedSubview(femaleButton)
-        
-        let continueButton = makeCustomButton(viewController: self, nextVC: AddLocationInfromViewController())
-
         self.registerContainer.addArrangedSubview(continueButton)
 //        registerContainer.setCustomSpacing(279, after: selectContainer)
         

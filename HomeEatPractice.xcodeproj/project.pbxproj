@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2D8A9C992B63AFA600F86967 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D8A9C982B63AFA600F86967 /* MapViewController.swift */; };
+		2D8A9C9D2B63B22300F86967 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D8A9C9C2B63B22300F86967 /* MapView.swift */; };
+		2D8A9C9F2B63BC0400F86967 /* MaptestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D8A9C9E2B63BC0400F86967 /* MaptestViewController.swift */; };
 		2D8CFEB82B5A301000FDE2E5 /* HomeatIcon.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 2D8CFEB52B5A301000FDE2E5 /* HomeatIcon.pdf */; };
 		2D8CFEB92B5A301000FDE2E5 /* LaunchScreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D8CFEB62B5A301000FDE2E5 /* LaunchScreen.png */; };
 		2D8CFEBA2B5A301000FDE2E5 /* HomeatLogo.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 2D8CFEB72B5A301000FDE2E5 /* HomeatLogo.pdf */; };
@@ -63,6 +66,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2D8A9C982B63AFA600F86967 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		2D8A9C9C2B63B22300F86967 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		2D8A9C9E2B63BC0400F86967 /* MaptestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaptestViewController.swift; sourceTree = "<group>"; };
 		2D8CFEB52B5A301000FDE2E5 /* HomeatIcon.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = HomeatIcon.pdf; sourceTree = "<group>"; };
 		2D8CFEB62B5A301000FDE2E5 /* LaunchScreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LaunchScreen.png; sourceTree = "<group>"; };
 		2D8CFEB72B5A301000FDE2E5 /* HomeatLogo.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = HomeatLogo.pdf; sourceTree = "<group>"; };
@@ -134,6 +140,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2D8A9C9A2B63B1F600F86967 /* MapVC */ = {
+			isa = PBXGroup;
+			children = (
+				2D8A9C9B2B63B21900F86967 /* View */,
+				2D8A9C982B63AFA600F86967 /* MapViewController.swift */,
+				2D8A9C9E2B63BC0400F86967 /* MaptestViewController.swift */,
+			);
+			path = MapVC;
+			sourceTree = "<group>";
+		};
+		2D8A9C9B2B63B21900F86967 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				2D8A9C9C2B63B22300F86967 /* MapView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		2D8CFEB42B5A301000FDE2E5 /* LaunchScreenImage */ = {
 			isa = PBXGroup;
 			children = (
@@ -196,6 +220,7 @@
 				582A98B42B637053008F30CA /* SelectMangeUnitViewController.swift */,
 				582A98B52B637053008F30CA /* RegisterViewController.swift */,
 				582A98C42B637080008F30CA /* SearchLocationViewController.swift */,
+				2D8A9C9A2B63B1F600F86967 /* MapVC */,
 			);
 			path = RegisterVC;
 			sourceTree = "<group>";
@@ -524,6 +549,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				588A09302B4FF9A900638D16 /* MyItem.swift in Sources */,
+				2D8A9C9D2B63B22300F86967 /* MapView.swift in Sources */,
 				58A40D872B5C054F0053E302 /* BadgeCheckViewController.swift in Sources */,
 				582A98A52B636F2F008F30CA /* SceneDelegate.swift in Sources */,
 				409AA3402B43E9640096CDBB /* CashViewController.swift in Sources */,
@@ -540,6 +566,7 @@
 				58A40D952B5FAC1B0053E302 /* MealViewCell.swift in Sources */,
 				582A98B62B637053008F30CA /* AddLocationInfromViewController.swift in Sources */,
 				409AA3482B467EFB0096CDBB /* PayAnalyzeViewController.swift in Sources */,
+				2D8A9C9F2B63BC0400F86967 /* MaptestViewController.swift in Sources */,
 				582A98BB2B637053008F30CA /* AddSexViewController.swift in Sources */,
 				582A98BA2B637053008F30CA /* BankCertifyViewController.swift in Sources */,
 				58A40D8E2B5D01F70053E302 /* WeekCashViewController.swift in Sources */,
@@ -567,6 +594,7 @@
 				58A40D822B5C00D30053E302 /* TagPlusViewController.swift in Sources */,
 				582A98B72B637053008F30CA /* AddBirthInformViewController.swift in Sources */,
 				409AA3442B43E98A0096CDBB /* MyPageViewController.swift in Sources */,
+				2D8A9C992B63AFA600F86967 /* MapViewController.swift in Sources */,
 				58A40DA22B6120B70053E302 /* DeclareWriteViewController.swift in Sources */,
 				58A40D7E2B5BEFAA0053E302 /* StatisticsViewController.swift in Sources */,
 			);
@@ -708,10 +736,12 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = G62DUX396A;
+				DEVELOPMENT_TEAM = GH95G7PN63;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = HomeEatPractice/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "카메라 접근권한";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "사용자의 위치 정보를 받아오려고 합니다";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "사용자의 위치 정보를 받아오려고 합니다";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "앨범 접근권한";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -723,7 +753,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = ST.HomeEatPractice;
+				PRODUCT_BUNDLE_IDENTIFIER = ST.HomeEatPractice.KSJ;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -739,10 +769,12 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = G62DUX396A;
+				DEVELOPMENT_TEAM = GH95G7PN63;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = HomeEatPractice/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "카메라 접근권한";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "사용자의 위치 정보를 받아오려고 합니다";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "사용자의 위치 정보를 받아오려고 합니다";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "앨범 접근권한";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -754,7 +786,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = ST.HomeEatPractice;
+				PRODUCT_BUNDLE_IDENTIFIER = ST.HomeEatPractice.KSJ;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

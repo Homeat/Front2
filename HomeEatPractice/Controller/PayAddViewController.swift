@@ -19,10 +19,12 @@
 //- 버튼들 기능구현
 import Foundation
 import UIKit
+import AVFoundation
+import Photos
 
 
-class PayAddViewController : UIViewController, UITextFieldDelegate{
-    
+class PayAddViewController : UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate{
+    let imagePicker = UIImagePickerController()
     //MARK: - UIlabel 관리
     private let tagLabel1 : UILabel = {
         let label = UILabel()
@@ -90,20 +92,6 @@ class PayAddViewController : UIViewController, UITextFieldDelegate{
     
     //MARK: - UItextField
     
-//    private let priceLabel : UITextField = {
-//        let textField = UITextField()
-//        textField.translatesAutoresizingMaskIntoConstraints = false
-////        textField.backgroundColor = .darkGray
-//        textField.font = UIFont.systemFont(ofSize: 30, weight: .bold)
-////        textField.attributedPlaceholder = NSAttributedString(string: "오늘의 지출이 담고 있는 이야기는?", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
-//        textField.textColor = .white
-//        
-//        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 18, height: textField.frame.height))
-//        textField.leftView = paddingView
-//        textField.leftViewMode = .always
-//        return textField
-//    }()
-    
     
     private let postTextField : UITextField = {
         let textField = UITextField()
@@ -157,9 +145,12 @@ class PayAddViewController : UIViewController, UITextFieldDelegate{
     override func viewDidLoad() {
         super.viewDidLoad()
         //현재 뷰에서는 tabBar 사용 안 함
+        
+        
         tabBarController?.tabBar.isHidden = true
         tabBarController?.tabBar.isTranslucent = true
-        
+        self.imagePicker.delegate = self
+
         //네비게이션 바
         let saveButtonItem = UIBarButtonItem(title: "저장", style: .plain, target: self, action: nil)
         saveButtonItem.tintColor = .green
@@ -216,6 +207,99 @@ class PayAddViewController : UIViewController, UITextFieldDelegate{
         
     }
     
+    func cameraAuth() {
+        AVCaptureDevice.requestAccess(for: .video) { granted in
+            if granted {
+                print("카메라 권한 허용")
+                self.openCamera()
+            } else {
+                print("카메라 권한 거부")
+                self.showAlertAuth("카메라")
+            }
+        }
+    }
+    
+    // MARK: - 탭바제거
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // 커스텀 탭바를 숨깁니다.
+        if let tabBarController = self.tabBarController as? MainTabBarController {
+            tabBarController.customTabBar.isHidden = true
+        }
+    }
+    
+
+    func albumAuth() {
+        switch PHPhotoLibrary.authorizationStatus() {
+        case .denied:
+            print("거부")
+            self.showAlertAuth("앨범")
+        case .authorized:
+            print("허용")
+            self.openPhotoLibrary()
+        case .notDetermined, .restricted:
+            print("아직 결정하지 않은 상태")
+            PHPhotoLibrary.requestAuthorization { state in
+                if state == .authorized {
+                    self.openPhotoLibrary()
+                } else {
+                    self.dismiss(animated: true, completion: nil)
+                }
+            }
+        default:
+            break
+        }
+    }
+    private func openCamera() {
+        if(UIImagePickerController.isSourceTypeAvailable(.camera)) {
+            self.imagePicker.sourceType = .camera
+            self.imagePicker.modalPresentationStyle = .currentContext
+            self.present(self.imagePicker,animated: true,completion: nil)
+        } else {
+            print("카메라에 접근할 수 없습니다.")
+        }
+    }
+    private func openPhotoLibrary() {
+        if (UIImagePickerController.isSourceTypeAvailable(.photoLibrary)) {
+            self.imagePicker.sourceType = .photoLibrary
+            self.imagePicker.modalPresentationStyle = .currentContext
+            self.present(self.imagePicker, animated: true, completion: nil)
+        } else {
+            print("앨범에 접근할 수 없습니다.")
+        }
+    }
+    func imagePickerController(
+        _ picker: UIImagePickerController,
+        didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]
+    ) {
+        if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            print("image_info = \(image)")
+        }
+        dismiss(animated: true, completion: nil)
+    }
+    func showAlertAuth(
+        _ type: String
+    ) {
+        if let appName = Bundle.main.infoDictionary!["CFBundleDisplayName"] as? String {
+            let alertVC = UIAlertController(
+                title: "설정",
+                message: "\(appName)이(가) \(type) 접근 허용되어 있지 않습니다. 설정화면으로 가시겠습니까?",
+                preferredStyle: .alert
+            )
+            let cancelAction = UIAlertAction(
+                title: "취소",
+                style: .cancel,
+                handler: nil
+            )
+            let confirmAction = UIAlertAction(title: "확인", style: .default) { _ in
+                UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!, options: [:], completionHandler: nil)
+            }
+            alertVC.addAction(cancelAction)
+            alertVC.addAction(confirmAction)
+            self.present(alertVC, animated: true, completion: nil)
+        }
+    }
 
     
     func makeCustomButton() -> UIButton {
@@ -246,8 +330,12 @@ class PayAddViewController : UIViewController, UITextFieldDelegate{
     
     @objc func buttonTapped(){
         let actionSheetController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let firstAction = UIAlertAction(title: "사진 촬영", style: .default)
-        let secondAction = UIAlertAction(title: "앨범에서 사진 선택", style: .default)
+        let firstAction = UIAlertAction(title: "사진 촬영", style: .default) { _ in
+            self.cameraAuth()
+        }
+        let secondAction = UIAlertAction(title: "앨범에서 사진 선택", style: .default) { _ in
+            self.albumAuth()
+        }
         let cancleAction = UIAlertAction(title: "취소", style: .cancel , handler: nil)
         firstAction.setValue(UIColor.white, forKey: "titleTextColor")
         secondAction.setValue(UIColor.white, forKey: "titleTextColor")
@@ -286,7 +374,7 @@ extension UIViewController {
 //        tap.cancelsTouchesInView = false
 //        view.addGestureRecognizer(tap)
 //    }
-//    
+//
 //    @objc func dismissKeyboard() {
 //        view.endEditing(true)
 //    }
@@ -302,5 +390,7 @@ extension UIViewController {
     
     
 }
+
+
 
 
