@@ -8,8 +8,8 @@
 import Foundation
 import UIKit
 
-class AddBirthInformViewController : UIViewController {
-    
+class AddBirthInformViewController : CustomProgressViewController{
+
     private let registerContainer : UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -84,6 +84,15 @@ class AddBirthInformViewController : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "gray2")
+        updateProgressBar(progress: 1/6)
+        
+        //navigationBar 바꾸는 부분
+        let backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil) // title 부분 수정
+        backBarButtonItem.tintColor = .white
+        self.navigationItem.backBarButtonItem = backBarButtonItem
+        self.navigationItem.title = "정보 입력"
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        
         self.view.addSubview(registerContainer)
         self.view.addSubview(inputContainer)
         self.registerContainer.addArrangedSubview(label1)
@@ -140,6 +149,7 @@ let charSet : CharacterSet = {
 }()
 
 
+//입력숫자제한 + 숫자 이외 입력 제한
 extension AddBirthInformViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         

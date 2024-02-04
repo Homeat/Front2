@@ -10,7 +10,7 @@
 import Foundation
 import UIKit
 
-class LoginViewController : UIViewController {
+class LoginViewController : UIViewController, UITextFieldDelegate {
     
     
     
@@ -84,7 +84,7 @@ class LoginViewController : UIViewController {
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = UIColor(named: "gray2")
         button.titleLabel?.font = UIFont.systemFont(ofSize: 13)
-
+        button.addTarget(self, action: #selector(tapRegisterButton), for: .touchUpInside)
         return button
     }()
     
@@ -95,23 +95,9 @@ class LoginViewController : UIViewController {
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = UIColor(named: "gray2")
         button.titleLabel?.font = UIFont.systemFont(ofSize: 13)
-
+        button.addTarget(self, action: #selector(tapFindPwButton), for: .touchUpInside)
         return button
     }()
-    
-    //    private let loginButton : UIButton = {
-    //        let button = UIButton()
-    //        button.translatesAutoresizingMaskIntoConstraints = false
-    //        button.setTitle("로그인", for: .normal)
-    //        button.setTitleColor(.black, for: .normal)
-    //        button.backgroundColor = UIColor(named: "searchfont")
-    //        button.layer.cornerRadius = 10
-    //        button.clipsToBounds = true
-    //        button.heightAnchor.constraint(equalToConstant: 57).isActive = true
-    //
-    //
-    //        return button
-    //    }()
     
     private lazy var loginButton : UIButton = {
             var config = UIButton.Configuration.plain()
@@ -123,19 +109,19 @@ class LoginViewController : UIViewController {
             let buttonAction = UIAction{ _ in
                 
                 let newRootViewController = MainTabBarController()
-
-                    // 애니메이션을 설정합니다.
-                    let transition = CATransition()
-                    transition.duration = 0.3
-                    transition.type = CATransitionType.push
-                    transition.subtype = CATransitionSubtype.fromRight
-                    transition.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
-
-                    // 애니메이션을 적용하고 루트 뷰 컨트롤러를 변경합니다.
-                    if let window = UIApplication.shared.keyWindow {
-                        window.layer.add(transition, forKey: kCATransition)
-                        window.rootViewController = newRootViewController
-                    }
+                
+                // 애니메이션을 설정합니다.
+                let transition = CATransition()
+                transition.duration = 0.3
+                transition.type = CATransitionType.push
+                transition.subtype = CATransitionSubtype.fromRight
+                transition.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
+                
+                // 애니메이션을 적용하고 루트 뷰 컨트롤러를 변경합니다.
+                if let window = UIApplication.shared.keyWindow {
+                    window.layer.add(transition, forKey: kCATransition)
+                    window.rootViewController = newRootViewController
+                }
             }
         
             let button = UIButton(configuration: config, primaryAction: buttonAction)
@@ -143,6 +129,22 @@ class LoginViewController : UIViewController {
 
             return button
         }()
+    
+    private let emailTextField : UITextField = {
+        let emailTextField = makeTextField()
+        emailTextField.clearButtonMode = .whileEditing
+        emailTextField.attributedPlaceholder = NSAttributedString(string: "이메일을 입력", attributes: [NSAttributedString.Key.foregroundColor: UIColor(named: "searchfont") ?? .white])
+        return emailTextField
+        
+    }()
+    
+    private let pwTextField : UITextField = {
+        let pwTextField = makeTextField()
+        pwTextField.clearButtonMode = .whileEditing
+        pwTextField.attributedPlaceholder = NSAttributedString(string: "비밀번호 입력", attributes: [NSAttributedString.Key.foregroundColor: UIColor(named: "searchfont") ?? .white])
+        return pwTextField
+        
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -152,10 +154,7 @@ class LoginViewController : UIViewController {
         self.view.addSubview(loginContainer)
         self.view.addSubview(Container)
         
-        let emailTextField = makeTextField()
-        emailTextField.attributedPlaceholder = NSAttributedString(string: "이메일을 입력", attributes: [NSAttributedString.Key.foregroundColor: UIColor(named: "searchfont") ?? .white])
-        let pwTextField = makeTextField()
-        pwTextField.attributedPlaceholder = NSAttributedString(string: "비밀번호 입력", attributes: [NSAttributedString.Key.foregroundColor: UIColor(named: "searchfont") ?? .white])
+
         self.loginContainer.addArrangedSubview(tagLabel1)
         self.loginContainer.addArrangedSubview(emailTextField)
         self.loginContainer.addArrangedSubview(tagLabel2)
@@ -171,8 +170,9 @@ class LoginViewController : UIViewController {
         self.Container.addArrangedSubview(findPwButton)
         
         
-        
-        
+        //return 입력시 키보드 사라지게 하기 위한 delegate 위임
+        emailTextField.delegate = self
+        pwTextField.delegate = self
         
         
         
@@ -194,6 +194,27 @@ class LoginViewController : UIViewController {
             self.Container.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -281)
             
         ])
+    }
+    
+    //키보드 관련 func
+    
+    //화면 터치해서 키패드 내리기
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
+             self.view.endEditing(true)
+             }
+    
+    //done버튼 클릭해서 키패드 내리기
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool{
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    @objc func tapRegisterButton(_ sender: Any) {
+        self.navigationController?.pushViewController(RegisterViewController(), animated: true)
+    }
+    
+    @objc func tapFindPwButton(_ sender: Any) {
+        self.navigationController?.pushViewController(FindPwViewController(), animated: true)
     }
 }
 

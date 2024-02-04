@@ -47,6 +47,11 @@ class RegisterDoneViewController : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "gray2")
+        
+        let backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil) // title 부분 수정
+        backBarButtonItem.tintColor = .white
+        self.navigationItem.backBarButtonItem = backBarButtonItem
+        
         self.view.addSubview(registerContainer)
         self.registerContainer.addArrangedSubview(label1)
         self.registerContainer.addArrangedSubview(label2)

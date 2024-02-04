@@ -11,7 +11,32 @@
 import Foundation
 import UIKit
 
-class AddLocationInfromViewController : UIViewController, UITextFieldDelegate {
+class AddLocationInfromViewController : CustomProgressViewController, UITextFieldDelegate {
+    
+    private let SearchView =  UIView().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.backgroundColor = UIColor(named: "gray4")
+        if let borderColor = UIColor(named: "gray2")?.cgColor {
+            $0.layer.borderColor = borderColor
+        }
+        $0.layer.borderWidth = 1
+        $0.layer.cornerRadius = 10
+        $0.layer.masksToBounds = true
+    }
+    // 텍스트 필드
+    private let searchTextField : UITextField = {
+        let TextField = makeTextField()
+        TextField.attributedPlaceholder = NSAttributedString(string: "도로명, 지번, 건물명 검색", attributes: [NSAttributedString.Key.foregroundColor: UIColor(named: "searchfont") ?? UIColor(named: "searhfont") ?? .white])
+        return TextField
+        
+    }()
+    // 검색 이미지
+    private let searchImageView = UIImageView().then {
+        $0.image = UIImage(named: "Login1")
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.contentMode = .scaleAspectFit
+       
+    }
     
     private let registerContainer : UIStackView = {
         let stackView = UIStackView()
@@ -79,6 +104,7 @@ class AddLocationInfromViewController : UIViewController, UITextFieldDelegate {
         return currentLocationButton
     }()
     
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
              self.view.endEditing(true)
              }
@@ -93,14 +119,25 @@ class AddLocationInfromViewController : UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         let _ = currentLocationButton
         self.view.backgroundColor = UIColor(named: "gray2")
+        updateProgressBar(progress: 3/6)
+        searchTextField.delegate = self
+        
+        //navigationBar 바꾸는 부분
+        let backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil) // title 부분 수정
+        backBarButtonItem.tintColor = .white
+        self.navigationItem.backBarButtonItem = backBarButtonItem
+        self.navigationItem.title = "정보 입력"
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+    
+        
+        self.SearchView.addSubview(searchTextField)
+        self.SearchView.addSubview(searchImageView)
+        
         self.view.addSubview(registerContainer)
         self.registerContainer.addArrangedSubview(label1)
         self.registerContainer.addArrangedSubview(label2)
         self.registerContainer.addArrangedSubview(label3)
-        let locationTextField = makeTextField()
-        locationTextField.attributedPlaceholder = NSAttributedString(string: "도로명, 지번, 건물명 검색", attributes: [NSAttributedString.Key.foregroundColor: UIColor(named: "searchfont") ?? .white])
-        locationTextField.delegate = self
-        self.registerContainer.addArrangedSubview(locationTextField)
+        self.registerContainer.addArrangedSubview(SearchView)
 //        locationTextField.inputAccessoryView = searchButton
         
         
@@ -117,8 +154,21 @@ class AddLocationInfromViewController : UIViewController, UITextFieldDelegate {
 //        locationTextField.addSubview(searchButton)
         
         NSLayoutConstraint.activate([
+            self.SearchView.heightAnchor.constraint(equalToConstant: 57),
             
-            self.registerContainer.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 178),
+            searchTextField.leadingAnchor.constraint(equalTo: SearchView.leadingAnchor, constant: 0),
+            searchTextField.centerYAnchor.constraint(equalTo: SearchView.centerYAnchor),
+            searchTextField.trailingAnchor.constraint(equalTo: searchImageView.leadingAnchor, constant: 0),
+
+            searchImageView.trailingAnchor.constraint(equalTo: SearchView.trailingAnchor, constant: -23),
+            searchImageView.centerYAnchor.constraint(equalTo: SearchView.centerYAnchor),
+            searchImageView.widthAnchor.constraint(equalToConstant: 15), // Adjust the width as needed
+            searchImageView.heightAnchor.constraint(equalToConstant: 15) // Adjust the height as needed
+        ])
+        
+        NSLayoutConstraint.activate([
+            
+            self.registerContainer.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 91),
             self.registerContainer.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20),
             self.registerContainer.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20),
             self.registerContainer.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -76),

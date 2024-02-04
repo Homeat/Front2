@@ -14,7 +14,7 @@ class TermsOfUseViewController: UIViewController {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.distribution = .fill
-        stackView.spacing = 29
+        stackView.spacing = 5
         stackView.axis = .vertical
         stackView.alignment = .fill
         return stackView
@@ -123,7 +123,7 @@ class TermsOfUseViewController: UIViewController {
             mainContainer.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 127),
             mainContainer.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 26),
             mainContainer.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -98),
-            mainContainer.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -400),
+//            mainContainer.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -400),
             
             continueButton.topAnchor.constraint(equalTo: self.mainContainer.bottomAnchor, constant: 267),
             continueButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20),

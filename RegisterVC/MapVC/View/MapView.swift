@@ -25,7 +25,6 @@ class MapView: UIView{
         self.addSubview(map)
         self.addSubview(myLocationButton)
         self.addSubview(sesacLocationButton)
-        configure()
         makeConstraints()
         
         
@@ -35,20 +34,6 @@ class MapView: UIView{
         fatalError()
     }
     
-    func configure() {
-        myLocationButton.setTitle("내 위치로 가기", for: .normal)
-        myLocationButton.backgroundColor = .darkGray
-        myLocationButton.setTitleColor(.yellow, for: .normal)
-        myLocationButton.layer.cornerRadius = 12
-        
-        sesacLocationButton.setTitle("새싹 캠퍼스 가기", for: .normal)
-        sesacLocationButton.backgroundColor = .darkGray
-        sesacLocationButton.setTitleColor(.yellow, for: .normal)
-        sesacLocationButton.layer.cornerRadius = 12
-        
-//        myLocationButton.addTarget(self, action: #selector(findMyLocation), for: .touchUpInside)
-//        sesacLocationButton.addTarget(self, action: #selector(findSesacLocation), for: .touchUpInside)
-    }
     
     func makeConstraints() {
         map.snp.makeConstraints { make in
@@ -56,16 +41,6 @@ class MapView: UIView{
             
         }
         
-        myLocationButton.snp.makeConstraints { make in
-            make.leading.trailing.bottom.equalTo(self.safeAreaLayoutGuide).inset(20)
-            make.height.equalTo(50)
-        }
-        
-        sesacLocationButton.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview().inset(20)
-            make.bottom.equalTo(myLocationButton.snp.top).offset(-20)
-            make.height.equalTo(50)
-        }
     }
     
     
