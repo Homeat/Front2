@@ -166,10 +166,50 @@ class RegisterViewController : UIViewController ,UITextFieldDelegate{
         return button
     }()
     
+    private lazy var continueButton : UIButton = {
+        var config = UIButton.Configuration.plain()
+        var attributedTitle = AttributedString("계속하기")
+        attributedTitle.font = .systemFont(ofSize: 18, weight: .medium)
+        config.attributedTitle = attributedTitle
+        config.background.backgroundColor = UIColor(named: "searchfont")
+        config.baseForegroundColor = .black
+        config.cornerStyle = .small
+
+        let buttonAction = UIAction{ _ in
+            
+            guard let email = self.emailTextField.text, let password = self.pwTextField.text, let nickname = self.nickNameTextField.text else {
+                // title 또는 content가 nil이라면 에러 처리 또는 사용자에게 알림
+                
+                
+                
+                return
+            }
+            
+//            MemberAPI.saveMemberInfo(email: email, password: password, nickname: nickname) { result in
+//                switch result {
+//                case .success:
+//                    print("API 호출 성공")
+//                    // 성공 시 처리할 내용 추가
+//                case .failure(let error):
+//                    print("API 호출 실패: \(error.localizedDescription)")
+//                    // 실패 시 처리할 내용 추가
+//                }
+//            }
+            
+            self.navigationController?.pushViewController(RegisterDoneViewController(), animated: true)
+            
+        }
+        let customButton = UIButton(configuration: config, primaryAction: buttonAction)
+        customButton.heightAnchor.constraint(equalToConstant: 57).isActive = true
+        
+        return customButton
+    }()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "gray2")
+        let _ = continueButton
         
         //navigationBar 바꾸는 부분
         let backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil) // title 부분 수정
@@ -184,8 +224,6 @@ class RegisterViewController : UIViewController ,UITextFieldDelegate{
         
         self.view.addSubview(registerContainer)
         self.view.addSubview(emailContainer)
-        let continueButton = makeCustomButton(viewController: self, nextVC: RegisterDoneViewController())
-        continueButton.configuration?.background.backgroundColor = UIColor(named: "searchfont")
         
         //return 입력시 키보드 사라지게 하기 위한 delegate 위임
         emailTextField.delegate = self

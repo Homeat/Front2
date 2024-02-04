@@ -153,12 +153,29 @@ let charSet : CharacterSet = {
 extension AddBirthInformViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
+        //백스페이스 처리
+        if string.isEmpty {
+            return true
+        }
+        
         if string.count > 0 {
             guard string.rangeOfCharacter(from: charSet) == nil else {
                 return false
             }
         
+        }
+        if textField == yearTextField {
             guard textField.text!.count < 4 else { return false }
+        }
+        
+        // monthTextField에 대한 처리
+        if textField == monthTextField {
+            guard textField.text!.count < 2 else { return false }
+        }
+        
+        // dayTextField에 대한 처리
+        if textField == dayTextField {
+            guard textField.text!.count < 2 else { return false }
         }
         
         return true
