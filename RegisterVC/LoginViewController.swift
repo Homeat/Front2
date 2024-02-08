@@ -142,6 +142,7 @@ class LoginViewController : UIViewController, UITextFieldDelegate {
         let pwTextField = makeTextField()
         pwTextField.clearButtonMode = .whileEditing
         pwTextField.attributedPlaceholder = NSAttributedString(string: "비밀번호 입력", attributes: [NSAttributedString.Key.foregroundColor: UIColor(named: "searchfont") ?? .white])
+        pwTextField.isSecureTextEntry = true
         return pwTextField
         
     }()
