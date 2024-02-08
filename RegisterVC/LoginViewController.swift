@@ -214,17 +214,17 @@ class LoginViewController : UIViewController, UITextFieldDelegate {
             self.homeatLogo.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 117),
             self.homeatLogo.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -118),
             self.homeatLogo.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 211),
-            self.homeatLogo.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -615),
+//            self.homeatLogo.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -615),
             
-            self.loginContainer.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 291),
+            self.loginContainer.topAnchor.constraint(equalTo: homeatLogo.bottomAnchor, constant: 55),
             self.loginContainer.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20),
             self.loginContainer.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20),
-            self.loginContainer.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -76),
+//            self.loginContainer.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -76),
             
-            self.Container.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 552),
-            self.Container.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 126),
-            self.Container.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -126),
-            self.Container.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -281)
+            self.Container.topAnchor.constraint(equalTo: self.loginContainer.topAnchor, constant: 261),
+            self.Container.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 120),
+            self.Container.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -120),
+//            self.Container.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -281)
             
         ])
     }

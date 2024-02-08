@@ -177,7 +177,7 @@ class SearchLocationViewController : UIViewController, UITextFieldDelegate {
             self.SearchView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             self.SearchView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 21),
             self.SearchView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,constant: -21),
-            self.SearchView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -677),
+//            self.SearchView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -677),
             
             searchTextField.leadingAnchor.constraint(equalTo: SearchView.leadingAnchor, constant: 0),
             searchTextField.centerYAnchor.constraint(equalTo: SearchView.centerYAnchor),

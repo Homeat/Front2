@@ -185,16 +185,16 @@ class RegisterViewController : UIViewController ,UITextFieldDelegate{
                 return
             }
             
-            MemberAPI.saveMemberInfo(email: email, password: password, nickname: nickname) { result in
-                switch result {
-                case .success:
-                    print("API 호출 성공")
-                    // 성공 시 처리할 내용 추가
-                case .failure(let error):
-                    print("API 호출 실패: \(error.localizedDescription)")
-                    // 실패 시 처리할 내용 추가
-                }
-            }
+//            MemberAPI.saveMemberInfo(email: email, password: password, nickname: nickname) { result in
+//                switch result {
+//                case .success:
+//                    print("API 호출 성공")
+//                    // 성공 시 처리할 내용 추가
+//                case .failure(let error):
+//                    print("API 호출 실패: \(error.localizedDescription)")
+//                    // 실패 시 처리할 내용 추가
+//                }
+//            }
             
             self.navigationController?.pushViewController(RegisterDoneViewController(), animated: true)
             
@@ -278,7 +278,6 @@ class RegisterViewController : UIViewController ,UITextFieldDelegate{
             self.registerContainer.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 127),
             self.registerContainer.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20),
             self.registerContainer.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20),
-            self.registerContainer.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -76)
             
         ])
         

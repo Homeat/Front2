@@ -197,17 +197,19 @@ class AddSexViewController : CustomProgressViewController {
         self.registerContainer.addArrangedSubview(continueButton)
 //        registerContainer.setCustomSpacing(279, after: selectContainer)
         
+        femaleButton.heightAnchor.constraint(equalToConstant: 96).isActive = true
+        maleButton.heightAnchor.constraint(equalToConstant: 96).isActive = true
         NSLayoutConstraint.activate([
             
             self.registerContainer.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 178),
             self.registerContainer.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20),
             self.registerContainer.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20),
-            self.registerContainer.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -76),
+//            self.registerContainer.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -76),
             
-            self.selectContainer.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 344),
+            self.selectContainer.topAnchor.constraint(equalTo: registerContainer.topAnchor, constant: 166),
             self.selectContainer.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20),
             self.selectContainer.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20),
-            self.selectContainer.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -412),
+//            self.selectContainer.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -412),
         ])
     }
     

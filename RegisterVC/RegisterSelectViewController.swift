@@ -94,16 +94,6 @@ class RegisterSelectViewController : UIViewController {
         return label
     }()
     
-    private let tagLabel2 : UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "가입하기를 누르면 이용약관 동의로 간주합니다."
-        label.font = UIFont.systemFont(ofSize: 13, weight: .medium)
-        label.backgroundColor = UIColor(named: "gray2")
-        label.textColor = .white
-        label.textAlignment = .center
-        return label
-    }()
     
     private lazy var policyButton : UIButton = {
         var config = UIButton.Configuration.plain()
@@ -132,7 +122,6 @@ class RegisterSelectViewController : UIViewController {
         
         self.view.backgroundColor = UIColor(named: "gray2")
         self.view.addSubview(registerContainer)
-        
         let registerButton = makeCustomButton(viewController: self ,nextVC: RegisterViewController() )
         registerButton.setTitle("가입하기", for: .normal)
         registerButton.configuration?.background.backgroundColor = UIColor(named: "green")
@@ -148,10 +137,10 @@ class RegisterSelectViewController : UIViewController {
         self.policyContainer.addArrangedSubview(policyButton)
         self.policyContainer.addArrangedSubview(label2)
         
-        self.registerContainer.addArrangedSubview(tagLabel1)
         self.registerContainer.addArrangedSubview(registerButton)
         self.registerContainer.addArrangedSubview(existButton)
         
+        self.view.addSubview(tagLabel1)
         self.view.addSubview(policyContainer)
         self.view.addSubview(homeatLogo)
         self.view.addSubview(label3)
@@ -166,29 +155,30 @@ class RegisterSelectViewController : UIViewController {
         
         
         NSLayoutConstraint.activate([
-            self.registerContainer.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 281),
-            self.registerContainer.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -76),
-            self.registerContainer.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20),
-            self.registerContainer.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20),
+            tagLabel1.topAnchor.constraint(equalTo: view.topAnchor, constant: 281),
+            tagLabel1.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+//            tagLabel1.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -500),
+           
+            homeatLogo.topAnchor.constraint(equalTo: tagLabel1.bottomAnchor, constant: 31),
+            homeatLogo.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 102),
+            homeatLogo.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -133),
             
-            self.policyContainer.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 601),
-            self.policyContainer.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 69),
-            self.policyContainer.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -69),
-            self.policyContainer.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -232),
+            label3.topAnchor.constraint(equalTo: tagLabel1.bottomAnchor, constant: 27),
+            label3.leadingAnchor.constraint(equalTo: homeatLogo.trailingAnchor, constant: 5),
+            label3.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -102),
             
-            self.homeatLogo.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 338),
-            self.homeatLogo.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 102),
-            self.homeatLogo.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -133),
-            self.homeatLogo.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -487),
+            label4.topAnchor.constraint(equalTo: homeatLogo.bottomAnchor, constant: 12.1),
+            label4.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
-            self.label3.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 334),
-            self.label3.leadingAnchor.constraint(equalTo: self.homeatLogo.trailingAnchor, constant: 5),
-            self.label3.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -102),
-            self.label3.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -484),
+            policyContainer.topAnchor.constraint(equalTo: label4.bottomAnchor, constant: 190),
+            policyContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 60),
+            policyContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -60),
             
-            self.label4.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 377),
-            self.label4.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            self.label4.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -441),
+            registerContainer.topAnchor.constraint(equalTo: policyContainer.bottomAnchor, constant: 17),
+            registerContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            registerContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+//            registerContainer.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -76)
+            
         ])
     }
     
