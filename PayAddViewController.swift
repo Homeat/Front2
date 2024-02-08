@@ -274,30 +274,30 @@ class PayAddViewController : UIViewController, UITextFieldDelegate, UIImagePicke
         let customButton = makeCustomButton()
         customButton.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(customButton)
+        customButton.heightAnchor.constraint(equalToConstant: 176).isActive = true
+        customButton.widthAnchor.constraint(equalToConstant: 176).isActive = true
+        hashContainer.heightAnchor.constraint(equalToConstant: 40).isActive = true
 //MARK: - 제약설정
         NSLayoutConstraint.activate([
+            
+            customButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 150),
+            customButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+//            customButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -526),
+            
+            self.priceLabel.topAnchor.constraint(equalTo: customButton.bottomAnchor, constant: 29),
+            self.priceLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            
             self.hashContainer.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 37),
             self.hashContainer.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -37),
-            self.hashContainer.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 426),
-            self.hashContainer.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -386),
+            self.hashContainer.topAnchor.constraint(equalTo: priceLabel.bottomAnchor, constant: 37),
             
-            self.postLabel.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 491),
+            self.postLabel.topAnchor.constraint(equalTo: hashContainer.bottomAnchor, constant: 25),
             self.postLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20),
             
             self.postTextField.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20),
             self.postTextField.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20),
-            self.postTextField.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 530),
-            self.postTextField.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -272),
-            
-            self.priceLabel.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 355),
-            self.priceLabel.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -463),
-            self.priceLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-
-            
-            customButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 150),
-            customButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 108),
-            customButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -109),
-            customButton.bottomAnchor.constraint(equalTo: self.priceLabel.topAnchor, constant: -29)
+            self.postTextField.topAnchor.constraint(equalTo: postLabel.bottomAnchor, constant: 5),
+//            self.postTextField.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -272),
             
         ])
        
