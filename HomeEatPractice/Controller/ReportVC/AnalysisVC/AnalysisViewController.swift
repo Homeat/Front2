@@ -11,6 +11,7 @@ import Charts
 import SnapKit
 
 class AnalysisViewController: UIViewController {
+    internal let barCornerRadius = CGFloat(5.0)
     //스크롤 뷰
     private let scrollView = UIScrollView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -23,11 +24,31 @@ class AnalysisViewController: UIViewController {
         
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
+    
     //바 차트
     private let barChartView = BarChartView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
             
     }
+    
+    //원형 뷰
+    private let percentageCircleView = UIView().then {
+        $0.backgroundColor = .white
+        $0.layer.cornerRadius = 10
+        $0.clipsToBounds = true
+        $0.translatesAutoresizingMaskIntoConstraints = false
+       
+    }
+    
+    //원형 뷰
+    private let percentageCircleView2 = UIView().then {
+        $0.backgroundColor = .white
+        $0.layer.cornerRadius = 12
+        $0.clipsToBounds = true
+        $0.translatesAutoresizingMaskIntoConstraints = false
+       
+    }
+    
     //외식/배달 icon
     private let deliveryIcon = UIImageView().then {
         $0.image = UIImage(named: "Statistics5")
@@ -70,6 +91,7 @@ class AnalysisViewController: UIViewController {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.backgroundColor = UIColor(named: "searchtf")
     }
+    //전 년/ 월
     private let BackIcon = UIImageView().then {
         $0.image = UIImage(named: "Statistics7")
         $0.contentMode = .scaleAspectFit
@@ -83,6 +105,7 @@ class AnalysisViewController: UIViewController {
         $0.font = UIFont.boldSystemFont(ofSize: 18)
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
+    //그 다음 년 /월
     private let NextIcon = UIImageView().then {
         $0.image = UIImage(named: "Statistics6")
         $0.contentMode = .scaleAspectFit
@@ -134,6 +157,11 @@ class AnalysisViewController: UIViewController {
         MonthView.addSubview(pieChartView)
         MonthView.addSubview(barChartView)
         //weakview
+        
+//        MonthView.addSubview(mealIcon)
+//        MonthView.addSubview(deliveryIcon)
+        MonthView.addSubview(percentageCircleView)
+        MonthView.addSubview(percentageCircleView2)
         contentView.addSubview(weakView)
     }
     func configUI() {
@@ -199,10 +227,23 @@ class AnalysisViewController: UIViewController {
             NextIcon.leadingAnchor.constraint(equalTo: YearMonthLabel.trailingAnchor,constant: 11),
             
         ])
+        
         NSLayoutConstraint.activate([
             label.heightAnchor.constraint(equalToConstant: 30),
             label.topAnchor.constraint(equalTo: YearMonthLabel.bottomAnchor, constant: 54),
             label.centerXAnchor.constraint(equalTo: MonthView.centerXAnchor)
+        ])
+        NSLayoutConstraint.activate([
+            percentageCircleView.heightAnchor.constraint(equalToConstant: 22),
+            percentageCircleView.widthAnchor.constraint(equalToConstant: 22),
+            percentageCircleView.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 73),
+            percentageCircleView.leadingAnchor.constraint(equalTo: MonthView.leadingAnchor,constant: 62)
+        ])
+        NSLayoutConstraint.activate([
+            percentageCircleView2.heightAnchor.constraint(equalToConstant: 24),
+            percentageCircleView2.widthAnchor.constraint(equalToConstant: 24),
+            percentageCircleView2.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 85),
+            percentageCircleView2.leadingAnchor.constraint(equalTo: MonthView.leadingAnchor,constant: 123)
         ])
         NSLayoutConstraint.activate([
             pieChartView.topAnchor.constraint(equalTo: label.bottomAnchor,constant: 24),
@@ -215,12 +256,26 @@ class AnalysisViewController: UIViewController {
             barChartView.trailingAnchor.constraint(equalTo: MonthView.trailingAnchor, constant: -45.7),
             barChartView.bottomAnchor.constraint(equalTo: MonthView.bottomAnchor,constant: -62) // 적절
         ])
+//        NSLayoutConstraint.activate([
+//            mealIcon.heightAnchor.constraint(equalToConstant: 17.6),
+//            mealIcon.widthAnchor.constraint(equalToConstant: 19.1),
+//            mealIcon.topAnchor.constraint(equalTo: label.bottomAnchor),
+//            mealIcon.leadingAnchor.constraint(equalTo: pieChartView.trailingAnchor,constant: 46.4),
+//
+//        ])
+//        NSLayoutConstraint.activate([
+//            deliveryIcon.heightAnchor.constraint(equalToConstant: 17.6),
+//            deliveryIcon.widthAnchor.constraint(equalToConstant: 19.1),
+//            deliveryIcon.topAnchor.constraint(equalTo: label.bottomAnchor),
+//            deliveryIcon.leadingAnchor.constraint(equalTo: pieChartView.trailingAnchor,constant: 91.7),
+//        ])
         NSLayoutConstraint.activate([
             weakView.heightAnchor.constraint(equalToConstant: 345),
             weakView.topAnchor.constraint(equalTo: MonthView.bottomAnchor, constant: 95),
             weakView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 19),
             weakView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -18),
         ])
+        
         
     }
     func setupPieChart() {
@@ -231,13 +286,17 @@ class AnalysisViewController: UIViewController {
 
         let dataSet = PieChartDataSet(entries: entries)
         
+
         if let customGreenColor = UIColor(named: "font6"),
            let otherColor = UIColor(named: "green") {
             let nsCustomGreenColor = NSUIColor(cgColor: customGreenColor.cgColor)
             let nsOtherColor = NSUIColor(cgColor: otherColor.cgColor)
             dataSet.colors = [nsCustomGreenColor, nsOtherColor]
         }
-
+        dataSet.valueTextColor = .white // 레이블 텍스트 색상 설정
+        dataSet.valueFont = UIFont.systemFont(ofSize: 12.0) // 레이블 텍스트 폰트 설정
+        dataSet.valueLineColor = .black // 레이블 텍스트의 라인 색상 설정
+        dataSet.valueLinePart1OffsetPercentage = 0.8
         dataSet.drawValuesEnabled = false
         dataSet.drawIconsEnabled = false
 
@@ -247,61 +306,53 @@ class AnalysisViewController: UIViewController {
 
         pieChartView.data = data
         pieChartView.legend.enabled = false
-        
-        
-        
 
     }
     func setupBarChart() {
-        var names = ["집밥","배달/외식"]
-        // BarChart에 표시할 데이터 설정
-        var barEntries = [BarChartDataEntry]()
         
+        var names = ["집밥", "배달/외식"]
+        var barEntries = [BarChartDataEntry]()
         barEntries.append(BarChartDataEntry(x: 0, y: 50))
         barEntries.append(BarChartDataEntry(x: 1, y: 75))
-        // 필요에 따라 데이터 추가
 
-        // BarChartDataSet 설정
-        
         let barDataSet = BarChartDataSet(entries: barEntries)
-        // 막대 색상 설정
         if let customGreenColor = UIColor(named: "green"),
            let otherColor = UIColor(named: "font6") {
             let nsCustomGreenColor = NSUIColor(cgColor: customGreenColor.cgColor)
             let nsOtherColor = NSUIColor(cgColor: otherColor.cgColor)
             barDataSet.colors = [nsCustomGreenColor, nsOtherColor]
         }
-       
-        barChartView.drawGridBackgroundEnabled = false // 격자 선 제거
-        // BarChartData 설정
+
+        barChartView.drawGridBackgroundEnabled = false
         let barData = BarChartData(dataSet: barDataSet)
-        // BarChart에 대한 추가 설정
-        //barDataSet.barWidth = 0.5 // 예시로 0.5로 설정
-        // X축의 격자선 설정
+
+        // 바 차트 아래에 레이블 추가
+        barChartView.xAxis.valueFormatter = IndexAxisValueFormatter(values: names)
+        barChartView.xAxis.labelPosition = .bottom
+        barChartView.xAxis.labelTextColor = .white
         let xAxis = barChartView.xAxis
-        xAxis.drawGridLinesEnabled = false // 수평 격자 선 제거
-        xAxis.drawLabelsEnabled = false
+        xAxis.drawGridLinesEnabled = false
+        xAxis.drawLabelsEnabled = true // 레이블 표시를 가능하게 설정
         xAxis.drawAxisLineEnabled = false
         
         barChartView.leftAxis.gridColor = UIColor.clear
         barChartView.rightAxis.gridColor = UIColor.clear
-        //barchart animation
-        //barChartView.animate(xAxisDuration: 2.0, yAxisDuration: 2.0)
-        //barChartView.animate(xAxisDuration: 2.0, yAxisDuration: 2.0, easingOption: .easeInBounce)
+
         let leftYAxis = barChartView.leftYAxisRenderer
-        
         let rightYAxis = barChartView.rightAxis
-        
         rightYAxis.drawGridLinesEnabled = false
-        
+
         barDataSet.drawValuesEnabled = false
         barDataSet.drawIconsEnabled = false
-        // BarChart에 데이터 설정
-        // 수치 텍스트 제거
+
         barChartView.data = barData
         barChartView.notifyDataSetChanged()
         barChartView.legend.enabled = false
+        // 바 차트의 모서리를 둥글게 만듭니다.
+        barChartView.layer.cornerRadius = barCornerRadius // 적절한 값을 선택하여 적용합니다.
+        barChartView.layer.masksToBounds = true
     }
+
     
 }
 extension NSMutableAttributedString {
