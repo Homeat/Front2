@@ -28,6 +28,7 @@
 		58279A702B7638A1009DCE96 /* MemberData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58279A6F2B7638A1009DCE96 /* MemberData.swift */; };
 		58279A722B779621009DCE96 /* InfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58279A712B779621009DCE96 /* InfoModel.swift */; };
 		58279A742B779657009DCE96 /* InfoPicture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58279A732B779657009DCE96 /* InfoPicture.swift */; };
+		58279A762B790C52009DCE96 /* RecipeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58279A752B790C52009DCE96 /* RecipeTableViewCell.swift */; };
 		582A98A12B636EA0008F30CA /* cameraIcon.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 582A98A02B636EA0008F30CA /* cameraIcon.pdf */; };
 		582A98A52B636F2F008F30CA /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582A98A42B636F2F008F30CA /* SceneDelegate.swift */; };
 		582A98C72B653C61008F30CA /* PasswordEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582A98C62B653C61008F30CA /* PasswordEditViewController.swift */; };
@@ -111,6 +112,7 @@
 		58279A6F2B7638A1009DCE96 /* MemberData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberData.swift; sourceTree = "<group>"; };
 		58279A712B779621009DCE96 /* InfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoModel.swift; sourceTree = "<group>"; };
 		58279A732B779657009DCE96 /* InfoPicture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoPicture.swift; sourceTree = "<group>"; };
+		58279A752B790C52009DCE96 /* RecipeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeTableViewCell.swift; sourceTree = "<group>"; };
 		582A98A02B636EA0008F30CA /* cameraIcon.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = cameraIcon.pdf; sourceTree = "<group>"; };
 		582A98A42B636F2F008F30CA /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		582A98C62B653C61008F30CA /* PasswordEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordEditViewController.swift; sourceTree = "<group>"; };
@@ -485,6 +487,7 @@
 			isa = PBXGroup;
 			children = (
 				58A40D942B5FAC1B0053E302 /* MealViewCell.swift */,
+				58279A752B790C52009DCE96 /* RecipeTableViewCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -693,6 +696,7 @@
 				582A99362B6F31C0008F30CA /* LoginViewController.swift in Sources */,
 				582A99282B6F31C0008F30CA /* BankCertifyViewController.swift in Sources */,
 				58A40D792B5805520053E302 /* UIColor + Extension.swift in Sources */,
+				58279A762B790C52009DCE96 /* RecipeTableViewCell.swift in Sources */,
 				582A98CE2B678AD5008F30CA /* PhotoCollectionViewCell.swift in Sources */,
 				4060C4192B74B2EA0012F06D /* RecipeViewController.swift in Sources */,
 				58279A742B779657009DCE96 /* InfoPicture.swift in Sources */,

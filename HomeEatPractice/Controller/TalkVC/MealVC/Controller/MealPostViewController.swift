@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MealPostViewController: UIViewController {
+class MealPostViewController: UIViewController, UIScrollViewDelegate {
     
     // MARK: - 프로퍼티 생성
     lazy var profileView: UIView = {
@@ -95,6 +95,48 @@ class MealPostViewController: UIViewController {
         return label
     }()
     
+    //MARK: - 업로드한 사진이 올라가는 스크롤뷰
+    lazy var scrollView: UIScrollView = {
+        let view = UIScrollView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.showsHorizontalScrollIndicator = false
+        view.isPagingEnabled = true
+        return view
+    }()
+    
+    lazy var pageControl: UIPageControl = {
+        let control = UIPageControl()
+        control.translatesAutoresizingMaskIntoConstraints = false
+        return control
+    }()
+    
+    var images = [UIImage(named: "example1"), UIImage(named: "example1"), UIImage(named: "example1")]
+      var imageViews = [UIImageView]()
+    
+    private func addContentScrollView() {
+    for i in 0..<images.count {
+    let imageView = UIImageView()
+    let xPos = scrollView.frame.width * CGFloat(i)
+        imageView.frame = CGRect(x: xPos, y: 0, width: scrollView.bounds.width, height: scrollView.bounds.height)
+        imageView.image = images[i]
+        scrollView.addSubview(imageView)
+        scrollView.contentSize.width = imageView.frame.width * CGFloat(i + 1)
+        }
+    }
+    
+    private func setPageControl() {
+            pageControl.numberOfPages = images.count
+        }
+    private func setPageControlSelectedPage(currentPage:Int) {
+            pageControl.currentPage = currentPage
+        }
+
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let value = scrollView.contentOffset.x/scrollView.frame.size.width
+        setPageControlSelectedPage(currentPage: Int(round(value)))
+    }
+    
     // MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -102,8 +144,11 @@ class MealPostViewController: UIViewController {
         self.view.backgroundColor = UIColor(r: 30, g: 32, b: 33)
         tabBarController?.tabBar.isHidden = true
         tabBarController?.tabBar.isTranslucent = true
+        scrollView.delegate = self
         addViews()
         setConstraints()
+        addContentScrollView()
+        setPageControl()
     }
     
     // MARK: - 탭바제거
@@ -134,6 +179,9 @@ class MealPostViewController: UIViewController {
         self.view.addSubview(self.hashtagCategoty)
         self.view.addSubview(self.titleLabel)
         self.view.addSubview(self.contentLabel)
+        
+        self.view.addSubview(scrollView)
+        self.view.addSubview(pageControl)
     }
     
     private func setConstraints() {
@@ -171,7 +219,13 @@ class MealPostViewController: UIViewController {
             self.contentLabel.leadingAnchor.constraint(equalTo: self.profileView.leadingAnchor),
             self.contentLabel.topAnchor.constraint(equalTo: self.titleLabel.bottomAnchor, constant: 5),
             
+            self.scrollView.topAnchor.constraint(equalTo: contentLabel.bottomAnchor, constant: 19),
+            self.scrollView.leadingAnchor.constraint(equalTo: contentLabel.leadingAnchor),
+            self.scrollView.trailingAnchor.constraint(equalTo: declareButton.trailingAnchor),
+            self.scrollView.heightAnchor.constraint(equalToConstant: 257),
             
+            pageControl.topAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: 12),
+            pageControl.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
     
@@ -187,3 +241,4 @@ class MealPostViewController: UIViewController {
         tabBarController?.tabBar.isHidden = false
     }
 }
+

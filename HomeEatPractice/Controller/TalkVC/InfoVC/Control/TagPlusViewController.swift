@@ -30,7 +30,7 @@ class TagPlusViewController: UIViewController {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         // 이미지 설정
-        let plusImage = UIImage(named: "Home3") // "plus_icon"은 사용할 이미지의 이름입니다.
+        let plusImage = UIImage(named: "Home3")
         button.setImage(plusImage, for: .normal)
         // 이미지 크기 조정
         button.imageView?.contentMode = .scaleAspectFit

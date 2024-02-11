@@ -11,6 +11,7 @@ import Charts
 import SnapKit
 
 class AnalysisViewController: UIViewController {
+    private var currentDate = Date() // 현재 날짜를 가져옴
     internal let barCornerRadius = CGFloat(5.0)
     //스크롤 뷰
     private let scrollView = UIScrollView().then {
@@ -91,11 +92,11 @@ class AnalysisViewController: UIViewController {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.backgroundColor = UIColor(named: "searchtf")
     }
-    //전 년/ 월
-    private let BackIcon = UIImageView().then {
-        $0.image = UIImage(named: "Statistics7")
+    private let BackIcon = UIButton().then {
+        $0.setImage(UIImage(named: "Statistics7"), for: .normal) // BackIcon 이미지를 버튼 이미지로 설정
         $0.contentMode = .scaleAspectFit
         $0.clipsToBounds = true
+        $0.addTarget(self, action: #selector(backIconTapped), for: .touchUpInside) // 버튼이 탭되었을 때 backIconTapped 메서드 호출
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
     private let YearMonthLabel = UILabel().then {
@@ -105,11 +106,13 @@ class AnalysisViewController: UIViewController {
         $0.font = UIFont.boldSystemFont(ofSize: 18)
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
+    
     //그 다음 년 /월
-    private let NextIcon = UIImageView().then {
-        $0.image = UIImage(named: "Statistics6")
+    private let NextIcon = UIButton().then {
+        $0.setImage(UIImage(named: "Statistics6"), for: .normal)
         $0.contentMode = .scaleAspectFit
         $0.clipsToBounds = true
+        $0.addTarget(self, action: #selector(nextIconTapped), for: .touchUpInside)
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
     lazy var label: UILabel = {
@@ -140,7 +143,7 @@ class AnalysisViewController: UIViewController {
         configUI()
         setupPieChart()
         setupBarChart()
-        
+        updateYearMonthLabel()
     }
     func addSubviews() {
         view.addSubview(scrollView)
@@ -163,6 +166,7 @@ class AnalysisViewController: UIViewController {
         MonthView.addSubview(percentageCircleView)
         MonthView.addSubview(percentageCircleView2)
         contentView.addSubview(weakView)
+        
     }
     func configUI() {
         NSLayoutConstraint.activate([
@@ -309,7 +313,6 @@ class AnalysisViewController: UIViewController {
 
     }
     func setupBarChart() {
-        
         var names = ["집밥", "배달/외식"]
         var barEntries = [BarChartDataEntry]()
         barEntries.append(BarChartDataEntry(x: 0, y: 50))
@@ -322,9 +325,12 @@ class AnalysisViewController: UIViewController {
             let nsOtherColor = NSUIColor(cgColor: otherColor.cgColor)
             barDataSet.colors = [nsCustomGreenColor, nsOtherColor]
         }
-
+        barChartView.xAxis.labelFont = UIFont.systemFont(ofSize: 12) // 레이블 폰트 크기를 축소
         barChartView.drawGridBackgroundEnabled = false
         let barData = BarChartData(dataSet: barDataSet)
+        barChartView.xAxis.labelCount = names.count // 레이블 갯수 설정
+        barChartView.xAxis.spaceMin = 0.5 // 최소 간격 설정
+        barChartView.xAxis.spaceMax = 0.5 // 최대 간격 설정
 
         // 바 차트 아래에 레이블 추가
         barChartView.xAxis.valueFormatter = IndexAxisValueFormatter(values: names)
@@ -334,13 +340,13 @@ class AnalysisViewController: UIViewController {
         xAxis.drawGridLinesEnabled = false
         xAxis.drawLabelsEnabled = true // 레이블 표시를 가능하게 설정
         xAxis.drawAxisLineEnabled = false
-        
+
+        barChartView.leftAxis.drawLabelsEnabled = false // leftYAxis 레이블 숨김
+        barChartView.leftAxis.enabled = false
+        barChartView.rightAxis.enabled = false // rightYAxis 숨김
+
         barChartView.leftAxis.gridColor = UIColor.clear
         barChartView.rightAxis.gridColor = UIColor.clear
-
-        let leftYAxis = barChartView.leftYAxisRenderer
-        let rightYAxis = barChartView.rightAxis
-        rightYAxis.drawGridLinesEnabled = false
 
         barDataSet.drawValuesEnabled = false
         barDataSet.drawIconsEnabled = false
@@ -348,10 +354,29 @@ class AnalysisViewController: UIViewController {
         barChartView.data = barData
         barChartView.notifyDataSetChanged()
         barChartView.legend.enabled = false
-        // 바 차트의 모서리를 둥글게 만듭니다.
-        barChartView.layer.cornerRadius = barCornerRadius // 적절한 값을 선택하여 적용합니다.
+
         barChartView.layer.masksToBounds = true
     }
+    // BackIcon을 눌렀을 때 호출되는 함수
+    @objc private func backIconTapped() {
+        // 현재 월을 1 감소시킴
+        currentDate = Calendar.current.date(byAdding: .month, value: -1, to: currentDate) ?? Date()
+        // YearMonthLabel 업데이트
+        updateYearMonthLabel()
+    }
+    @objc private func nextIconTapped() {
+        currentDate = Calendar.current.date(byAdding: .month, value: +1, to: currentDate) ?? Date()
+        updateYearMonthLabel()
+    }
+    // YearMonthLabel을 업데이트하는 함수
+    private func updateYearMonthLabel() {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy년 MM월"
+        let formattedDate = formatter.string(from: currentDate)
+        YearMonthLabel.text = formattedDate
+    }
+
+
 
     
 }
