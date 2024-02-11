@@ -348,33 +348,33 @@ class InfoWritingViewController: UIViewController, UICollectionViewDelegateFlowL
             
             return
         }
-        
-        GeneralAPI.saveInfoTalk(title: title, content: content, tags: selectedTags) { result in
-                   switch result {
-                   case .success(let infoTalk):
-                       print("InfoTalk 저장 성공: \(infoTalk)")
-                       print("title:\(title)")
-                       print("content\(content)")
+    //MARK: - 서버 연동
+    GeneralAPI.saveInfoTalk(title: title, content: content, tags: selectedTags) { result in
+           switch result {
+           case .success(let infoTalk):
+               print("InfoTalk 저장 성공: \(infoTalk)")
+               print("title:\(title)")
+               print("content\(content)")
 
-                       // 이미지 업로드를 수행합니다.
-                       GeneralAPI.uploadImages(infoTalkID: infoTalk.id, images: self.selectedImages) { uploadResult in
-                           switch uploadResult {
-                           case .success:
-                               print("이미지 업로드 성공")
-                               let nextVC = TalkViewController() // 이동할 뷰 컨트롤러 인스턴스 생성
-                               nextVC.navigationItem.hidesBackButton = true // 백 버튼 숨기기
-                               self.navigationController?.pushViewController(nextVC, animated: true)
-                               // 성공 시 처리할 내용 추가
-                           case .failure(let error):
-                               print("이미지 업로드 실패: \(error.localizedDescription)")
-                               // 실패 시 처리할 내용 추가
-                           }
-                       }
+               // 이미지 업로드를 수행합니다.
+               GeneralAPI.uploadImages(infoTalkID: infoTalk.id, images: self.selectedImages) { uploadResult in
+                   switch uploadResult {
+                   case .success:
+                       print("이미지 업로드 성공")
+                       let nextVC = TalkViewController() // 이동할 뷰 컨트롤러 인스턴스 생성
+                       nextVC.navigationItem.hidesBackButton = true // 백 버튼 숨기기
+                       self.navigationController?.pushViewController(nextVC, animated: true)
+                       // 성공 시 처리할 내용 추가
                    case .failure(let error):
-                       print("API 호출 실패: \(error.localizedDescription)")
+                       print("이미지 업로드 실패: \(error.localizedDescription)")
                        // 실패 시 처리할 내용 추가
                    }
-                }
+               }
+           case .failure(let error):
+               print("API 호출 실패: \(error.localizedDescription)")
+               // 실패 시 처리할 내용 추가
+           }
+        }
     }
     //MARK: - 사진과 앨범 파트
     // 버튼 액션 함수
@@ -537,7 +537,11 @@ extension InfoWritingViewController: UINavigationControllerDelegate, UIImagePick
             picker.dismiss(animated: true)
             return
         }
+        // 이미지를 selectedImages 배열에 추가
+        selectedImages.append(image)
         
+        // 이미지 뷰에 선택된 이미지 표시
+        imageView.image = image
         // 버튼을 숨기고 이미지 뷰를 표시하도록 설정
         //addImageButton.isHidden = true
         imageView.isHidden = false
