@@ -11,23 +11,21 @@ import AVFoundation
 import Photos
 import PhotosUI
 
-class RecipeTableViewCell: UITableViewCell, UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class RecipeTableViewCell: UITableViewCell, UITextViewDelegate, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     static let identifier = "RecipeTableViewCell"
     
     //MARK: - 사진추가 프로퍼티
-    private let addButton : UIButton = {
+    // 사진 추가 버튼
+    lazy var addButton: UIButton = {
         let button = UIButton()
-        let imageConfig = UIImage.SymbolConfiguration(pointSize: 50, weight: .light)
-        let image = UIImage(systemName: "camera.fill", withConfiguration: imageConfig)?.withTintColor(.white, renderingMode: .alwaysOriginal)
-        button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("사진 추가", for: .normal)
-        button.setImage(image, for: .normal)
-        button.titleLabel?.font = UIFont(name: "NotoSansKR-Medium", size: 18)
-        button.setTitleColor(UIColor.lightGray, for: .normal)
-        button.backgroundColor = UIColor(named: "searchtf")
-        button.layer.cornerRadius = 14
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = .systemBlue
+        button.layer.cornerRadius = 10
         button.clipsToBounds = true
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(addPhoto), for: .touchUpInside)
         return button
     }()
     
@@ -64,6 +62,7 @@ class RecipeTableViewCell: UITableViewCell, UITextViewDelegate, UIImagePickerCon
         textView.backgroundColor = UIColor(named: "gray4")
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 0, right: 0)
+        textView.isUserInteractionEnabled = false
         textView.delegate = self
         return textView
     }()
@@ -110,10 +109,59 @@ class RecipeTableViewCell: UITableViewCell, UITextViewDelegate, UIImagePickerCon
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setUI()
         setConstrsints()
+        recipeTextView.delegate = self
+        sourceTextField.delegate = self
+        tipTextField.delegate = self
+        setupTextFields()
+        setupTextView()
+        setupTapGestureRecognizers()
+        
     }
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    func setupTextView() {
+            recipeTextView.delegate = self
+            recipeTextView.isEditable = true
+            recipeTextView.isSelectable = true
+        }
+    
+    func setupTextFields() {
+        sourceTextField.isUserInteractionEnabled = true
+        sourceTextField.delegate = self
+        sourceTextField.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(sourceTextFieldTapped)))
+
+        tipTextField.isUserInteractionEnabled = true
+        tipTextField.delegate = self // Ensure delegate assignment
+        tipTextField.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tipTextFieldTapped)))
+        }
+    
+    // UITextFieldDelegate method
+        func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+            // You can perform any additional setup here if needed
+            return true
+        }
+
+        // UITextViewDelegate method
+        func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
+            // You can perform any additional setup here if needed
+            return true
+        }
+    
+    @objc func recipeTextViewTapped() {
+           recipeTextView.becomeFirstResponder()
+       }
+       
+    // UITapGestureRecognizer action methods
+        @objc func sourceTextFieldTapped() {
+            sourceTextField.becomeFirstResponder()
+        }
+
+        @objc func tipTextFieldTapped() {
+            tipTextField.becomeFirstResponder()
+        }
     
     func setUI() {
         addSubview(stepLabel)
@@ -160,10 +208,20 @@ class RecipeTableViewCell: UITableViewCell, UITextViewDelegate, UIImagePickerCon
             underBorderLine.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             underBorderLine.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             underBorderLine.heightAnchor.constraint(equalToConstant: 1),
+            underBorderLine.bottomAnchor.constraint(equalTo: self.bottomAnchor)
             
         ])
     }
-    
+    func setupTapGestureRecognizers() {
+            let recipeTextViewTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(recipeTextViewTapped))
+            recipeTextView.addGestureRecognizer(recipeTextViewTapGestureRecognizer)
+            
+            let sourceTextFieldTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(sourceTextFieldTapped))
+            sourceTextField.addGestureRecognizer(sourceTextFieldTapGestureRecognizer)
+            
+            let tipTextFieldTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tipTextFieldTapped))
+            tipTextField.addGestureRecognizer(tipTextFieldTapGestureRecognizer)
+        }
     // 사진 추가 액션
     @objc func addPhoto(sender: UIButton) {
         guard let viewController = self.findViewController() else {
@@ -205,8 +263,8 @@ class RecipeTableViewCell: UITableViewCell, UITextViewDelegate, UIImagePickerCon
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         // 선택한 이미지 처리
         if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-            // 선택한 이미지를 로그에 출력
-            print("Selected image: \(pickedImage)")
+            // 이미지를 사용하여 원하는 작업 수행
+            // 예를 들어, 이미지뷰에 선택한 이미지 표시 등
         }
         
         // 이미지 피커 컨트롤러 닫기
@@ -232,5 +290,9 @@ class RecipeTableViewCell: UITableViewCell, UITextViewDelegate, UIImagePickerCon
         }
         return nil
     }
+    
+
 }
+
+
 
