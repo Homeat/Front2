@@ -26,6 +26,8 @@
 		409AA34A2B46815E0096CDBB /* PayCheckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409AA3492B46815E0096CDBB /* PayCheckViewController.swift */; };
 		58279A6E2B763888009DCE96 /* MemberAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58279A6D2B763888009DCE96 /* MemberAPI.swift */; };
 		58279A702B7638A1009DCE96 /* MemberData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58279A6F2B7638A1009DCE96 /* MemberData.swift */; };
+		58279A722B779621009DCE96 /* InfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58279A712B779621009DCE96 /* InfoModel.swift */; };
+		58279A742B779657009DCE96 /* InfoPicture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58279A732B779657009DCE96 /* InfoPicture.swift */; };
 		582A98A12B636EA0008F30CA /* cameraIcon.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 582A98A02B636EA0008F30CA /* cameraIcon.pdf */; };
 		582A98A52B636F2F008F30CA /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582A98A42B636F2F008F30CA /* SceneDelegate.swift */; };
 		582A98C72B653C61008F30CA /* PasswordEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582A98C62B653C61008F30CA /* PasswordEditViewController.swift */; };
@@ -107,6 +109,8 @@
 		409AA3492B46815E0096CDBB /* PayCheckViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayCheckViewController.swift; sourceTree = "<group>"; };
 		58279A6D2B763888009DCE96 /* MemberAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberAPI.swift; sourceTree = "<group>"; };
 		58279A6F2B7638A1009DCE96 /* MemberData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberData.swift; sourceTree = "<group>"; };
+		58279A712B779621009DCE96 /* InfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoModel.swift; sourceTree = "<group>"; };
+		58279A732B779657009DCE96 /* InfoPicture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoPicture.swift; sourceTree = "<group>"; };
 		582A98A02B636EA0008F30CA /* cameraIcon.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = cameraIcon.pdf; sourceTree = "<group>"; };
 		582A98A42B636F2F008F30CA /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		582A98C62B653C61008F30CA /* PasswordEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordEditViewController.swift; sourceTree = "<group>"; };
@@ -366,6 +370,8 @@
 			children = (
 				588A092F2B4FF9A900638D16 /* MyItem.swift */,
 				582A993B2B6F8C70008F30CA /* TagItem.swift */,
+				58279A712B779621009DCE96 /* InfoModel.swift */,
+				58279A732B779657009DCE96 /* InfoPicture.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -673,6 +679,7 @@
 				58A40D952B5FAC1B0053E302 /* MealViewCell.swift in Sources */,
 				582A993A2B6F89F5008F30CA /* TagPlusCollectionViewCell.swift in Sources */,
 				409AA3482B467EFB0096CDBB /* PayAnalyzeViewController.swift in Sources */,
+				58279A722B779621009DCE96 /* InfoModel.swift in Sources */,
 				582A98CA2B66325D008F30CA /* ItemData.swift in Sources */,
 				582A99292B6F31C0008F30CA /* SearchLocationViewController.swift in Sources */,
 				58A40D8E2B5D01F70053E302 /* WeekCashViewController.swift in Sources */,
@@ -688,6 +695,7 @@
 				58A40D792B5805520053E302 /* UIColor + Extension.swift in Sources */,
 				582A98CE2B678AD5008F30CA /* PhotoCollectionViewCell.swift in Sources */,
 				4060C4192B74B2EA0012F06D /* RecipeViewController.swift in Sources */,
+				58279A742B779657009DCE96 /* InfoPicture.swift in Sources */,
 				582A992A2B6F31C0008F30CA /* AddSexViewController.swift in Sources */,
 				58279A6E2B763888009DCE96 /* MemberAPI.swift in Sources */,
 				582A99242B6F31C0008F30CA /* AddLocationInfromViewController.swift in Sources */,

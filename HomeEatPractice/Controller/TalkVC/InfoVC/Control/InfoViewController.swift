@@ -9,8 +9,11 @@ import UIKit
 import Then
 import SnapKit
 import Alamofire
+
 class InfoViewController: UIViewController {
     var posts:[MyItem] = []
+    var currentPage = 1 // 현재 페이지 번호
+    let pageSize = 6 // 한 번에 가져올 아이템 수
     var talkNavigationBarHiddenState: Bool = false
     //검색 뷰
     private let SearchView =  UIView().then {
@@ -84,52 +87,73 @@ class InfoViewController: UIViewController {
  //정보토크
     override func viewDidLoad() {
         super.viewDidLoad()
+        fetchDataFromServer()
         configure()
         addSubView()
         configUI()
         tableView.reloadData()
-        fetchDataFromServer()
+        
+
         
     }
+//    // 서버로부터 데이터 받아오기
     func fetchDataFromServer() {
-        let endpoint = "v1/infoTalk/"
-        let url = GeneralAPI.baseURL + endpoint
-        
-        AF.request(url).responseJSON { [self] response in
-            switch response.result {
-            case .success(let value):
-                if let jsonArray = value as? [[String: Any]] {
-                    for json in jsonArray {
-                        if let myItem = self.parseMyItemFromJSON(json) {
+        let totalItems = 90 // 가정한 최대 ID
+        var currentItems = 1
+
+        // 1부터 90까지의 모든 ID 값을 순회하면서 데이터를 가져옴
+        while currentItems <= totalItems {
+            let url = "https://dev.homeat.site/v1/infoTalk/\(currentItems)"
+            AF.request(url, method: .get)
+                .validate()
+                .responseJSON { response in
+                    switch response.result {
+                    case .success(let value):
+                        if let json = value as? [String: Any], let myItem = self.parseMyItemFromJSON(json) {
                             self.posts.append(myItem)
+                            self.tableView.reloadData()
+                            print("Current item ID: \(currentItems)")
                         }
+                    case .failure(let error):
+                        print("Error fetching data from server: \(error)")
                     }
-                    self.tableView.reloadData() // 테이블 뷰 업데이트
-                }
-            case .failure(let error):
-                print("Error fetching data: \(error)")
             }
+            currentItems += 1
         }
     }
+
+
     // InfoViewController.swift 파일에 parseMyItemFromJSON 함수 추가
     func parseMyItemFromJSON(_ json: [String: Any]) -> MyItem? {
         guard let id = json["id"] as? Int,
               let title = json["title"] as? String,
               let createdAt = json["createdAt"] as? String,
+              let updatedAt = json["updatedAt"] as? String,
               let content = json["content"] as? String,
               let love = json["love"] as? Int,
               let view = json["view"] as? Int,
               let commentNumber = json["commentNumber"] as? Int,
               let save = json["save"] as? String,
-              let infoPicturesArray = json["infoPictures"] as? [[String: Any]],
-              let firstPicture = infoPicturesArray.first,
-              let imageUrl = firstPicture["url"] as? String else {
+              let infoPicturesArray = json["infoPictures"] as? [[String: Any]] else {
             return nil
         }
-        let infoPictures = infoPicturesArray.compactMap { $0["url"] as? String }
-        
-        return MyItem(id: id, title: title, createdAt: createdAt, content: content, love: love, view: view, commentNumber: commentNumber, save: save, infoPictures: infoPictures)
+
+        // infoPicturesArray에서 InfoPicture 인스턴스 배열을 생성합니다.
+        let infoPictures: [InfoPicture] = infoPicturesArray.compactMap { picture -> InfoPicture? in
+            guard let id = picture["id"] as? Int,
+                  let url = picture["url"] as? String else {
+                return nil
+            }
+            // InfoPicture 인스턴스를 생성하여 반환합니다.
+            return InfoPicture(createdAt: "", updatedAt: "", id: id, url: url)
+        }
+
+        // MyItem 인스턴스를 생성하여 반환합니다.
+        return MyItem(id: id, title: title, createdAt: createdAt, updatedAt: updatedAt, content: content, love: love, view: view, commentNumber: commentNumber, save: save, infoPictures: infoPictures)
     }
+
+
+
     func displayDataOnCollectionView(_ myItem: MyItem) {
         self.posts.append(myItem)
     }
@@ -274,27 +298,33 @@ extension InfoViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCellOne.identifier, for: indexPath) as? TableViewCellOne else {
             return UITableViewCell()
         }
-        
+
         let post = posts[indexPath.row]
         cell.titleLabel.text = post.title
         cell.dateLabel.text = post.createdAt
         cell.contentLabel.text = post.content
         cell.heartLabel.text = "\(post.love)"
         cell.chatLabel.text = "\(post.commentNumber)"
-        
-        // 첫 번째 이미지 URL을 가져와서 설정합니다.
-        if let imageUrl = post.infoPictures.first {
-            // 이미지를 비동기적으로 가져오는 방법에 따라 구현
-            // 예시: Alamofire를 사용하여 이미지를 가져옵니다.
+
+        // 이미지를 비동기적으로 가져오는 방법에 따라 구현
+        if let imageUrl = post.infoPictures.first?.url {
             AF.request(imageUrl).responseData { response in
                 if let data = response.data {
-                    cell.PostImageView.image = UIImage(data: data)
+                    let image = UIImage(data: data)
+                    // PostImageView 설정
+                    cell.PostImageView.image = image
+                    // heartImage 설정
+                    cell.heartImage.image = UIImage(named: "Talk6")
+                    // chatImage 설정
+                    cell.chatImage.image = UIImage(named: "Talk10")
                 }
             }
         }
-        
+
         return cell
     }
+
+
 }
 
 extension InfoViewController: UITableViewDelegate {
