@@ -48,6 +48,7 @@ class RecipeTableViewCell: UITableViewCell, UITextViewDelegate, UITextFieldDeleg
         button.titleLabel?.font = UIFont(name: "NotoSansKR-Medium", size: 16)
         button.backgroundColor = UIColor(named: "gray2")
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(deleteButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -115,7 +116,7 @@ class RecipeTableViewCell: UITableViewCell, UITextViewDelegate, UITextFieldDeleg
         setupTextFields()
         setupTextView()
         setupTapGestureRecognizers()
-        
+//        contentView.isUserInteractionEnabled = false
     }
 
     required init?(coder: NSCoder) {
@@ -129,6 +130,10 @@ class RecipeTableViewCell: UITableViewCell, UITextViewDelegate, UITextFieldDeleg
         }
     
     func setupTextFields() {
+        recipeTextView.isUserInteractionEnabled = true
+        recipeTextView.delegate = self
+        recipeTextView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(recipeTextViewTapped)))
+        
         sourceTextField.isUserInteractionEnabled = true
         sourceTextField.delegate = self
         sourceTextField.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(sourceTextFieldTapped)))
@@ -164,19 +169,19 @@ class RecipeTableViewCell: UITableViewCell, UITextViewDelegate, UITextFieldDeleg
         }
     
     func setUI() {
-        addSubview(stepLabel)
-        addSubview(removeButton)
-        addSubview(addButton)
-        addSubview(recipeTextView)
-        addSubview(sourceTextField)
-        addSubview(tipTextField)
-        addSubview(underBorderLine)
+        contentView.addSubview(stepLabel)
+        contentView.addSubview(removeButton)
+        contentView.addSubview(addButton)
+        contentView.addSubview(recipeTextView)
+        contentView.addSubview(sourceTextField)
+        contentView.addSubview(tipTextField)
+        contentView.addSubview(underBorderLine)
     }
     
     func setConstrsints() {
         NSLayoutConstraint.activate([
-            stepLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 15.5),
-            stepLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            stepLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15.5),
+            stepLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             stepLabel.heightAnchor.constraint(equalToConstant: 17),
             
             removeButton.topAnchor.constraint(equalTo: stepLabel.topAnchor),
@@ -185,30 +190,30 @@ class RecipeTableViewCell: UITableViewCell, UITextViewDelegate, UITextFieldDeleg
             
             
             addButton.topAnchor.constraint(equalTo: stepLabel.bottomAnchor, constant: 15),
-            addButton.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            addButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             addButton.heightAnchor.constraint(equalToConstant: 111),
             addButton.widthAnchor.constraint(equalToConstant: 111),
             
             recipeTextView.topAnchor.constraint(equalTo: addButton.bottomAnchor, constant: 20),
-            recipeTextView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            recipeTextView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            recipeTextView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            recipeTextView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             recipeTextView.heightAnchor.constraint(equalToConstant: 110),
             
             sourceTextField.topAnchor.constraint(equalTo: recipeTextView.bottomAnchor, constant: 18),
-            sourceTextField.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            sourceTextField.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            sourceTextField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            sourceTextField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             sourceTextField.heightAnchor.constraint(equalToConstant: 50),
             
             tipTextField.topAnchor.constraint(equalTo: sourceTextField.bottomAnchor, constant: 18),
-            tipTextField.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            tipTextField.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            tipTextField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            tipTextField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             tipTextField.heightAnchor.constraint(equalToConstant: 50),
             
             underBorderLine.topAnchor.constraint(equalTo: tipTextField.bottomAnchor, constant: 19.5),
-            underBorderLine.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            underBorderLine.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            underBorderLine.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            underBorderLine.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             underBorderLine.heightAnchor.constraint(equalToConstant: 1),
-            underBorderLine.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+            underBorderLine.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
             
         ])
     }
@@ -249,6 +254,8 @@ class RecipeTableViewCell: UITableViewCell, UITextViewDelegate, UITextFieldDeleg
             }
         }
         
+        
+        
         let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
         
         alertController.addAction(albumAction)
@@ -258,6 +265,12 @@ class RecipeTableViewCell: UITableViewCell, UITextViewDelegate, UITextFieldDeleg
         // 액션 시트를 현재 뷰 컨트롤러에서 표시
         viewController.present(alertController, animated: true, completion: nil)
     }
+    
+    // 사진 추가 액션
+    @objc func deleteButtonTapped(sender: UIButton) {
+        print("삭제버튼탭")
+    }
+    
     
     // 이미지 선택 또는 촬영 완료 시 호출되는 메서드
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {

@@ -29,7 +29,6 @@ class TagPlusCollectionViewCell: UICollectionViewCell {
     }
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
         contentView.addSubview(tagButton)
         NSLayoutConstraint.activate([
             // contentView에 대한 제약 조건

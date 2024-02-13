@@ -171,29 +171,29 @@ class TagPlusViewController: UIViewController {
             tagplusField.text = nil
         }
     }
-//    @objc private func tagButtonTapped(_ sender: UIButton) {
-//        sender.isSelected.toggle()
-//
-//        // 버튼의 선택 여부에 따라 border 색상 및 title 색상을 변경
-//        if sender.isSelected {
-//            sender.layer.borderColor = UIColor(named: "green")?.cgColor ?? UIColor.red.cgColor
-//            sender.tintColor = .clear
-//            sender.setTitleColor(UIColor(named: "green") ?? UIColor.red, for: .selected)
-//            // 선택된 경우, 저장 버튼의 배경색을 변경
-//            saveButton.backgroundColor = UIColor(named: "green") ?? UIColor.red
-//            saveButton.setTitleColor(UIColor.black, for: .selected)
-//            selectedTags.append(sender.currentTitle ?? "")
-//            print(selectedTags)
-//        } else {
-//            sender.layer.borderColor = UIColor(named: "font5")?.cgColor ?? UIColor.gray.cgColor
-//            sender.setTitleColor(UIColor(named: "font5") ?? UIColor.gray, for: .normal)
-//            // 선택이 해제되면 해당 타이틀을 배열에서 제거
-//            if let index = selectedTags.firstIndex(of: sender.currentTitle ?? "") {
-//                selectedTags.remove(at: index)
-//            }
-//        }
-//    }
-//        }
+    @objc private func tagButtonTapped(_ sender: UIButton) {
+        sender.isSelected.toggle()
+
+        // 버튼의 선택 여부에 따라 border 색상 및 title 색상을 변경
+        if sender.isSelected {
+            sender.layer.borderColor = UIColor(named: "green")?.cgColor ?? UIColor.red.cgColor
+            sender.tintColor = .clear
+            sender.setTitleColor(UIColor(named: "green") ?? UIColor.red, for: .selected)
+            // 선택된 경우, 저장 버튼의 배경색을 변경
+            saveButton.backgroundColor = UIColor(named: "green") ?? UIColor.red
+            saveButton.setTitleColor(UIColor.black, for: .selected)
+            selectedTags.append(sender.currentTitle ?? "")
+            print(selectedTags)
+        } else {
+            sender.layer.borderColor = UIColor(named: "font5")?.cgColor ?? UIColor.gray.cgColor
+            sender.setTitleColor(UIColor(named: "font5") ?? UIColor.gray, for: .normal)
+            // 선택이 해제되면 해당 타이틀을 배열에서 제거
+            if let index = selectedTags.firstIndex(of: sender.currentTitle ?? "") {
+                selectedTags.remove(at: index)
+            }
+        }
+    }
+       // }
 //
 //        print("Tag Button Tapped: \(sender.currentTitle ?? "")")
 //    }
