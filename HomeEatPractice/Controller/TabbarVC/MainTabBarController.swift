@@ -82,6 +82,7 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate {
 
         for (index, tabItem) in tabItems.enumerated() {
             let button = UIButton(type: .custom)
+            let isSelected = index == 0 // rootViewController에 해당하는 탭 아이템을 선택 상태로 설정
             button.setImage(UIImage(named: tabItem.imageName), for: .normal)
             button.frame = CGRect(x: CGFloat(index) * buttonWidth + buttonWidth / 4, y: -20, width: buttonWidth, height: newTabBarHeight)
             button.adjustsImageWhenHighlighted = false
@@ -92,6 +93,10 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate {
             button.contentHorizontalAlignment = .leading
            // button.contentVerticalAlignment = .center
             customTabBar.addSubview(button)
+            // rootViewController에 해당하는 탭 아이템을 선택 상태로 설정
+            if isSelected {
+                self.selectedIndex = index
+            }
         }
         // 탭바 아이템 타이틀 설정
         
