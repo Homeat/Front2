@@ -20,7 +20,7 @@ class WeekCashViewController: UIViewController {
         $0.setTitle("홈잇캐시 2100원", for: .normal)
         $0.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.addTarget(self, action: #selector(navigateToCashCheckViewController), for: .touchUpInside)
+        
         
     }
     
@@ -61,11 +61,5 @@ class WeekCashViewController: UIViewController {
             self.badgeView.topAnchor.constraint(equalTo: cashLabel.bottomAnchor, constant: 21),
             self.badgeView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
-    }
-    @objc func navigateToCashCheckViewController(_ sender: Any) {
-        let cashCheckVC = CashCheckViewController()
-
-        self.navigationController?.pushViewController(cashCheckVC, animated: true)
-        print("cashcheck click")
     }
 }

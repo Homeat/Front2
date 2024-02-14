@@ -53,15 +53,15 @@ class PostViewController: UIViewController {
         return label
     } ()
     // 신고하기
-    lazy var complainLabel: UILabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 10)
-        label.text = "신고하기"
-        label.textColor = UIColor(named: "font4")
-        label.numberOfLines = 0
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    } ()
+    lazy var complainLabel: UIButton = {
+        let button = UIButton()
+        button.setTitle("신고하기", for: .normal)
+        button.setTitleColor(UIColor(r: 165, g: 165, b: 165), for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 10, weight: .medium)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(delcareAction), for: .touchUpInside)
+        return button
+    }()
     // 제목
     lazy var postTitleLabel: UILabel = {
         let label = UILabel()
@@ -86,15 +86,20 @@ class PostViewController: UIViewController {
     lazy var inputUIView: UIView = {
         let inputview = UIView()
         inputview.backgroundColor = UIColor.init(named: "gray4")
-        inputview.layer.cornerRadius = 10
+        inputview.layer.cornerRadius = 5
         inputview.clipsToBounds = true
         inputview.translatesAutoresizingMaskIntoConstraints = false
         return inputview
     } ()
+    
     //하트 버튼
     private let heartButton = UIButton().then {
         
-        $0.setImage(UIImage(named: "Talk6"), for: .normal)
+        $0.setImage(UIImage(named: "Talk14"), for: .normal)
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
+    private let sendButton = UIButton().then {
+        $0.setImage(UIImage(named: "Talk15"), for: .normal)
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
     //댓글 입력 textfield
@@ -152,6 +157,8 @@ class PostViewController: UIViewController {
         view.addSubview(inputUIView)
         inputUIView.addSubview(heartButton)
         inputUIView.addSubview(inputTextField)
+        inputUIView.addSubview(sendButton)
+        
     }
     
     func configUI() {
@@ -187,17 +194,23 @@ class PostViewController: UIViewController {
             inputUIView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             inputUIView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             inputUIView.heightAnchor.constraint(equalToConstant: 91),
-            
-            heartButton.topAnchor.constraint(equalTo: inputUIView.topAnchor,constant: 23),
+        
+            heartButton.topAnchor.constraint(equalTo: inputUIView.topAnchor,constant: 13),
             heartButton.leadingAnchor.constraint(equalTo: inputUIView.leadingAnchor,constant: 21),
             heartButton.bottomAnchor.constraint(equalTo: inputUIView.bottomAnchor,constant: -34),
+            heartButton.heightAnchor.constraint(equalToConstant: 26.1),
             heartButton.widthAnchor.constraint(equalToConstant: 25.2),
-            
-            
+           
             inputTextField.topAnchor.constraint(equalTo: inputUIView.topAnchor,constant: 13),
             inputTextField.leadingAnchor.constraint(equalTo: heartButton.trailingAnchor,constant: 9),
-            inputTextField.trailingAnchor.constraint(equalTo: inputUIView.trailingAnchor,constant: -20),
+            inputTextField.trailingAnchor.constraint(equalTo: inputUIView.trailingAnchor,constant: -60),
             inputTextField.bottomAnchor.constraint(equalTo: inputUIView.bottomAnchor,constant: -34),
+            
+            sendButton.widthAnchor.constraint(equalToConstant: 30),
+            sendButton.heightAnchor.constraint(equalToConstant: 30),
+            sendButton.topAnchor.constraint(equalTo: inputUIView.topAnchor,constant: 18),
+            sendButton.leadingAnchor.constraint(equalTo: inputTextField.trailingAnchor, constant: 5),
+            sendButton.trailingAnchor.constraint(equalTo: inputUIView.trailingAnchor, constant: -9),
         ])
     }
     //네비게이션 바 설정
@@ -218,5 +231,12 @@ class PostViewController: UIViewController {
     @objc func back(_ sender: Any) {
          self.navigationController?.popViewController(animated: true)
         print("back click")
+        
      }
+    // MARK: - @objc 메서드
+    @objc func delcareAction() {
+        let declareVC = DeclareViewController()
+        navigationController?.pushViewController(declareVC, animated: true)
     }
+    }
+    

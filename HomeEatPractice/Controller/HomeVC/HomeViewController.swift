@@ -303,7 +303,7 @@ class HomeViewController: UIViewController {
     
     // 지출확인 버튼을 클릭했을 때
     @objc func tabCheckButton(_ sender: Any) {
-        let nextVC = PayCheckViewController()
+        let nextVC = CalendarCheckViewController()
         self.navigationController?.pushViewController(nextVC, animated: true)
         let backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil) // title 부분 수정
             backBarButtonItem.tintColor = .white

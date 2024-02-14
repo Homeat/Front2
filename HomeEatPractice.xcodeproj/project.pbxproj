@@ -23,12 +23,14 @@
 		409AA3442B43E98A0096CDBB /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409AA3432B43E98A0096CDBB /* MyPageViewController.swift */; };
 		409AA3462B453F3B0096CDBB /* PayAddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409AA3452B453F3B0096CDBB /* PayAddViewController.swift */; };
 		409AA3482B467EFB0096CDBB /* PayAnalyzeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409AA3472B467EFB0096CDBB /* PayAnalyzeViewController.swift */; };
-		409AA34A2B46815E0096CDBB /* PayCheckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409AA3492B46815E0096CDBB /* PayCheckViewController.swift */; };
 		58279A6E2B763888009DCE96 /* MemberAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58279A6D2B763888009DCE96 /* MemberAPI.swift */; };
 		58279A702B7638A1009DCE96 /* MemberData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58279A6F2B7638A1009DCE96 /* MemberData.swift */; };
-		58279A722B779621009DCE96 /* InfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58279A712B779621009DCE96 /* InfoModel.swift */; };
 		58279A742B779657009DCE96 /* InfoPicture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58279A732B779657009DCE96 /* InfoPicture.swift */; };
 		58279A762B790C52009DCE96 /* RecipeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58279A752B790C52009DCE96 /* RecipeTableViewCell.swift */; };
+		58279A7C2B7B956E009DCE96 /* PhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58279A7B2B7B956E009DCE96 /* PhotoCell.swift */; };
+		58279A7F2B7BAB47009DCE96 /* AnylysisAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58279A7E2B7BAB47009DCE96 /* AnylysisAPI.swift */; };
+		58279A822B7CB1E0009DCE96 /* CalendarCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58279A812B7CB1E0009DCE96 /* CalendarCollectionViewCell.swift */; };
+		58279A842B7CF88F009DCE96 /* FoodId.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58279A832B7CF88F009DCE96 /* FoodId.swift */; };
 		582A98A12B636EA0008F30CA /* cameraIcon.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 582A98A02B636EA0008F30CA /* cameraIcon.pdf */; };
 		582A98A52B636F2F008F30CA /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582A98A42B636F2F008F30CA /* SceneDelegate.swift */; };
 		582A98C72B653C61008F30CA /* PasswordEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582A98C62B653C61008F30CA /* PasswordEditViewController.swift */; };
@@ -73,10 +75,8 @@
 		58A40D732B56AF190053E302 /* InfoWritingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A40D722B56AF190053E302 /* InfoWritingViewController.swift */; };
 		58A40D772B57DD730053E302 /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A40D762B57DD730053E302 /* EditViewController.swift */; };
 		58A40D792B5805520053E302 /* UIColor + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A40D782B5805520053E302 /* UIColor + Extension.swift */; };
-		58A40D7E2B5BEFAA0053E302 /* StatisticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A40D7D2B5BEFAA0053E302 /* StatisticsViewController.swift */; };
 		58A40D802B5BEFC40053E302 /* CalendarCheckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A40D7F2B5BEFC40053E302 /* CalendarCheckViewController.swift */; };
 		58A40D822B5C00D30053E302 /* TagPlusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A40D812B5C00D30053E302 /* TagPlusViewController.swift */; };
-		58A40D852B5C05330053E302 /* CashCheckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A40D842B5C05330053E302 /* CashCheckViewController.swift */; };
 		58A40D8E2B5D01F70053E302 /* WeekCashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A40D8D2B5D01F70053E302 /* WeekCashViewController.swift */; };
 		58A40D952B5FAC1B0053E302 /* MealViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A40D942B5FAC1B0053E302 /* MealViewCell.swift */; };
 		58A40D972B5FAC490053E302 /* MealPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A40D962B5FAC490053E302 /* MealPostViewController.swift */; };
@@ -107,12 +107,14 @@
 		409AA3432B43E98A0096CDBB /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
 		409AA3452B453F3B0096CDBB /* PayAddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayAddViewController.swift; sourceTree = "<group>"; };
 		409AA3472B467EFB0096CDBB /* PayAnalyzeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayAnalyzeViewController.swift; sourceTree = "<group>"; };
-		409AA3492B46815E0096CDBB /* PayCheckViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayCheckViewController.swift; sourceTree = "<group>"; };
 		58279A6D2B763888009DCE96 /* MemberAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberAPI.swift; sourceTree = "<group>"; };
 		58279A6F2B7638A1009DCE96 /* MemberData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberData.swift; sourceTree = "<group>"; };
-		58279A712B779621009DCE96 /* InfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoModel.swift; sourceTree = "<group>"; };
 		58279A732B779657009DCE96 /* InfoPicture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoPicture.swift; sourceTree = "<group>"; };
 		58279A752B790C52009DCE96 /* RecipeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeTableViewCell.swift; sourceTree = "<group>"; };
+		58279A7B2B7B956E009DCE96 /* PhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCell.swift; sourceTree = "<group>"; };
+		58279A7E2B7BAB47009DCE96 /* AnylysisAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnylysisAPI.swift; sourceTree = "<group>"; };
+		58279A812B7CB1E0009DCE96 /* CalendarCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarCollectionViewCell.swift; sourceTree = "<group>"; };
+		58279A832B7CF88F009DCE96 /* FoodId.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodId.swift; sourceTree = "<group>"; };
 		582A98A02B636EA0008F30CA /* cameraIcon.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = cameraIcon.pdf; sourceTree = "<group>"; };
 		582A98A42B636F2F008F30CA /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		582A98C62B653C61008F30CA /* PasswordEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordEditViewController.swift; sourceTree = "<group>"; };
@@ -157,10 +159,8 @@
 		58A40D722B56AF190053E302 /* InfoWritingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoWritingViewController.swift; sourceTree = "<group>"; };
 		58A40D762B57DD730053E302 /* EditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewController.swift; sourceTree = "<group>"; };
 		58A40D782B5805520053E302 /* UIColor + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor + Extension.swift"; sourceTree = "<group>"; };
-		58A40D7D2B5BEFAA0053E302 /* StatisticsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsViewController.swift; sourceTree = "<group>"; };
 		58A40D7F2B5BEFC40053E302 /* CalendarCheckViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarCheckViewController.swift; sourceTree = "<group>"; };
 		58A40D812B5C00D30053E302 /* TagPlusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagPlusViewController.swift; sourceTree = "<group>"; };
-		58A40D842B5C05330053E302 /* CashCheckViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CashCheckViewController.swift; sourceTree = "<group>"; };
 		58A40D8D2B5D01F70053E302 /* WeekCashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekCashViewController.swift; sourceTree = "<group>"; };
 		58A40D942B5FAC1B0053E302 /* MealViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealViewCell.swift; sourceTree = "<group>"; };
 		58A40D962B5FAC490053E302 /* MealPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealPostViewController.swift; sourceTree = "<group>"; };
@@ -202,6 +202,7 @@
 			children = (
 				40852A282B6F371300150395 /* FoodItemData.swift */,
 				40852A2A2B6F374900150395 /* FoodGeneralAPI.swift */,
+				58279A832B7CF88F009DCE96 /* FoodId.swift */,
 			);
 			path = FoodNetwork;
 			sourceTree = "<group>";
@@ -246,6 +247,23 @@
 				58279A6F2B7638A1009DCE96 /* MemberData.swift */,
 			);
 			path = Network2;
+			sourceTree = "<group>";
+		};
+		58279A7D2B7BAB0F009DCE96 /* AnylysisNetWork */ = {
+			isa = PBXGroup;
+			children = (
+				58279A7E2B7BAB47009DCE96 /* AnylysisAPI.swift */,
+			);
+			path = AnylysisNetWork;
+			sourceTree = "<group>";
+		};
+		58279A802B7CB1BA009DCE96 /* CalendarVC */ = {
+			isa = PBXGroup;
+			children = (
+				58A40D7F2B5BEFC40053E302 /* CalendarCheckViewController.swift */,
+				58279A812B7CB1E0009DCE96 /* CalendarCollectionViewCell.swift */,
+			);
+			path = CalendarVC;
 			sourceTree = "<group>";
 		};
 		582A98C82B663248008F30CA /* Network */ = {
@@ -325,6 +343,7 @@
 		5875D9CA2B51773200F484DF /* HomeVC */ = {
 			isa = PBXGroup;
 			children = (
+				58279A802B7CB1BA009DCE96 /* CalendarVC */,
 				409AA33D2B43E94B0096CDBB /* HomeViewController.swift */,
 			);
 			path = HomeVC;
@@ -336,7 +355,6 @@
 				582A990B2B6F31C0008F30CA /* RegisterVC */,
 				58A40D9C2B5FF13C0053E302 /* TabbarVC */,
 				58A40D832B5C04F40053E302 /* ReportVC */,
-				58A40D7A2B5BEF060053E302 /* PayCheckVC */,
 				5875D9CA2B51773200F484DF /* HomeVC */,
 				5875D9C92B5169D600F484DF /* MypageVC */,
 				588A092A2B4E987A00638D16 /* TalkVC */,
@@ -372,7 +390,6 @@
 			children = (
 				588A092F2B4FF9A900638D16 /* MyItem.swift */,
 				582A993B2B6F8C70008F30CA /* TagItem.swift */,
-				58279A712B779621009DCE96 /* InfoModel.swift */,
 				58279A732B779657009DCE96 /* InfoPicture.swift */,
 			);
 			path = Model;
@@ -419,32 +436,6 @@
 			path = LeaveVC;
 			sourceTree = "<group>";
 		};
-		58A40D7A2B5BEF060053E302 /* PayCheckVC */ = {
-			isa = PBXGroup;
-			children = (
-				58A40D7C2B5BEF710053E302 /* StatisticsVC */,
-				58A40D7B2B5BEF360053E302 /* CalendarCheckVC */,
-				409AA3492B46815E0096CDBB /* PayCheckViewController.swift */,
-			);
-			path = PayCheckVC;
-			sourceTree = "<group>";
-		};
-		58A40D7B2B5BEF360053E302 /* CalendarCheckVC */ = {
-			isa = PBXGroup;
-			children = (
-				58A40D7F2B5BEFC40053E302 /* CalendarCheckViewController.swift */,
-			);
-			path = CalendarCheckVC;
-			sourceTree = "<group>";
-		};
-		58A40D7C2B5BEF710053E302 /* StatisticsVC */ = {
-			isa = PBXGroup;
-			children = (
-				58A40D7D2B5BEFAA0053E302 /* StatisticsViewController.swift */,
-			);
-			path = StatisticsVC;
-			sourceTree = "<group>";
-		};
 		58A40D832B5C04F40053E302 /* ReportVC */ = {
 			isa = PBXGroup;
 			children = (
@@ -470,7 +461,6 @@
 			isa = PBXGroup;
 			children = (
 				58A40D8D2B5D01F70053E302 /* WeekCashViewController.swift */,
-				58A40D842B5C05330053E302 /* CashCheckViewController.swift */,
 			);
 			path = CashCheckVC;
 			sourceTree = "<group>";
@@ -478,6 +468,7 @@
 		58A40D902B5D02110053E302 /* AnalysisVC */ = {
 			isa = PBXGroup;
 			children = (
+				58279A7D2B7BAB0F009DCE96 /* AnylysisNetWork */,
 				582A98D32B6B819E008F30CA /* AnalysisViewController.swift */,
 			);
 			path = AnalysisVC;
@@ -488,6 +479,7 @@
 			children = (
 				58A40D942B5FAC1B0053E302 /* MealViewCell.swift */,
 				58279A752B790C52009DCE96 /* RecipeTableViewCell.swift */,
+				58279A7B2B7B956E009DCE96 /* PhotoCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -661,6 +653,7 @@
 				582A98A52B636F2F008F30CA /* SceneDelegate.swift in Sources */,
 				582A992B2B6F31C0008F30CA /* FindPwViewController.swift in Sources */,
 				582A99372B6F31C0008F30CA /* SelectMangeUnitViewController.swift in Sources */,
+				58279A842B7CF88F009DCE96 /* FoodId.swift in Sources */,
 				409AA3402B43E9640096CDBB /* CashViewController.swift in Sources */,
 				582A99352B6F31C0008F30CA /* BankSelectViewController.swift in Sources */,
 				588A09262B4E5BE200638D16 /* WriteViewController.swift in Sources */,
@@ -673,6 +666,7 @@
 				58A1E7872B7351BF00C45CEA /* EmailEditViewController.swift in Sources */,
 				582A99342B6F31C0008F30CA /* CustomProgressViewController.swift in Sources */,
 				409AA3282B43A0470096CDBB /* AppDelegate.swift in Sources */,
+				58279A822B7CB1E0009DCE96 /* CalendarCollectionViewCell.swift in Sources */,
 				58A1E78D2B735D5400C45CEA /* FinalLeaveViewController.swift in Sources */,
 				58A40D992B5FAC6A0053E302 /* MealWritingViewController.swift in Sources */,
 				58A1E78A2B7351ED00C45CEA /* MonthMoneyEditViewController.swift in Sources */,
@@ -682,15 +676,14 @@
 				58A40D952B5FAC1B0053E302 /* MealViewCell.swift in Sources */,
 				582A993A2B6F89F5008F30CA /* TagPlusCollectionViewCell.swift in Sources */,
 				409AA3482B467EFB0096CDBB /* PayAnalyzeViewController.swift in Sources */,
-				58279A722B779621009DCE96 /* InfoModel.swift in Sources */,
 				582A98CA2B66325D008F30CA /* ItemData.swift in Sources */,
 				582A99292B6F31C0008F30CA /* SearchLocationViewController.swift in Sources */,
+				58279A7C2B7B956E009DCE96 /* PhotoCell.swift in Sources */,
 				58A40D8E2B5D01F70053E302 /* WeekCashViewController.swift in Sources */,
 				582A99312B6F31C0008F30CA /* MaptestViewController.swift in Sources */,
 				582A98C72B653C61008F30CA /* PasswordEditViewController.swift in Sources */,
 				409AA3422B43E9760096CDBB /* TalkViewController.swift in Sources */,
 				582A992E2B6F31C0008F30CA /* TermsOfUseViewController.swift in Sources */,
-				409AA34A2B46815E0096CDBB /* PayCheckViewController.swift in Sources */,
 				58A40D772B57DD730053E302 /* EditViewController.swift in Sources */,
 				409AA33E2B43E94B0096CDBB /* HomeViewController.swift in Sources */,
 				582A99362B6F31C0008F30CA /* LoginViewController.swift in Sources */,
@@ -714,20 +707,19 @@
 				40852A2B2B6F374900150395 /* FoodGeneralAPI.swift in Sources */,
 				582A98D42B6B819E008F30CA /* AnalysisViewController.swift in Sources */,
 				582A99302B6F31C0008F30CA /* MapView.swift in Sources */,
-				58A40D852B5C05330053E302 /* CashCheckViewController.swift in Sources */,
 				582A99322B6F31C0008F30CA /* PwChangedViewController.swift in Sources */,
 				582A992D2B6F31C0008F30CA /* RegisterDoneViewController.swift in Sources */,
 				58A1E7912B760DF800C45CEA /* InfoTalk.swift in Sources */,
 				588A092D2B4FB9F200638D16 /* TableViewCellOne.swift in Sources */,
 				588A09292B4E6ED400638D16 /* InfoViewController.swift in Sources */,
 				58A40D822B5C00D30053E302 /* TagPlusViewController.swift in Sources */,
+				58279A7F2B7BAB47009DCE96 /* AnylysisAPI.swift in Sources */,
 				409AA3442B43E98A0096CDBB /* MyPageViewController.swift in Sources */,
 				582A99272B6F31C0008F30CA /* AddAccountViewController.swift in Sources */,
 				582A99262B6F31C0008F30CA /* AddIncomeViewController.swift in Sources */,
 				582A98D22B6B7BB0008F30CA /* LeaveViewController.swift in Sources */,
 				582A98D02B68CCAE008F30CA /* TagCollectionViewCell.swift in Sources */,
 				58A40DA22B6120B70053E302 /* DeclareWriteViewController.swift in Sources */,
-				58A40D7E2B5BEFAA0053E302 /* StatisticsViewController.swift in Sources */,
 				582A99382B6F31C0008F30CA /* RegisterViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

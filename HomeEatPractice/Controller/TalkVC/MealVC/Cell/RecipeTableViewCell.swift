@@ -11,22 +11,27 @@ import AVFoundation
 import Photos
 import PhotosUI
 
-class RecipeTableViewCell: UITableViewCell, UITextViewDelegate, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class RecipeTableViewCell: UITableViewCell, UITextFieldDelegate {
     
     static let identifier = "RecipeTableViewCell"
-    
+    weak var delegate: RecipeCellDelegate?
     //MARK: - 사진추가 프로퍼티
-    // 사진 추가 버튼
-    lazy var addButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("사진 추가", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = .systemBlue
-        button.layer.cornerRadius = 10
-        button.clipsToBounds = true
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(self, action: #selector(addPhoto), for: .touchUpInside)
-        return button
+    
+    lazy var photoCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.itemSize = CGSize(width: 111, height: 111)
+        layout.minimumInteritemSpacing = 10
+        layout.minimumLineSpacing = 10
+        
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.backgroundColor = UIColor(named: "gray2")
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.register(PhotoCell.self, forCellWithReuseIdentifier: "PhotoCell")
+        return collectionView
     }()
     
     //MARK: - 일반프로퍼티
@@ -48,7 +53,7 @@ class RecipeTableViewCell: UITableViewCell, UITextViewDelegate, UITextFieldDeleg
         button.titleLabel?.font = UIFont(name: "NotoSansKR-Medium", size: 16)
         button.backgroundColor = UIColor(named: "gray2")
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(self, action: #selector(deleteButtonTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(deleteButtonTapped(_ :)), for: .touchUpInside)
         return button
     }()
     
@@ -106,8 +111,11 @@ class RecipeTableViewCell: UITableViewCell, UITextViewDelegate, UITextFieldDeleg
         return view
     }()
     
+    //MARK: - cell init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.backgroundColor = UIColor(named: "gray2")
+        self.selectionStyle = .none
         setUI()
         setConstrsints()
         recipeTextView.delegate = self
@@ -116,18 +124,17 @@ class RecipeTableViewCell: UITableViewCell, UITextViewDelegate, UITextFieldDeleg
         setupTextFields()
         setupTextView()
         setupTapGestureRecognizers()
-//        contentView.isUserInteractionEnabled = false
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     func setupTextView() {
-            recipeTextView.delegate = self
-            recipeTextView.isEditable = true
-            recipeTextView.isSelectable = true
-        }
+        recipeTextView.delegate = self
+        recipeTextView.isEditable = true
+        recipeTextView.isSelectable = true
+    }
     
     func setupTextFields() {
         recipeTextView.isUserInteractionEnabled = true
@@ -137,41 +144,41 @@ class RecipeTableViewCell: UITableViewCell, UITextViewDelegate, UITextFieldDeleg
         sourceTextField.isUserInteractionEnabled = true
         sourceTextField.delegate = self
         sourceTextField.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(sourceTextFieldTapped)))
-
+        
         tipTextField.isUserInteractionEnabled = true
         tipTextField.delegate = self // Ensure delegate assignment
         tipTextField.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tipTextFieldTapped)))
-        }
+    }
     
     // UITextFieldDelegate method
-        func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-            // You can perform any additional setup here if needed
-            return true
-        }
-
-        // UITextViewDelegate method
-        func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
-            // You can perform any additional setup here if needed
-            return true
-        }
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        // You can perform any additional setup here if needed
+        return true
+    }
+    
+    // UITextViewDelegate method
+    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
+        // You can perform any additional setup here if needed
+        return true
+    }
     
     @objc func recipeTextViewTapped() {
-           recipeTextView.becomeFirstResponder()
-       }
-       
+        recipeTextView.becomeFirstResponder()
+    }
+    
     // UITapGestureRecognizer action methods
-        @objc func sourceTextFieldTapped() {
-            sourceTextField.becomeFirstResponder()
-        }
-
-        @objc func tipTextFieldTapped() {
-            tipTextField.becomeFirstResponder()
-        }
+    @objc func sourceTextFieldTapped() {
+        sourceTextField.becomeFirstResponder()
+    }
+    
+    @objc func tipTextFieldTapped() {
+        tipTextField.becomeFirstResponder()
+    }
     
     func setUI() {
         contentView.addSubview(stepLabel)
         contentView.addSubview(removeButton)
-        contentView.addSubview(addButton)
+        contentView.addSubview(photoCollectionView)
         contentView.addSubview(recipeTextView)
         contentView.addSubview(sourceTextField)
         contentView.addSubview(tipTextField)
@@ -188,13 +195,12 @@ class RecipeTableViewCell: UITableViewCell, UITextViewDelegate, UITextFieldDeleg
             removeButton.heightAnchor.constraint(equalToConstant: 17),
             removeButton.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             
+            photoCollectionView.topAnchor.constraint(equalTo: stepLabel.bottomAnchor, constant: 15),
+            photoCollectionView.leadingAnchor.constraint(equalTo: stepLabel.leadingAnchor),
+            photoCollectionView.trailingAnchor.constraint(equalTo: removeButton.trailingAnchor),
+            photoCollectionView.heightAnchor.constraint(equalToConstant: 111),
             
-            addButton.topAnchor.constraint(equalTo: stepLabel.bottomAnchor, constant: 15),
-            addButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            addButton.heightAnchor.constraint(equalToConstant: 111),
-            addButton.widthAnchor.constraint(equalToConstant: 111),
-            
-            recipeTextView.topAnchor.constraint(equalTo: addButton.bottomAnchor, constant: 20),
+            recipeTextView.topAnchor.constraint(equalTo: photoCollectionView.bottomAnchor, constant: 20),
             recipeTextView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             recipeTextView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             recipeTextView.heightAnchor.constraint(equalToConstant: 110),
@@ -217,80 +223,23 @@ class RecipeTableViewCell: UITableViewCell, UITextViewDelegate, UITextFieldDeleg
             
         ])
     }
+    
     func setupTapGestureRecognizers() {
-            let recipeTextViewTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(recipeTextViewTapped))
-            recipeTextView.addGestureRecognizer(recipeTextViewTapGestureRecognizer)
-            
-            let sourceTextFieldTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(sourceTextFieldTapped))
-            sourceTextField.addGestureRecognizer(sourceTextFieldTapGestureRecognizer)
-            
-            let tipTextFieldTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tipTextFieldTapped))
-            tipTextField.addGestureRecognizer(tipTextFieldTapGestureRecognizer)
-        }
-    // 사진 추가 액션
-    @objc func addPhoto(sender: UIButton) {
-        guard let viewController = self.findViewController() else {
-            print("뷰 컨트롤러를 찾을 수 없습니다.")
-            return
-        }
+        let recipeTextViewTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(recipeTextViewTapped))
+        recipeTextView.addGestureRecognizer(recipeTextViewTapGestureRecognizer)
         
-        let imagePickerController = UIImagePickerController()
-        imagePickerController.delegate = self
+        let sourceTextFieldTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(sourceTextFieldTapped))
+        sourceTextField.addGestureRecognizer(sourceTextFieldTapGestureRecognizer)
         
-        let alertController = UIAlertController(title: "사진 추가", message: "사진을 가져올 방법을 선택하세요", preferredStyle: .actionSheet)
-        
-        let albumAction = UIAlertAction(title: "앨범에서 선택", style: .default) { (action) in
-            imagePickerController.sourceType = .photoLibrary
-            viewController.present(imagePickerController, animated: true, completion: nil)
-        }
-        
-        let cameraAction = UIAlertAction(title: "카메라로 촬영", style: .default) { (action) in
-            if UIImagePickerController.isSourceTypeAvailable(.camera) {
-                imagePickerController.sourceType = .camera
-                viewController.present(imagePickerController, animated: true, completion: nil)
-            } else {
-                // 카메라 사용 불가능한 경우에 대한 처리
-                print("카메라를 사용할 수 없습니다.")
-            }
-        }
-        
-        
-        
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
-        
-        alertController.addAction(albumAction)
-        alertController.addAction(cameraAction)
-        alertController.addAction(cancelAction)
-        
-        // 액션 시트를 현재 뷰 컨트롤러에서 표시
-        viewController.present(alertController, animated: true, completion: nil)
+        let tipTextFieldTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tipTextFieldTapped))
+        tipTextField.addGestureRecognizer(tipTextFieldTapGestureRecognizer)
     }
     
-    // 사진 추가 액션
-    @objc func deleteButtonTapped(sender: UIButton) {
+    @objc func deleteButtonTapped(_ sender: UIButton) {
         print("삭제버튼탭")
+        delegate?.didTapRemoveButton(cell: self)
     }
     
-    
-    // 이미지 선택 또는 촬영 완료 시 호출되는 메서드
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        // 선택한 이미지 처리
-        if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-            // 이미지를 사용하여 원하는 작업 수행
-            // 예를 들어, 이미지뷰에 선택한 이미지 표시 등
-        }
-        
-        // 이미지 피커 컨트롤러 닫기
-        picker.dismiss(animated: true, completion: nil)
-    }
-    
-    // 이미지 선택 또는 촬영 취소 시 호출되는 메서드
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        // 이미지 피커 컨트롤러 닫기
-        picker.dismiss(animated: true, completion: nil)
-    }
-    
-    // ... 이전 코드 생략 ...
     
     // 뷰 컨트롤러를 찾는 메서드
     private func findViewController() -> UIViewController? {
@@ -304,8 +253,105 @@ class RecipeTableViewCell: UITableViewCell, UITextViewDelegate, UITextFieldDeleg
         return nil
     }
     
-
+    
 }
+
+//MARK: - 레시피 사진추가 컬렉션뷰 Extension
+extension RecipeTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 3
+    }
+    
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        // Dequeue a reusable cell
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoCell", for: indexPath) as? PhotoCell else {
+            fatalError("Unable to dequeue PhotoCell")
+        }
+        
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        // 셀을 탭하면 액션 시트를 표시하여 사용자에게 카메라로 촬영 또는 갤러리에서 선택할 수 있도록 합니다.
+            let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+            
+            let cameraAction = UIAlertAction(title: "카메라로 촬영", style: .default) { _ in
+                self.showImagePicker(sourceType: .camera)
+            }
+            actionSheet.addAction(cameraAction)
+            
+            let galleryAction = UIAlertAction(title: "갤러리에서 선택", style: .default) { _ in
+                self.showImagePicker(sourceType: .photoLibrary)
+            }
+            actionSheet.addAction(galleryAction)
+            
+            let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+            actionSheet.addAction(cancelAction)
+            
+            if let viewController = findViewController() {
+                viewController.present(actionSheet, animated: true, completion: nil)
+            }
+    }
+}
+
+//MARK: - 사진 선택 Extension
+extension RecipeTableViewCell: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        // 선택한 이미지를 가져옵니다.
+        if let pickedImage = info[.originalImage] as? UIImage {
+            // 이미지를 선택한 셀의 이미지 뷰에 표시합니다.
+            if let indexPath = photoCollectionView.indexPathsForSelectedItems?.first {
+                if let cell = photoCollectionView.cellForItem(at: indexPath) as? PhotoCell {
+                    cell.plusImageView.image = pickedImage
+                }
+            }
+        }
+        picker.dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
+    }
+    func showImagePicker(sourceType: UIImagePickerController.SourceType) {
+        let imagePicker = UIImagePickerController()
+        imagePicker.sourceType = sourceType
+        imagePicker.delegate = self
+        // 사진 촬영을 선택할 수 있도록 코드 추가
+            if sourceType == .camera {
+                imagePicker.cameraCaptureMode = .photo
+            }
+            
+            imagePicker.delegate = self
+            
+            if let viewController = findViewController() {
+                viewController.present(imagePicker, animated: true, completion: nil)
+            }
+    }
+}
+
+//MARK: - 레시피 텍스트뷰 Extension
+extension RecipeTableViewCell: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.text == "레시피를 작성해주세요" {
+            textView.text = ""
+        }
+    }
+
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.isEmpty {
+            textView.text = "레시피를 작성해주세요"
+        }
+    }
+}
+
+// MARK: - 레시피 스텝 테이블뷰 프로토콜
+protocol RecipeCellDelegate: AnyObject {
+    func didTapRemoveButton(cell: RecipeTableViewCell)
+}
+
+
+
 
 
 

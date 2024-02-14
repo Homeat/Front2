@@ -15,6 +15,7 @@ class InfoViewController: UIViewController {
     var currentPage = 1 // 현재 페이지 번호
     let pageSize = 6 // 한 번에 가져올 아이템 수
     var talkNavigationBarHiddenState: Bool = false
+    var lastInfoTalkId: Int = 0
     //검색 뷰
     private let SearchView =  UIView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -96,32 +97,55 @@ class InfoViewController: UIViewController {
 
         
     }
-//    // 서버로부터 데이터 받아오기
     func fetchDataFromServer() {
-        let totalItems = 90 // 가정한 최대 ID
-        var currentItems = 1
+        let url = "https://dev.homeat.site/v1/infoTalk/posts/latest"
+        var parameters: [String: Any] = [:] // 파라미터 변수를 var로 변경
+        // 처음 호출일 경우에만 Int.max로 설정
+        if self.posts.isEmpty {
+            parameters["lastInfoTalkId"] = Int.max //99999999
+        } else {
+            parameters["lastInfoTalkId"] = self.lastInfoTalkId
+        }
 
-        // 1부터 90까지의 모든 ID 값을 순회하면서 데이터를 가져옴
-        while currentItems <= totalItems {
-            let url = "https://dev.homeat.site/v1/infoTalk/\(currentItems)"
-            AF.request(url, method: .get)
-                .validate()
-                .responseJSON { response in
-                    switch response.result {
-                    case .success(let value):
-                        if let json = value as? [String: Any], let myItem = self.parseMyItemFromJSON(json) {
-                            self.posts.append(myItem)
-                            self.tableView.reloadData()
-                            print("Current item ID: \(currentItems)")
-                        }
-                    case .failure(let error):
-                        print("Error fetching data from server: \(error)")
+        parameters["object"] = ["search": ""]
+        print(parameters) // parameters 값 출력
+        AF.request(url, method: .get, parameters: parameters)
+            .validate()
+            .responseJSON { response in
+                switch response.result {
+                case .success(let value):
+        if let jsonDict = value as? [String: Any] {
+            if let jsonArray = jsonDict["content"] as? [[String: Any]] {
+                print(jsonArray) // 서버 응답 확인을 위한 출력
+                
+            if !jsonArray.isEmpty {
+                // 마지막 정보 대화 ID 설정
+                if let lastItem = jsonArray.last, let id = lastItem["id"] as? Int {
+                    self.lastInfoTalkId = id
+                    print("Last Info Talk ID: \(id)")
+                }
+                        
+                // 새로운 데이터를 담을 임시 배열
+                var newPosts: [MyItem] = []
+                for json in jsonArray {
+                    if let myItem = self.parseMyItemFromJSON(json) {
+                        newPosts.append(myItem)
                     }
+                }
+                // 새로운 데이터를 기존 데이터에 추가
+                        self.posts.append(contentsOf: newPosts)
+                        self.tableView.reloadData()
+                        print("Fetched \(jsonArray.count) items")
+                    } else {
+                        print("No data available")
+                    }
+                }
             }
-            currentItems += 1
+                case .failure(let error):
+                    print("Error fetching data from server: \(error)") // 에러 처리 확인을 위한 출력
+                }
         }
     }
-
 
     // InfoViewController.swift 파일에 parseMyItemFromJSON 함수 추가
     func parseMyItemFromJSON(_ json: [String: Any]) -> MyItem? {

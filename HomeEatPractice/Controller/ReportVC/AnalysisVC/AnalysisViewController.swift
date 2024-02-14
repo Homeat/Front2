@@ -204,7 +204,7 @@ class AnalysisViewController: UIViewController {
     }
     lazy var label2: UILabel = {
         let label = UILabel()
-        label.text = "소득이 비슷한 또래 여성 대비\n02월에 집밥은 50,000원을 덜 쓰고,\n외식과 배달은 120,000원을 더 썼어요"
+        label.text = "소득이 비슷한 또래 여성 대비\n집밥은 50,000원을 덜 쓰고,\n외식과 배달은 120,000원을 더 썼어요"
         label.textColor = .white
         label.textAlignment = .center
         label.font = UIFont.boldSystemFont(ofSize: 18)
@@ -243,6 +243,7 @@ class AnalysisViewController: UIViewController {
         setupPieChart()
         setupBarChart()
         setupMealWeekBarChart()
+        setupDeliveryWeekBarChart()
         updateYearMonthLabel()
         updateWeakMonthLabel()
         
@@ -286,7 +287,7 @@ class AnalysisViewController: UIViewController {
         contentView.snp.makeConstraints { make in
             make.edges.equalTo(scrollView.contentLayoutGuide)
             make.width.equalTo(scrollView.frameLayoutGuide)
-            make.height.equalTo(1200)
+            make.height.equalTo(1130)
         }
         NSLayoutConstraint.activate([
             deliveryIcon.widthAnchor.constraint(equalToConstant: 14),
@@ -339,7 +340,6 @@ class AnalysisViewController: UIViewController {
             NextIcon.leadingAnchor.constraint(equalTo: YearMonthLabel.trailingAnchor,constant: 11),
             
         ])
-        
         NSLayoutConstraint.activate([
             label.heightAnchor.constraint(equalToConstant: 30),
             label.topAnchor.constraint(equalTo: YearMonthLabel.bottomAnchor, constant: 49),
@@ -397,12 +397,18 @@ class AnalysisViewController: UIViewController {
             WeakView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -18),
             
             MealWeekBarChartView.topAnchor.constraint(equalTo: label2.bottomAnchor, constant: 33),
+            MealWeekBarChartView.heightAnchor.constraint(equalToConstant: 125),
             MealWeekBarChartView.leadingAnchor.constraint(equalTo: WeakView.leadingAnchor,constant: 100),
             MealWeekBarChartView.trailingAnchor.constraint(equalTo: WeakView.trailingAnchor,constant: -100),
-            MealWeekBarChartView.bottomAnchor.constraint(equalTo: WeakView.bottomAnchor,constant: -40) // 적절
+            
+            DeliveryWeekBarChartView.topAnchor.constraint(equalTo: MealWeekBarChartView.bottomAnchor,constant: 40),
+            DeliveryWeekBarChartView.leadingAnchor.constraint(equalTo: WeakView.leadingAnchor,constant: 100),
+            DeliveryWeekBarChartView.trailingAnchor.constraint(equalTo: WeakView.trailingAnchor,constant: -100),
+            DeliveryWeekBarChartView.heightAnchor.constraint(equalToConstant: 125),
+            
         ])
         NSLayoutConstraint.activate([
-            label2.heightAnchor.constraint(equalToConstant: 79),
+            label2.heightAnchor.constraint(equalToConstant: 100),
             label2.topAnchor.constraint(equalTo: WeakMonthLabel.bottomAnchor, constant: 38),
             label2.centerXAnchor.constraint(equalTo: WeakView.centerXAnchor)
         ])
@@ -426,6 +432,7 @@ class AnalysisViewController: UIViewController {
         
         
     }
+    //MARK: - 파이차트 셋업
     func setupPieChart() {
         
         var entries = [ChartDataEntry]()
@@ -533,11 +540,11 @@ class AnalysisViewController: UIViewController {
         
         var barEntries = [BarChartDataEntry]()
         
-        barEntries.append(BarChartDataEntry(x: 0, y: Double(35), icon: UIImage(named: "Statistics3")))
-        barEntries.append(BarChartDataEntry(x: 1, y: Double(75), icon: UIImage(named: "Statistics1")))
+        barEntries.append(BarChartDataEntry(x: 0, y: Double(35)))
+        barEntries.append(BarChartDataEntry(x: 1, y: Double(75)))
         let barDataSet = BarChartDataSet(entries: barEntries)
-        if let customGreenColor = UIColor(named: "green"),
-           let otherColor = UIColor(named: "font6") {
+        if let customGreenColor = UIColor(named: "font5"),
+           let otherColor = UIColor(named: "green") {
             let nsCustomGreenColor = NSUIColor(cgColor: customGreenColor.cgColor)
             let nsOtherColor = NSUIColor(cgColor: otherColor.cgColor)
             barDataSet.colors = [nsCustomGreenColor, nsOtherColor]
@@ -567,10 +574,55 @@ class AnalysisViewController: UIViewController {
 
         barDataSet.drawValuesEnabled = false
         barDataSet.drawIconsEnabled = true // 아이콘 표시 활성화
-        barData.barWidth = 0.55 // 막대의 너비를 0.5로 설정하여 줄임
+        barData.barWidth = 0.7 // 막대의 너비를 0.5로 설정하여 줄임
         MealWeekBarChartView.data = barData
         MealWeekBarChartView.notifyDataSetChanged()
         MealWeekBarChartView.legend.enabled = false
+        }
+    
+    func setupDeliveryWeekBarChart() {
+        var names = ["외식/배달 평균", "예진 님"]
+        
+        var barEntries = [BarChartDataEntry]()
+        
+        barEntries.append(BarChartDataEntry(x: 0, y: Double(35)))
+        barEntries.append(BarChartDataEntry(x: 1, y: Double(75)))
+        let barDataSet = BarChartDataSet(entries: barEntries)
+        if let customGreenColor = UIColor(named: "font5"),
+           let otherColor = UIColor(named: "font6") {
+            let nsCustomGreenColor = NSUIColor(cgColor: customGreenColor.cgColor)
+            let nsOtherColor = NSUIColor(cgColor: otherColor.cgColor)
+            barDataSet.colors = [nsCustomGreenColor, nsOtherColor]
+        }
+        DeliveryWeekBarChartView.xAxis.labelFont = UIFont.systemFont(ofSize: 12) // 레이블 폰트 크기를 축소
+        DeliveryWeekBarChartView.drawGridBackgroundEnabled = false
+        let barData = BarChartData(dataSet: barDataSet)
+        DeliveryWeekBarChartView.xAxis.labelCount = names.count // 레이블 갯수 설정
+        DeliveryWeekBarChartView.xAxis.spaceMin = 0.5 // 최소 간격 설정
+        DeliveryWeekBarChartView.xAxis.spaceMax = 0.5 // 최대 간격 설정
+
+        // 바 차트 아래에 레이블 추가
+        DeliveryWeekBarChartView.xAxis.valueFormatter = IndexAxisValueFormatter(values: names)
+        DeliveryWeekBarChartView.xAxis.labelPosition = .bottom
+        DeliveryWeekBarChartView.xAxis.labelTextColor = .white
+        let xAxis = DeliveryWeekBarChartView.xAxis
+        xAxis.drawGridLinesEnabled = false
+        xAxis.drawLabelsEnabled = true // 레이블 표시를 가능하게 설정
+        xAxis.drawAxisLineEnabled = false
+
+        DeliveryWeekBarChartView.leftAxis.drawLabelsEnabled = false // leftYAxis 레이블 숨김
+        DeliveryWeekBarChartView.leftAxis.enabled = false
+        DeliveryWeekBarChartView.rightAxis.enabled = false // rightYAxis 숨김
+
+        DeliveryWeekBarChartView.leftAxis.gridColor = UIColor.clear
+        DeliveryWeekBarChartView.rightAxis.gridColor = UIColor.clear
+
+        barDataSet.drawValuesEnabled = false
+        barDataSet.drawIconsEnabled = true // 아이콘 표시 활성화
+        barData.barWidth = 0.7 // 막대의 너비를 0.5로 설정하여 줄임
+        DeliveryWeekBarChartView.data = barData
+        DeliveryWeekBarChartView.notifyDataSetChanged()
+        DeliveryWeekBarChartView.legend.enabled = false
         }
     // BackIcon을 눌렀을 때 호출되는 함수
     @objc private func backIconTapped() {

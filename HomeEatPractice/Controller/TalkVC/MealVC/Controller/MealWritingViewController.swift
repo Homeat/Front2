@@ -383,9 +383,22 @@ class MealWritingViewController: UIViewController, UICollectionViewDelegateFlowL
 
         FoodGeneralAPI.saveFoodTalk(name: name, memo: memo, tag: tag) { result in
             switch result {
-                case .success:
-                    print("API 호출 성공")
-                    // 성공 시 처리할 내용 추가
+            case .success(let foodTalk):
+                    print("FoodTalk 저장 성공: \(foodTalk)")
+                    print("title:\(name)")
+                    print("content\(memo)")
+                
+                // 이미지 업로드를 수행합니다.
+                FoodGeneralAPI.uploadImages(foodTalkID: foodTalk.id, images: self.selectedImages) { uploadResult in
+                    switch uploadResult {
+                    case .success:
+                        print("이미지 업로드 성공")
+                        // 성공 시 처리할 내용 추가
+                    case .failure(let error):
+                        print("이미지 업로드 실패: \(error.localizedDescription)")
+                        // 실패 시 처리할 내용 추가
+                    }
+                }
                 case .failure(let error):
                     print("API 호출 실패: \(error.localizedDescription)")
                     // 실패 시 처리할 내용 추가
@@ -585,6 +598,11 @@ extension MealWritingViewController: UINavigationControllerDelegate, UIImagePick
             return
         }
         
+        // 이미지를 selectedImages 배열에 추가
+        selectedImages.append(image)
+        // 이미지 뷰에 선택된 이미지 표시
+        imageView.image = image
+        
         // 버튼을 숨기고 이미지 뷰를 표시하도록 설정
         //addImageButton.isHidden = true
         imageView.isHidden = false
@@ -701,6 +719,8 @@ extension MealWritingViewController: UITextViewDelegate {
         }
     }
 }
+
+
 
 
 
