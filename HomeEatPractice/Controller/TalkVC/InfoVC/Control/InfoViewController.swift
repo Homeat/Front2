@@ -97,6 +97,16 @@ class InfoViewController: UIViewController {
 
         
     }
+    // 스크롤이 발생할 때 호출되는 메서드
+        func scrollViewDidScroll(_ scrollView: UIScrollView) {
+            let offsetY = scrollView.contentOffset.y
+            let contentHeight = scrollView.contentSize.height
+            
+            // 스크롤이 테이블 뷰의 아래 끝에 도달하면 새로운 데이터를 가져옵니다.
+            if offsetY > contentHeight - scrollView.frame.height {
+                fetchDataFromServer()
+            }
+        }
     func fetchDataFromServer() {
         let url = "https://dev.homeat.site/v1/infoTalk/posts/latest"
         var parameters: [String: Any] = [:] // 파라미터 변수를 var로 변경
@@ -106,7 +116,7 @@ class InfoViewController: UIViewController {
         } else {
             parameters["lastInfoTalkId"] = self.lastInfoTalkId
         }
-
+        parameters["size"] = pageSize // 한 번에 가져올 아이템 수 설정
         parameters["object"] = ["search": ""]
         print(parameters) // parameters 값 출력
         AF.request(url, method: .get, parameters: parameters)
@@ -158,7 +168,11 @@ class InfoViewController: UIViewController {
               let view = json["view"] as? Int,
               let commentNumber = json["commentNumber"] as? Int,
               let save = json["save"] as? String,
-              let infoPicturesArray = json["infoPictures"] as? [[String: Any]] else {
+              let infoPicturesArray = json["infoPictures"] as? [[String: Any]],
+              let infoHashTags = json["infoHashTags"] as? [String] // infoHashTags 추가
+
+            
+        else {
             return nil
         }
 
@@ -171,9 +185,22 @@ class InfoViewController: UIViewController {
             // InfoPicture 인스턴스를 생성하여 반환합니다.
             return InfoPicture(createdAt: "", updatedAt: "", id: id, url: url)
         }
+        // 원하는 날짜 형식으로 변환
+        let formattedCreatedAt = formatDateString(createdAt)
+        let formattedUpdatedAt = formatDateString(updatedAt)
 
-        // MyItem 인스턴스를 생성하여 반환합니다.
-        return MyItem(id: id, title: title, createdAt: createdAt, updatedAt: updatedAt, content: content, love: love, view: view, commentNumber: commentNumber, save: save, infoPictures: infoPictures)
+        return MyItem(id: id, title: title, createdAt: formattedCreatedAt, updatedAt: formattedUpdatedAt, content: content, love: love, view: view, commentNumber: commentNumber, save: save, infoPictures: infoPictures, infoHashTags: infoHashTags) // infoHashTags 추가
+
+    }
+    func formatDateString(_ dateString: String) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSS"
+        if let date = formatter.date(from: dateString) {
+            formatter.dateFormat = "M월 d일 HH:mm"
+            return formatter.string(from: date)
+        } else {
+            return ""
+        }
     }
 
 
@@ -184,7 +211,6 @@ class InfoViewController: UIViewController {
 
     func addSubView() {
         view.addSubview(SearchView)
-        
         SearchView.addSubview(searchTextField)
         SearchView.addSubview(searchImageView)
         view.addSubview(locationButton)
@@ -288,11 +314,11 @@ class InfoViewController: UIViewController {
     
     //셀 각 인덱스 클릭시 게시물 화면으로 넘어가짐
     //InfoViewController - > PostViewController
-    @objc func navigateToPostViewController() {
+    @objc func navigateToPostViewController(with postId: Int) {
         
         let postVC = PostViewController()
+        postVC.postId = postId
         tabBarController?.tabBar.isHidden = true //하단 탭바 안보이게 전환
-        
         navigationController?.pushViewController(postVC, animated: true)
         
         print("present click")
@@ -354,9 +380,11 @@ extension InfoViewController: UITableViewDataSource {
 extension InfoViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
             print("cell click")
+            let selectedPost = posts[indexPath.row]
             //셀을 선택된 후에 셀의 선택상태를 즉시해제 !
             tableView.deselectRow(at: indexPath, animated: true)
-            navigateToPostViewController()
+            navigateToPostViewController(with: selectedPost.id)
+            print(selectedPost.id)
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 150

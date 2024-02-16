@@ -235,7 +235,7 @@ class InfoWritingViewController: UIViewController, UICollectionViewDelegateFlowL
         view.bringSubviewToFront(self.imageView)
         //MARK: - 사진과 앨범 파트
         view.addSubview(collectionView)
-        //view.addSubview(TagcollectionView)
+        view.addSubview(TagcollectionView)
         self.view.addSubview(tagButton)
         self.view.addSubview(tagImage)
         self.view.addSubview(titleLabel)
@@ -257,6 +257,23 @@ class InfoWritingViewController: UIViewController, UICollectionViewDelegateFlowL
             collectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             collectionView.heightAnchor.constraint(equalToConstant: 176),
         ])
+        // TagcollectionView 표시 여부에 따라 tagButton의 숨김 여부 설정
+            if !selectedTags.isEmpty {
+                // selectedTags 배열이 비어있지 않을 때 TagcollectionView 표시
+                NSLayoutConstraint.activate([
+                    TagcollectionView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor,constant: 267),
+                    TagcollectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor,constant: 22),
+                    TagcollectionView.trailingAnchor.constraint(equalTo: tagImage.leadingAnchor,constant: 40),
+                    TagcollectionView.heightAnchor.constraint(equalToConstant: 40),
+                ])
+                // TagcollectionView가 표시될 때 tagButton 숨김
+                tagButton.isHidden = true
+            } else {
+                // selectedTags 배열이 비어있을 때 TagcollectionView 숨김
+                TagcollectionView.isHidden = true
+                // TagcollectionView가 숨겨질 때 tagButton 표시
+                tagButton.isHidden = false
+            }
 //        NSLayoutConstraint.activate([
 //            TagcollectionView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor,constant: 267),
 //            TagcollectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor,constant: 22),

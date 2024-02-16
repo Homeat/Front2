@@ -16,9 +16,10 @@ struct MyItem : Codable {
     let commentNumber: Int // 댓글 개수
     let save: String // 저장 여부
     let infoPictures: [InfoPicture] // 게시글 사진 URL 배열
+    let infoHashTags: [String]
 
     // 초기화
-    init(id: Int, title: String, createdAt: String,updatedAt: String, content: String, love: Int, view: Int, commentNumber: Int, save: String, infoPictures:  [InfoPicture]) {
+    init(id: Int, title: String, createdAt: String,updatedAt: String, content: String, love: Int, view: Int, commentNumber: Int, save: String, infoPictures:  [InfoPicture],infoHashTags: [String]) {
         self.id = id
         self.title = title
         self.createdAt = createdAt
@@ -29,5 +30,6 @@ struct MyItem : Codable {
         self.commentNumber = commentNumber
         self.save = save
         self.infoPictures = infoPictures
+        self.infoHashTags = infoHashTags
     }
 }

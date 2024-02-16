@@ -12,7 +12,7 @@ import Tabman
 class MainTabBarController: UITabBarController, UITabBarControllerDelegate {
     private let tabItems: [TabbarInfo] = [
         TabbarInfo(title: "     홈", imageName: "hometab", selectedImageName: "hometab2"),
-        TabbarInfo(title: " 홈잇리포트", imageName: "chart", selectedImageName: "chart2"),
+        TabbarInfo(title: " 홈잇리포트", imageName: "homeatreport", selectedImageName: "homeatreport1"),
         TabbarInfo(title: " 홈잇토크", imageName: "talktab", selectedImageName: "talktab2"),
         TabbarInfo(title: "마이페이지", imageName: "profiletab", selectedImageName: "profiletab2"),
     ]

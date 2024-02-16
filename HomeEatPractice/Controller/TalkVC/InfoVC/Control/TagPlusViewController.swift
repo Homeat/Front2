@@ -9,9 +9,15 @@ import UIKit
 import Then
 
 class TagPlusViewController: UIViewController {
-    var selectedTags: [String] = []
     var selectedCellCount = 0
+    var selectedTags: [String] = [] {
+        didSet {
+            // 선택된 태그가 업데이트될 때마다 새로운 값을 출력합니다.
+//            print("Selected Tags: \(selectedTags)")
+        }
+    }
     var tags: [TagItem] = defaultTags
+    // TagPlusCollectionViewCell 프로퍼티 추가
     //해시태그 수동 추가 필드
     private let tagplusField = UITextField().then {
         $0.placeholder = "다양한 해시태그를 추가해보세요!"
@@ -76,7 +82,13 @@ class TagPlusViewController: UIViewController {
         collectionView.register(TagPlusCollectionViewCell.self, forCellWithReuseIdentifier: TagPlusCollectionViewCell.reuseIdentifier)
         tabBarController?.tabBar.isHidden = true
         tabBarController?.tabBar.isTranslucent = true
+        
         view.backgroundColor = UIColor(named: "gray2")
+        // 태그 셀의 선택 상태 변경을 감지하고 저장 버튼의 배경색을 업데이트합니다.
+        
+    }
+    private func updateSaveButtonAppearance(_ isSelected: Bool) {
+            saveButton.backgroundColor = isSelected ? UIColor(named: "green") : UIColor(named: "gray4")
     }
     @objc func viewDidTap(gesture: UITapGestureRecognizer) {
         // 뷰를 탭하면 에디팅을 멈추게함.
@@ -171,32 +183,6 @@ class TagPlusViewController: UIViewController {
             tagplusField.text = nil
         }
     }
-    @objc private func tagButtonTapped(_ sender: UIButton) {
-        sender.isSelected.toggle()
-
-        // 버튼의 선택 여부에 따라 border 색상 및 title 색상을 변경
-        if sender.isSelected {
-            sender.layer.borderColor = UIColor(named: "green")?.cgColor ?? UIColor.red.cgColor
-            sender.tintColor = .clear
-            sender.setTitleColor(UIColor(named: "green") ?? UIColor.red, for: .selected)
-            // 선택된 경우, 저장 버튼의 배경색을 변경
-            saveButton.backgroundColor = UIColor(named: "green") ?? UIColor.red
-            saveButton.setTitleColor(UIColor.black, for: .selected)
-            selectedTags.append(sender.currentTitle ?? "")
-            print(selectedTags)
-        } else {
-            sender.layer.borderColor = UIColor(named: "font5")?.cgColor ?? UIColor.gray.cgColor
-            sender.setTitleColor(UIColor(named: "font5") ?? UIColor.gray, for: .normal)
-            // 선택이 해제되면 해당 타이틀을 배열에서 제거
-            if let index = selectedTags.firstIndex(of: sender.currentTitle ?? "") {
-                selectedTags.remove(at: index)
-            }
-        }
-    }
-       // }
-//
-//        print("Tag Button Tapped: \(sender.currentTitle ?? "")")
-//    }
     // 셀을 터치했을 때 발생하는 이벤트
     @objc func navigateToPostViewController() {
         let MealPostVC = MealPostViewController()
@@ -211,27 +197,21 @@ class TagPlusViewController: UIViewController {
     //게시글 작성으로 넘어감
     @objc func navigatetToInfoWritingViewController(_ sender: Any) {
         let InfoWriteVC = InfoWritingViewController()
-        InfoWriteVC.selectedTags = selectedTags
+        InfoWriteVC.selectedTags = selectedTags // 선택된 태그 전달
         tabBarController?.tabBar.isHidden = true //하단 탭바 안보이게 전환
-        print("Selected Tags: \(selectedTags)")
         self.navigationController?.pushViewController(InfoWriteVC, animated: true)
+    }
+    // 선택된 태그 배열을 다른 뷰 컨트롤러로 전달하는 메서드
+    func sendSelectedTagsToOtherViewController(_ selectedTags: [String]) {
+        // 선택된 태그 배열을 인스턴스 프로퍼티에 저장
+        self.selectedTags = selectedTags
+        print("Selected Tags: \(selectedTags)")
+
     }
 
 }
 extension TagPlusViewController: UICollectionViewDelegate {
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(indexPath.item + 1)
-        print("셀이 선택되었습니다. IndexPath: \(indexPath)")
-        
-        if let cell = collectionView.cellForItem(at: indexPath) as? TagPlusCollectionViewCell {
-            cell.updateTagButtonAppearance(selected: true)
-            // 저장 버튼의 배경색을 변경
-            updateSaveButtonAppearance()
-            selectedTags.append(cell.tagButton.currentTitle ?? "")
-            print(selectedTags)
-        }
-    }
 }
 extension TagPlusViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -243,7 +223,21 @@ extension TagPlusViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         let tagItem = tags[indexPath.item]
-        cell.configure(with: tagItem.tagTitle)
+        cell.configure(with: tagItem.tagTitle, selectedTags: selectedTags)
+        // TagPlusCollectionViewCell의 onSelectStatusChange 클로저 설정
+        cell.onSelectStatusChange = { [weak self] isSelected in
+            self?.updateSaveButtonAppearance(isSelected)
+        }
+
+        // TagPlusCollectionViewCell의 onSelectionChange 클로저 설정
+        cell.onSelectionChange = { [weak self] in
+            // 선택된 태그 배열을 다른 뷰 컨트롤러로 전달
+            if let selectedTags = self?.collectionView.visibleCells.compactMap({ ($0 as? TagPlusCollectionViewCell)?.selectedTags }).flatMap({ $0 }) {
+                self?.sendSelectedTagsToOtherViewController(selectedTags)
+                print(selectedTags)
+            }
+        }
+        
         return cell
     }
     

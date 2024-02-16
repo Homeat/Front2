@@ -31,6 +31,7 @@
 		58279A7F2B7BAB47009DCE96 /* AnylysisAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58279A7E2B7BAB47009DCE96 /* AnylysisAPI.swift */; };
 		58279A822B7CB1E0009DCE96 /* CalendarCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58279A812B7CB1E0009DCE96 /* CalendarCollectionViewCell.swift */; };
 		58279A842B7CF88F009DCE96 /* FoodId.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58279A832B7CF88F009DCE96 /* FoodId.swift */; };
+		58279A872B7E42A4009DCE96 /* WeekCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58279A862B7E42A4009DCE96 /* WeekCollectionViewCell.swift */; };
 		582A98A12B636EA0008F30CA /* cameraIcon.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 582A98A02B636EA0008F30CA /* cameraIcon.pdf */; };
 		582A98A52B636F2F008F30CA /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582A98A42B636F2F008F30CA /* SceneDelegate.swift */; };
 		582A98C72B653C61008F30CA /* PasswordEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582A98C62B653C61008F30CA /* PasswordEditViewController.swift */; };
@@ -115,6 +116,7 @@
 		58279A7E2B7BAB47009DCE96 /* AnylysisAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnylysisAPI.swift; sourceTree = "<group>"; };
 		58279A812B7CB1E0009DCE96 /* CalendarCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarCollectionViewCell.swift; sourceTree = "<group>"; };
 		58279A832B7CF88F009DCE96 /* FoodId.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodId.swift; sourceTree = "<group>"; };
+		58279A862B7E42A4009DCE96 /* WeekCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekCollectionViewCell.swift; sourceTree = "<group>"; };
 		582A98A02B636EA0008F30CA /* cameraIcon.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = cameraIcon.pdf; sourceTree = "<group>"; };
 		582A98A42B636F2F008F30CA /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		582A98C62B653C61008F30CA /* PasswordEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordEditViewController.swift; sourceTree = "<group>"; };
@@ -264,6 +266,14 @@
 				58279A812B7CB1E0009DCE96 /* CalendarCollectionViewCell.swift */,
 			);
 			path = CalendarVC;
+			sourceTree = "<group>";
+		};
+		58279A852B7E4288009DCE96 /* WeekCell */ = {
+			isa = PBXGroup;
+			children = (
+				58279A862B7E42A4009DCE96 /* WeekCollectionViewCell.swift */,
+			);
+			path = WeekCell;
 			sourceTree = "<group>";
 		};
 		582A98C82B663248008F30CA /* Network */ = {
@@ -460,6 +470,7 @@
 		58A40D8F2B5D01FC0053E302 /* CashCheckVC */ = {
 			isa = PBXGroup;
 			children = (
+				58279A852B7E4288009DCE96 /* WeekCell */,
 				58A40D8D2B5D01F70053E302 /* WeekCashViewController.swift */,
 			);
 			path = CashCheckVC;
@@ -710,6 +721,7 @@
 				582A99322B6F31C0008F30CA /* PwChangedViewController.swift in Sources */,
 				582A992D2B6F31C0008F30CA /* RegisterDoneViewController.swift in Sources */,
 				58A1E7912B760DF800C45CEA /* InfoTalk.swift in Sources */,
+				58279A872B7E42A4009DCE96 /* WeekCollectionViewCell.swift in Sources */,
 				588A092D2B4FB9F200638D16 /* TableViewCellOne.swift in Sources */,
 				588A09292B4E6ED400638D16 /* InfoViewController.swift in Sources */,
 				58A40D822B5C00D30053E302 /* TagPlusViewController.swift in Sources */,

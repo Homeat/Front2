@@ -35,6 +35,7 @@ class TalkViewController: TabmanViewController {
         self.title = "홈잇토크"
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         self.view.backgroundColor = UIColor(named: "gray2")
+        self.navigationController?.navigationBar.shadowImage = UIImage()
         setConstraints()
         setViewcontroller()
         tabbar.dataSource = self

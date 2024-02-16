@@ -11,6 +11,8 @@ class TagPlusCollectionViewCell: UICollectionViewCell {
     static let reuseIdentifier = "TagPlusCell"
     let talk12Image = UIImage(named: "Talk12")
     var onSelectStatusChange: ((Bool) -> Void)?
+    // 클로저 프로퍼티 추가
+    var onSelectionChange: (() -> Void)?
     var selectedTags: [String] = []
     let tagButton = UIButton().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -37,6 +39,7 @@ class TagPlusCollectionViewCell: UICollectionViewCell {
             tagButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             tagButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
         ])
+        setupTapGestureRecognizers()
 
 
     }
@@ -52,7 +55,9 @@ class TagPlusCollectionViewCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    func configure(with tag: String, image: UIImage? = nil) {
+    func configure(with tag: String, image: UIImage? = nil, selectedTags: [String]) {
+            self.selectedTags = selectedTags
+
             tagButton.setTitle("\(tag)", for: .normal)
             
             // 동적으로 셀 크기를 조정하기 위해 태그 문자열 길이에 따라 버튼의 크기를 조정합니다.
@@ -63,4 +68,36 @@ class TagPlusCollectionViewCell: UICollectionViewCell {
 
             tagButton.widthAnchor.constraint(equalToConstant: buttonWidth).isActive = true
         }
+    func setupTapGestureRecognizers() {
+        let tagButtonTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tagButtonTapped))
+        tagButton.addGestureRecognizer(tagButtonTapGestureRecognizer)
+    }
+    @objc func tagButtonTapped() {
+        // 버튼의 선택 상태를 토글합니다.
+        tagButton.isSelected = !tagButton.isSelected
+        
+        // 버튼의 선택 상태에 따라 border color를 변경합니다.
+        updateTagButtonAppearance(selected: tagButton.isSelected)
+        
+        // 선택 상태 변경 콜백 클로저를 호출합니다.
+        onSelectStatusChange?(tagButton.isSelected)
+        onSelectionChange?()
+        
+        // 버튼이 선택되었을 때만 해당 버튼의 문자열 값을 추가합니다.
+        if tagButton.isSelected {
+            if let title = tagButton.currentTitle {
+                // 이미 선택된 태그가 아닌 경우에만 배열에 추가합니다.
+                if !selectedTags.contains(title) {
+                    selectedTags.append(title)
+                    print(selectedTags)
+                }
+            }
+        } else {
+            // 선택이 해제된 경우 selectedTags 배열에서 해당 문자열을 제거합니다.
+            if let title = tagButton.currentTitle, let index = selectedTags.firstIndex(of: title) {
+                selectedTags.remove(at: index)
+            }
+        }
+       
+    }
 }
