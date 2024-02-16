@@ -178,6 +178,7 @@ class SearchLocationViewController : UIViewController, UITextFieldDelegate {
             self.SearchView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 21),
             self.SearchView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,constant: -21),
 //            self.SearchView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -677),
+            self.SearchView.heightAnchor.constraint(equalToConstant: 57),
             
             searchTextField.leadingAnchor.constraint(equalTo: SearchView.leadingAnchor, constant: 0),
             searchTextField.centerYAnchor.constraint(equalTo: SearchView.centerYAnchor),
@@ -206,7 +207,8 @@ class SearchLocationViewController : UIViewController, UITextFieldDelegate {
             self.currentLocationButton.topAnchor.constraint(equalTo: self.SearchView.bottomAnchor,constant: 27),
             self.currentLocationButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20),
             self.currentLocationButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20),
-            self.currentLocationButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -601),
+//            self.currentLocationButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -601),
+            currentLocationButton.heightAnchor.constraint(equalToConstant: 49),
             
             registerButton.topAnchor.constraint(equalTo: self.scrollView.bottomAnchor, constant: 13),
             registerButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20),
@@ -216,6 +218,7 @@ class SearchLocationViewController : UIViewController, UITextFieldDelegate {
             
         ])
     }
+    
     
     private func makeLabel(text: String) -> UILabel {
         let label = UILabel()

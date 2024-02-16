@@ -17,6 +17,17 @@ class PwChangedViewController : UIViewController {
         return imageView
     }()
     
+    private let headLabel : UILabel = {
+        let label = UILabel()
+        label.text = "비밀번호 변경 완료"
+        label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+        label.backgroundColor = UIColor(named: "gray2")
+        label.textColor = .white
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     private let mainLabel : UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -41,8 +52,12 @@ class PwChangedViewController : UIViewController {
         view.addSubview(doneImage)
         view.addSubview(mainLabel)
         view.addSubview(continueButton)
+        view.addSubview(headLabel)
         
         NSLayoutConstraint.activate([
+            
+            headLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            headLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
             doneImage.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 150),
             doneImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),

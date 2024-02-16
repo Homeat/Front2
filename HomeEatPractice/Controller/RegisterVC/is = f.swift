@@ -179,8 +179,6 @@ extension AddIncomeViewController: UITextFieldDelegate {
         if textField.text?.count ?? 0 > 15 {
             return false
         }
-        
-        
         return true
     }
 }
