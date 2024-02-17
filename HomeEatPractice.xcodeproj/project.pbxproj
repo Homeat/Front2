@@ -23,6 +23,7 @@
 		409AA3442B43E98A0096CDBB /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409AA3432B43E98A0096CDBB /* MyPageViewController.swift */; };
 		409AA3462B453F3B0096CDBB /* PayAddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409AA3452B453F3B0096CDBB /* PayAddViewController.swift */; };
 		409AA3482B467EFB0096CDBB /* PayAnalyzeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409AA3472B467EFB0096CDBB /* PayAnalyzeViewController.swift */; };
+		5807E7962B80D3FB006239E6 /* InfoTalkComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5807E7952B80D3FB006239E6 /* InfoTalkComment.swift */; };
 		58279A6E2B763888009DCE96 /* MemberAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58279A6D2B763888009DCE96 /* MemberAPI.swift */; };
 		58279A702B7638A1009DCE96 /* MemberData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58279A6F2B7638A1009DCE96 /* MemberData.swift */; };
 		58279A742B779657009DCE96 /* InfoPicture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58279A732B779657009DCE96 /* InfoPicture.swift */; };
@@ -32,6 +33,14 @@
 		58279A822B7CB1E0009DCE96 /* CalendarCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58279A812B7CB1E0009DCE96 /* CalendarCollectionViewCell.swift */; };
 		58279A842B7CF88F009DCE96 /* FoodId.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58279A832B7CF88F009DCE96 /* FoodId.swift */; };
 		58279A872B7E42A4009DCE96 /* WeekCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58279A862B7E42A4009DCE96 /* WeekCollectionViewCell.swift */; };
+		58279A8B2B7FAE8F009DCE96 /* CommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58279A8A2B7FAE8F009DCE96 /* CommentTableViewCell.swift */; };
+		58279A8E2B8065EE009DCE96 /* CalendarDateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58279A8D2B8065EE009DCE96 /* CalendarDateFormatter.swift */; };
+		58279A922B806734009DCE96 /* CalendarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58279A912B806733009DCE96 /* CalendarManager.swift */; };
+		58279A942B8080FA009DCE96 /* FoodPicture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58279A932B8080FA009DCE96 /* FoodPicture.swift */; };
+		58279A962B808105009DCE96 /* FoodRecipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58279A952B808105009DCE96 /* FoodRecipe.swift */; };
+		58279A982B808112009DCE96 /* FoodTalkComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58279A972B808112009DCE96 /* FoodTalkComment.swift */; };
+		58279A9A2B80815F009DCE96 /* FoodRecipePicture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58279A992B80815F009DCE96 /* FoodRecipePicture.swift */; };
+		58279A9C2B80816F009DCE96 /* Reply.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58279A9B2B80816F009DCE96 /* Reply.swift */; };
 		582A98A12B636EA0008F30CA /* cameraIcon.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 582A98A02B636EA0008F30CA /* cameraIcon.pdf */; };
 		582A98A52B636F2F008F30CA /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582A98A42B636F2F008F30CA /* SceneDelegate.swift */; };
 		582A98C72B653C61008F30CA /* PasswordEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582A98C62B653C61008F30CA /* PasswordEditViewController.swift */; };
@@ -108,6 +117,7 @@
 		409AA3432B43E98A0096CDBB /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
 		409AA3452B453F3B0096CDBB /* PayAddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayAddViewController.swift; sourceTree = "<group>"; };
 		409AA3472B467EFB0096CDBB /* PayAnalyzeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayAnalyzeViewController.swift; sourceTree = "<group>"; };
+		5807E7952B80D3FB006239E6 /* InfoTalkComment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoTalkComment.swift; sourceTree = "<group>"; };
 		58279A6D2B763888009DCE96 /* MemberAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberAPI.swift; sourceTree = "<group>"; };
 		58279A6F2B7638A1009DCE96 /* MemberData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberData.swift; sourceTree = "<group>"; };
 		58279A732B779657009DCE96 /* InfoPicture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoPicture.swift; sourceTree = "<group>"; };
@@ -117,6 +127,14 @@
 		58279A812B7CB1E0009DCE96 /* CalendarCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarCollectionViewCell.swift; sourceTree = "<group>"; };
 		58279A832B7CF88F009DCE96 /* FoodId.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodId.swift; sourceTree = "<group>"; };
 		58279A862B7E42A4009DCE96 /* WeekCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekCollectionViewCell.swift; sourceTree = "<group>"; };
+		58279A8A2B7FAE8F009DCE96 /* CommentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTableViewCell.swift; sourceTree = "<group>"; };
+		58279A8D2B8065EE009DCE96 /* CalendarDateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDateFormatter.swift; sourceTree = "<group>"; };
+		58279A912B806733009DCE96 /* CalendarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarManager.swift; sourceTree = "<group>"; };
+		58279A932B8080FA009DCE96 /* FoodPicture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodPicture.swift; sourceTree = "<group>"; };
+		58279A952B808105009DCE96 /* FoodRecipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodRecipe.swift; sourceTree = "<group>"; };
+		58279A972B808112009DCE96 /* FoodTalkComment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodTalkComment.swift; sourceTree = "<group>"; };
+		58279A992B80815F009DCE96 /* FoodRecipePicture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodRecipePicture.swift; sourceTree = "<group>"; };
+		58279A9B2B80816F009DCE96 /* Reply.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reply.swift; sourceTree = "<group>"; };
 		582A98A02B636EA0008F30CA /* cameraIcon.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = cameraIcon.pdf; sourceTree = "<group>"; };
 		582A98A42B636F2F008F30CA /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		582A98C62B653C61008F30CA /* PasswordEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordEditViewController.swift; sourceTree = "<group>"; };
@@ -262,8 +280,9 @@
 		58279A802B7CB1BA009DCE96 /* CalendarVC */ = {
 			isa = PBXGroup;
 			children = (
-				58A40D7F2B5BEFC40053E302 /* CalendarCheckViewController.swift */,
-				58279A812B7CB1E0009DCE96 /* CalendarCollectionViewCell.swift */,
+				58279A902B8066FA009DCE96 /* Cell */,
+				58279A8F2B8066ED009DCE96 /* Control */,
+				58279A8C2B8065D5009DCE96 /* Model */,
 			);
 			path = CalendarVC;
 			sourceTree = "<group>";
@@ -274,6 +293,31 @@
 				58279A862B7E42A4009DCE96 /* WeekCollectionViewCell.swift */,
 			);
 			path = WeekCell;
+			sourceTree = "<group>";
+		};
+		58279A8C2B8065D5009DCE96 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				58279A8D2B8065EE009DCE96 /* CalendarDateFormatter.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		58279A8F2B8066ED009DCE96 /* Control */ = {
+			isa = PBXGroup;
+			children = (
+				58A40D7F2B5BEFC40053E302 /* CalendarCheckViewController.swift */,
+				58279A912B806733009DCE96 /* CalendarManager.swift */,
+			);
+			path = Control;
+			sourceTree = "<group>";
+		};
+		58279A902B8066FA009DCE96 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				58279A812B7CB1E0009DCE96 /* CalendarCollectionViewCell.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		582A98C82B663248008F30CA /* Network */ = {
@@ -391,6 +435,7 @@
 				582A98CD2B678AD5008F30CA /* PhotoCollectionViewCell.swift */,
 				582A98CF2B68CCAE008F30CA /* TagCollectionViewCell.swift */,
 				582A99392B6F89F5008F30CA /* TagPlusCollectionViewCell.swift */,
+				58279A8A2B7FAE8F009DCE96 /* CommentTableViewCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -401,6 +446,7 @@
 				588A092F2B4FF9A900638D16 /* MyItem.swift */,
 				582A993B2B6F8C70008F30CA /* TagItem.swift */,
 				58279A732B779657009DCE96 /* InfoPicture.swift */,
+				5807E7952B80D3FB006239E6 /* InfoTalkComment.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -512,6 +558,11 @@
 			isa = PBXGroup;
 			children = (
 				58A40D9A2B5FACAF0053E302 /* MealSource.swift */,
+				58279A932B8080FA009DCE96 /* FoodPicture.swift */,
+				58279A952B808105009DCE96 /* FoodRecipe.swift */,
+				58279A972B808112009DCE96 /* FoodTalkComment.swift */,
+				58279A992B80815F009DCE96 /* FoodRecipePicture.swift */,
+				58279A9B2B80816F009DCE96 /* Reply.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -665,6 +716,7 @@
 				582A992B2B6F31C0008F30CA /* FindPwViewController.swift in Sources */,
 				582A99372B6F31C0008F30CA /* SelectMangeUnitViewController.swift in Sources */,
 				58279A842B7CF88F009DCE96 /* FoodId.swift in Sources */,
+				58279A922B806734009DCE96 /* CalendarManager.swift in Sources */,
 				409AA3402B43E9640096CDBB /* CashViewController.swift in Sources */,
 				582A99352B6F31C0008F30CA /* BankSelectViewController.swift in Sources */,
 				588A09262B4E5BE200638D16 /* WriteViewController.swift in Sources */,
@@ -672,6 +724,9 @@
 				58A40D9B2B5FACAF0053E302 /* MealSource.swift in Sources */,
 				58279A702B7638A1009DCE96 /* MemberData.swift in Sources */,
 				58A40D9E2B5FF1560053E302 /* TabbarInfo.swift in Sources */,
+				58279A8E2B8065EE009DCE96 /* CalendarDateFormatter.swift in Sources */,
+				58279A9A2B80815F009DCE96 /* FoodRecipePicture.swift in Sources */,
+				58279A942B8080FA009DCE96 /* FoodPicture.swift in Sources */,
 				58A40D802B5BEFC40053E302 /* CalendarCheckViewController.swift in Sources */,
 				582A98CC2B6632BB008F30CA /* GeneralAPI.swift in Sources */,
 				58A1E7872B7351BF00C45CEA /* EmailEditViewController.swift in Sources */,
@@ -686,10 +741,13 @@
 				582A993C2B6F8C70008F30CA /* TagItem.swift in Sources */,
 				58A40D952B5FAC1B0053E302 /* MealViewCell.swift in Sources */,
 				582A993A2B6F89F5008F30CA /* TagPlusCollectionViewCell.swift in Sources */,
+				58279A962B808105009DCE96 /* FoodRecipe.swift in Sources */,
+				58279A982B808112009DCE96 /* FoodTalkComment.swift in Sources */,
 				409AA3482B467EFB0096CDBB /* PayAnalyzeViewController.swift in Sources */,
 				582A98CA2B66325D008F30CA /* ItemData.swift in Sources */,
 				582A99292B6F31C0008F30CA /* SearchLocationViewController.swift in Sources */,
 				58279A7C2B7B956E009DCE96 /* PhotoCell.swift in Sources */,
+				58279A9C2B80816F009DCE96 /* Reply.swift in Sources */,
 				58A40D8E2B5D01F70053E302 /* WeekCashViewController.swift in Sources */,
 				582A99312B6F31C0008F30CA /* MaptestViewController.swift in Sources */,
 				582A98C72B653C61008F30CA /* PasswordEditViewController.swift in Sources */,
@@ -712,6 +770,7 @@
 				58A40D732B56AF190053E302 /* InfoWritingViewController.swift in Sources */,
 				582A99332B6F31C0008F30CA /* AddBudgetViewController.swift in Sources */,
 				588A09342B50EC5900638D16 /* PostViewController.swift in Sources */,
+				58279A8B2B7FAE8F009DCE96 /* CommentTableViewCell.swift in Sources */,
 				409AA3462B453F3B0096CDBB /* PayAddViewController.swift in Sources */,
 				582A992F2B6F31C0008F30CA /* MapViewController.swift in Sources */,
 				58A40DA02B6120970053E302 /* DeclareViewController.swift in Sources */,
@@ -729,6 +788,7 @@
 				409AA3442B43E98A0096CDBB /* MyPageViewController.swift in Sources */,
 				582A99272B6F31C0008F30CA /* AddAccountViewController.swift in Sources */,
 				582A99262B6F31C0008F30CA /* AddIncomeViewController.swift in Sources */,
+				5807E7962B80D3FB006239E6 /* InfoTalkComment.swift in Sources */,
 				582A98D22B6B7BB0008F30CA /* LeaveViewController.swift in Sources */,
 				582A98D02B68CCAE008F30CA /* TagCollectionViewCell.swift in Sources */,
 				58A40DA22B6120B70053E302 /* DeclareWriteViewController.swift in Sources */,

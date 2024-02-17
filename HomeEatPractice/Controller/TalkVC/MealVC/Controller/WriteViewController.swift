@@ -6,8 +6,16 @@
 //
 
 import UIKit
+import Then
+import SnapKit
+import Alamofire
 
-class WriteViewController: UIViewController {
+class WriteViewController: UIViewController, UITextFieldDelegate {
+    var foodPosts:[MealSource] = []
+    var currentPage = 1 // 현재 페이지 번호
+    let pageSize = 6 // 한 번에 가져올 아이템 수
+    var talkNavigationBarHiddenState: Bool = false
+    var lastFoodTalkId: Int = 0
     //MARK: - 게시글 검색
     //검색 뷰
     lazy var searchView: UIView = {
@@ -168,6 +176,7 @@ class WriteViewController: UIViewController {
         view.showsVerticalScrollIndicator = false
         view.backgroundColor = .clear
         view.clipsToBounds = true
+        view.keyboardDismissMode = .onDrag
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -180,22 +189,15 @@ class WriteViewController: UIViewController {
         return button
     }()
     
-    var soruce: [MealSource] = [
-        MealSource(mealLabel: "샐러드", mealImage: UIImage(named: "example1")),
-        MealSource(mealLabel: "자취생 집밥", mealImage: UIImage(named: "example1")),
-        MealSource(mealLabel: "콩나물밥", mealImage: UIImage(named: "example1")),
-        MealSource(mealLabel: "사과잼", mealImage: UIImage(named: "example1")),
-        MealSource(mealLabel: "콩나물밥", mealImage: UIImage(named: "example1")),
-        MealSource(mealLabel: "콩나물밥", mealImage: UIImage(named: "example1")),
-    ]
     
-    //MARK: - 화면설정
+    //MARK: - ViewSet
    
     override func viewDidLoad() {
         super.viewDidLoad()
         addViews()
         setConstraints()
-        initialize()
+        searchTextField.delegate = self
+        initialize();self.navigationController?.navigationBar.shadowImage = UIImage()
         collectionView.reloadData()
     }
     
@@ -225,7 +227,6 @@ class WriteViewController: UIViewController {
         self.view.addSubview(self.writingButton)
         self.view.bringSubviewToFront(writingButton)
         self.writingButton.isHidden = false
-        
     }
     
     private func setConstraints() {
@@ -233,7 +234,7 @@ class WriteViewController: UIViewController {
         self.searchView.widthAnchor.constraint(equalToConstant: 351).isActive = true
         
         NSLayoutConstraint.activate([
-            searchView.topAnchor.constraint(equalTo: view.topAnchor, constant: 164),
+            searchView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 59),
             searchView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 21),
             searchView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,constant: -21),
             
@@ -243,14 +244,14 @@ class WriteViewController: UIViewController {
 
             searchImageView.trailingAnchor.constraint(equalTo: searchView.trailingAnchor, constant: -10),
             searchImageView.centerYAnchor.constraint(equalTo: searchView.centerYAnchor),
-            searchImageView.widthAnchor.constraint(equalToConstant: 14.95),
-            searchImageView.heightAnchor.constraint(equalToConstant: 14.95),
+            searchImageView.widthAnchor.constraint(equalToConstant: 14.95), // Adjust the width as needed
+            searchImageView.heightAnchor.constraint(equalToConstant: 14.95), // Adjust the height as needed
             
             self.listButton.topAnchor.constraint(equalTo: searchView.bottomAnchor, constant: 16),
             self.listButton.leadingAnchor.constraint(equalTo: searchView.leadingAnchor),
             
-            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             scrollView.topAnchor.constraint(equalTo: listButton.bottomAnchor, constant: 12),
             scrollView.heightAnchor.constraint(equalToConstant: 31),
             
@@ -264,7 +265,7 @@ class WriteViewController: UIViewController {
             widthStackView.topAnchor.constraint(equalTo: widthBaseView.topAnchor),
             widthStackView.bottomAnchor.constraint(equalTo: widthBaseView.bottomAnchor),
             
-            contentbutton.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            contentbutton.leadingAnchor.constraint(equalTo: widthBaseView.leadingAnchor, constant: 20),
             contentbutton.widthAnchor.constraint(equalToConstant: 68),
             contentbutton.topAnchor.constraint(equalTo: scrollView.topAnchor),
             contentbutton.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
@@ -287,7 +288,7 @@ class WriteViewController: UIViewController {
             
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 21),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            collectionView.topAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: 19),
+            collectionView.topAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: 10),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
             writingButton.widthAnchor.constraint(equalToConstant: 51),
@@ -297,7 +298,181 @@ class WriteViewController: UIViewController {
         
         ])
     }
+    //MARK: - 키보드 처리
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
+             self.view.endEditing(true)
+       }
     
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool{
+        // 키보드 내리면서 동작
+        textField.resignFirstResponder()
+        return true
+    }
+    
+//MARK: - 서버 연결
+    // 스크롤이 발생할 때 호출되는 메서드
+        func scrollViewDidScroll(_ scrollView: UIScrollView) {
+            let offsetY = scrollView.contentOffset.y
+            let contentHeight = scrollView.contentSize.height
+            
+            // 스크롤이 테이블 뷰의 아래 끝에 도달하면 새로운 데이터를 가져옵니다.
+            if offsetY > contentHeight - scrollView.frame.height {
+                fetchDataFromServer()
+            }
+        }
+    
+    func fetchDataFromServer() {
+        let url = "https://dev.homeat.site/v1/foodTalk/posts/latest"
+        var parameters: [String: Any] = [:] // 파라미터 변수를 var로 변경
+        // 처음 호출일 경우에만 Int.max로 설정
+        if self.foodPosts.isEmpty {
+            parameters["lastFoodTalkId"] = Int.max //99999999
+        } else {
+            parameters["lastFoodTalkId"] = self.lastFoodTalkId
+        }
+        parameters["size"] = pageSize // 한 번에 가져올 아이템 수 설정
+        parameters["object"] = ["search": ""] // 검색
+        parameters["object2"] = ["tag": ""]  // 태그
+        print(parameters) // parameters 값 출력
+        AF.request(url, method: .get, parameters: parameters)
+            .validate()
+            .responseJSON { response in
+                switch response.result {
+                case .success(let value):
+        if let jsonDict = value as? [String: Any] {
+            if let jsonArray = jsonDict["content"] as? [[String: Any]] {
+                print(jsonArray) // 서버 응답 확인을 위한 출력
+                
+            if !jsonArray.isEmpty {
+                // 마지막 정보 대화 ID 설정
+                if let lastItem = jsonArray.last, let id = lastItem["id"] as? Int {
+                    self.lastFoodTalkId = id
+                    print("Last Food Talk ID: \(id)")
+                }
+                        
+                // 새로운 데이터를 담을 임시 배열
+                var newPosts: [MealSource] = []
+                for json in jsonArray {
+                    if let mealSource = self.parseMyItemFromJSON(json) {
+                        newPosts.append(mealSource)
+                    }
+                }
+                // 새로운 데이터를 기존 데이터에 추가
+                        self.foodPosts.append(contentsOf: newPosts)
+                        self.collectionView.reloadData()
+                        print("Fetched \(jsonArray.count) items")
+                    } else {
+                        print("No data available")
+                    }
+                }
+            }
+                case .failure(let error):
+                    print("Error fetching data from server: \(error)") // 에러 처리 확인을 위한 출력
+                }
+        }
+    }
+
+    // InfoViewController.swift 파일에 parseMyItemFromJSON 함수 추가
+    func parseMyItemFromJSON(_ json: [String: Any]) -> MealSource? {
+        guard let createdAt = json["createdAt"] as? String,
+                let updatedAt =  json["updatedAt"] as? String,
+                let id = json["id"] as? Int,
+                let name = json["name"] as? String,
+                let memo = json["memo"] as? String,
+                let tag = json["tag"] as? String,
+                let love = json["love"] as? Int,
+                let view = json["view"] as?Int,
+                let commentNumber = json["commentNumber"] as? Int,
+                let setLove = json["setLove"] as? Bool,
+                let save = json["save"] as? String,
+                let foodPicturesArray = json["foodPictures"] as? [[String: Any]],
+                let foodRecipesArray = json["foodRecipes"] as? [[String: Any]],
+                let foodTalkCommentArray = json["foodTalkComments"] as? [[String: Any]]
+        else {
+            return nil
+        }
+
+        // infoPicturesArray에서 InfoPicture 인스턴스 배열을 생성합니다.
+        let foodPictures: [FoodPicture] = foodPicturesArray.compactMap { picture -> FoodPicture? in
+            guard let id = picture["id"] as? Int,
+                  let url = picture["url"] as? String else {
+                return nil
+            }
+            // InfoPicture 인스턴스를 생성하여 반환합니다.
+            return FoodPicture(createdAt: "", updatedAt: "", id: id, url: url)
+        }
+        
+        let foodRecipes: [FoodRecipe] = foodRecipesArray.compactMap { recipe in
+                guard let createdAt = recipe["createdAt"] as? String,
+                      let updatedAt = recipe["updatedAt"] as? String,
+                      let id = recipe["id"] as? Int,
+                      let recipeText = recipe["recipe"] as? String,
+                      let ingredient = recipe["ingredient"] as? String,
+                      let tip = recipe["tip"] as? String,
+                      let foodRecipePicturesArray = recipe["foodRecipePictures"] as? [[String: Any]]
+                else {
+                    return nil
+                }
+                
+                let foodRecipePictures: [FoodRecipePicture] = foodRecipePicturesArray.compactMap { picture in
+                    guard let id = picture["id"] as? Int,
+                          let url = picture["url"] as? String else {
+                        return nil
+                    }
+                    return FoodRecipePicture(createdAt: "", updatedAt: "", id: id, url: url)
+                }
+                
+                return FoodRecipe(createdAt: createdAt, updatedAt: updatedAt, id: id, recipe: recipeText, ingredient: ingredient, tip: tip, foodRecipePictures: foodRecipePictures)
+            }
+        
+        // foodTalkComments 배열 생성
+            let foodTalkComments: [FoodTalkComment] = foodTalkCommentArray.compactMap { comment in
+                guard let createdAt = comment["createdAt"] as? String,
+                      let updatedAt = comment["updatedAt"] as? String,
+                      let id = comment["id"] as? Int,
+                      let content = comment["content"] as? String,
+                      let replyListArray = comment["replyList"] as? [[String: Any]]
+                else {
+                    return nil
+                }
+                
+                let replyList: [Reply] = replyListArray.compactMap { reply in
+                    guard let createdAt = reply["createdAt"] as? String,
+                          let updatedAt = reply["updatedAt"] as? String,
+                          let id = reply["id"] as? Int,
+                          let content = reply["content"] as? String
+                    else {
+                        return nil
+                    }
+                    return Reply(createdAt: createdAt, updatedAt: updatedAt, id: id, content: content)
+                }
+                
+                return FoodTalkComment(createdAt: createdAt, updatedAt: updatedAt, id: id, content: content, replyList: replyList)
+            }
+        
+        // 원하는 날짜 형식으로 변환
+        let formattedCreatedAt = formatDateString(createdAt)
+        let formattedUpdatedAt = formatDateString(updatedAt)
+
+        return MealSource(createdAt: formattedCreatedAt, updatedAt: formattedUpdatedAt, id: id, name: name, memo: memo, tag: tag, love: love, view: view, commentNumber: commentNumber, setLove: setLove, save: save, foodPictures: foodPictures, foodRecipes: foodRecipes, foodTalkComments: foodTalkComments)
+    }
+    
+    func formatDateString(_ dateString: String) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSS"
+        if let date = formatter.date(from: dateString) {
+            formatter.dateFormat = "M월 d일 HH:mm"
+            return formatter.string(from: date)
+        } else {
+            return ""
+        }
+    }
+
+    func displayDataOnCollectionView(_ mealSource: MealSource) {
+        self.foodPosts.append(mealSource)
+    }
+
+//MARK: - objc 메서드
     // 해시태그 버튼을 클릭했을 때 발생하는 이벤트
     @objc func tagClicked(_ sender: UIButton) {
         sender.isSelected = !sender.isSelected
@@ -360,29 +535,56 @@ class WriteViewController: UIViewController {
 
         present(actionSheet, animated: true, completion: nil)
     }
+    
+    //셀 각 인덱스 클릭시 게시물 화면으로 넘어가짐
+    //InfoViewController - > PostViewController
+    @objc func navigateToPostViewController(with postId: Int) {
+        
+        let postVC = MealPostViewController()
+        postVC.postId = postId
+        tabBarController?.tabBar.isHidden = true //하단 탭바 안보이게 전환
+        navigationController?.pushViewController(postVC, animated: true)
+        
+        print("present click")
+    }
 }
 
 
 //MARK: - 프로토콜
 extension WriteViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return soruce.count
+        return foodPosts.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(MealViewCell.self)", for: indexPath) as? MealViewCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MealViewCell", for: indexPath) as? MealViewCell else {
             return UICollectionViewCell()
         }
         
-        let item = soruce[indexPath.row]
-        cell.mealLabel.text = item.mealLabel
-        cell.mealImage.image = item.mealImage
+        let post = foodPosts[indexPath.item]
+        cell.mealLabel.text = post.name
+        if let imageUrl = post.foodPictures.first?.url {
+            AF.request(imageUrl).responseData { response in
+                if let data = response.data {
+                    let image = UIImage(data: data)
+                    // PostImageView 설정
+                    cell.mealImage.image = image
+                }
+            }
+        }
+
         return cell
     }
 }
 
 extension WriteViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("cell click")
+        let selectedPost = foodPosts[indexPath.item]
+        //셀을 선택된 후에 셀의 선택상태를 즉시해제 !
+        collectionView.deselectItem(at: indexPath, animated: true)
+        navigateToPostViewController(with: selectedPost.id)
+        print(selectedPost.id)
         navigateToPostViewController()
     }
 }

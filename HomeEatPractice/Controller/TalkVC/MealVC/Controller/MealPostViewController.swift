@@ -8,11 +8,18 @@
 import UIKit
 
 class MealPostViewController: UIViewController, UIScrollViewDelegate {
-    
-    var images = [UIImage(named: "example1"), UIImage(named: "example1"), UIImage(named: "example1"), UIImage(named: "example1")]
+    // 게시물의 ID
+    // 이미지 캐시
+    var imageCache = NSCache<NSString, UIImage>()
+    var postId: Int = 0
+    var selectedTags : [String] = []
+    var post: MealSource? // 선택된 게시물 데이터
+    // 서버에서 받아온 이미지를 저장할 배열
+    var images: [UIImage] = []
     var imageViews = [UIImageView]()
+    let talk12Image: UIImage? = UIImage(named: "Talk12")
     
-    // MARK: - 프로퍼티 생성
+    // MARK: - 일반 프로퍼티 생성
     lazy var profileView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 18
@@ -74,7 +81,8 @@ class MealPostViewController: UIViewController, UIScrollViewDelegate {
         button.layer.borderColor = UIColor(named: "green")?.cgColor
         button.setTitle("#아침", for: .normal)
         button.setTitleColor(UIColor(named: "green"), for: .normal)
-        button.titleLabel?.font = UIFont(name: "폰트", size: 10) ?? .systemFont(ofSize: 10, weight: .medium)
+        button.titleLabel?.font = UIFont(name: "NotoSansKR-Medium", size: 6)
+        button.contentEdgeInsets = UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 8)
         return button
     }()
     
@@ -91,13 +99,14 @@ class MealPostViewController: UIViewController, UIScrollViewDelegate {
     lazy var contentLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 15, weight: .medium)
-        label.text = "메모 내용이 들어갈 자리입니다.\n메모 내용이 들어갈 자리입니다."
+        label.text = "메모 내용이 들 어갈 자리입니다.\n메모 내용이 들어갈 자리입니다."
         label.numberOfLines = 2
         label.textColor = .white
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
+//MARK: - 페이지 사진 생성
     lazy var pageControl: UIPageControl = {
         let control = UIPageControl()
         control.translatesAutoresizingMaskIntoConstraints = false
@@ -109,6 +118,7 @@ class MealPostViewController: UIViewController, UIScrollViewDelegate {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
+    
     
     // MARK: - viewDidLoad
     override func viewDidLoad() {
@@ -183,7 +193,7 @@ class MealPostViewController: UIViewController, UIScrollViewDelegate {
             self.hashtagCategoty.leadingAnchor.constraint(equalTo: self.profileView.leadingAnchor),
             self.hashtagCategoty.topAnchor.constraint(equalTo: self.profileView.bottomAnchor, constant: 20.2),
             self.hashtagCategoty.heightAnchor.constraint(equalToConstant: 20),
-            self.hashtagCategoty.widthAnchor.constraint(greaterThanOrEqualToConstant: 20.2),
+            self.hashtagCategoty.widthAnchor.constraint(equalToConstant: 40),
             
             self.titleLabel.topAnchor.constraint(equalTo: self.hashtagCategoty.bottomAnchor, constant: 8),
             self.titleLabel.leadingAnchor.constraint(equalTo: self.profileView.leadingAnchor),

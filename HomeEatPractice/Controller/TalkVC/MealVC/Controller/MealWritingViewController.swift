@@ -6,7 +6,7 @@ import AVFoundation
 import Photos
 import PhotosUI
 
-class MealWritingViewController: UIViewController, UICollectionViewDelegateFlowLayout {
+class MealWritingViewController: UIViewController, UITextFieldDelegate, UICollectionViewDelegateFlowLayout {
     //MARK: - 사진과 앨범 파트
     private var selectedImages: [UIImage] = []
     //MARK: - 사진과 앨범 파트
@@ -85,6 +85,9 @@ class MealWritingViewController: UIViewController, UICollectionViewDelegateFlowL
         button.clipsToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
         button.isEnabled = true
+        button.isSelected = true
+        button.layer.borderColor = UIColor(named: "green")?.cgColor
+        button.layer.borderWidth = 2
         return button
     }()
     
@@ -167,13 +170,13 @@ class MealWritingViewController: UIViewController, UICollectionViewDelegateFlowL
     private let memoTextView: UITextView = {
         let textView = UITextView()
         textView.text = "오늘의 음식이 담고 있는 이야기는?"
-        textView.font = UIFont.systemFont(ofSize: 16)
+        textView.font = UIFont.systemFont(ofSize: 17)
         textView.textColor = UIColor(named: "font5")
         textView.layer.cornerRadius = 10
         textView.clipsToBounds = true
         textView.backgroundColor = UIColor(named: "gray4")
         textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.textContainerInset = UIEdgeInsets(top: 17, left: 13, bottom: 17, right: 0)
+        textView.textContainerInset = UIEdgeInsets(top: 15, left: 10, bottom: 10, right: 0)
         return textView
 
     }()
@@ -190,14 +193,125 @@ class MealWritingViewController: UIViewController, UICollectionViewDelegateFlowL
         self.view.addGestureRecognizer(tapGesture)
         tabBarController?.tabBar.isHidden = true
         tabBarController?.tabBar.isTranslucent = true
+        
+        selectedButton = breackfastButton
+        nameTextField.delegate = self
         memoTextView.delegate = self
         navigationControl()
         configUI()
         
     }
     
+//MARK: - ViewSet
+        func navigationControl() {
+            let backbutton = UIBarButtonItem(image: UIImage(named: "back2"), style: .plain, target: self, action: #selector(back(_:)))
+            //간격을 배열로 설정
+            let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+            flexibleSpace.width = 5.0
+            navigationItem.leftBarButtonItem = backbutton
+            let rightBarButton = UIBarButtonItem(title: "저장", style: .plain, target: self, action: #selector(save(_:)))
+            rightBarButton.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: .normal)
+            navigationItem.rightBarButtonItem = rightBarButton
+            self.navigationItem.title = "집밥토크 글쓰기"
+            self.navigationController?.navigationBar.backgroundColor = UIColor(named: "gray2")
+            //title 흰색으로 설정
+            if let navigationBar = navigationController?.navigationBar {
+                navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+                }
+            let navigationBarAppearance = UINavigationBarAppearance()
+            navigationBarAppearance.backgroundColor = UIColor(named: "gray2")
+            navigationController?.navigationBar.standardAppearance = navigationBarAppearance
+            navigationController?.navigationBar.scrollEdgeAppearance = navigationBarAppearance
+        }
+        
+        func configUI() {
+            //let customButton = makeCustomButton()
+            customButton.translatesAutoresizingMaskIntoConstraints = false
+            self.view.addSubview(self.imageView)
+            view.bringSubviewToFront(self.imageView)
+            self.view.addSubview(collectionView)
+            self.view.addSubview(self.customButton)
+            self.view.addSubview(self.container)
+            self.container.addArrangedSubview(self.breackfastButton)
+            self.container.addArrangedSubview(self.lunchButton)
+            self.container.addArrangedSubview(self.dinnerButton)
+            self.view.addSubview(self.mealNameLabel)
+            self.view.addSubview(self.nameTextField)
+            self.view.addSubview(self.memoLabel)
+            self.view.addSubview(self.memoTextView)
+            memoTextView.addObserver(self, forKeyPath: "contentSize", options: [.new], context: nil)
+            
+            
+            NSLayoutConstraint.activate([
+                self.imageView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor,constant: 51),
+                self.imageView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 108),
+                self.imageView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -109),
+                self.imageView.heightAnchor.constraint(equalToConstant: 176),
+                
+            ])
+            
+            NSLayoutConstraint.activate([
+                collectionView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor,constant: 51),
+                collectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+                collectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+                collectionView.heightAnchor.constraint(equalToConstant: 176),
+            ])
+            
+            NSLayoutConstraint.activate([
+                customButton.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 48),
+                customButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 108),
+                customButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -109),
+                customButton.heightAnchor.constraint(equalToConstant: 176),
+            ])
+            
+            NSLayoutConstraint.activate([
+                self.container.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 370),
+                self.container.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 47),
+                self.container.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -47),
+                self.container.heightAnchor.constraint(equalToConstant: 40),
 
-    // MARK: - 탭바제거
+                
+                self.breackfastButton.leadingAnchor.constraint(equalTo: self.container.leadingAnchor),
+                self.breackfastButton.topAnchor.constraint(equalTo: self.container.topAnchor),
+                self.breackfastButton.bottomAnchor.constraint(equalTo: self.container.bottomAnchor),
+                
+                self.breackfastButton.bottomAnchor.constraint(equalTo: self.container.bottomAnchor),
+                self.breackfastButton.topAnchor.constraint(equalTo: self.container.topAnchor),
+                
+                self.dinnerButton.trailingAnchor.constraint(equalTo: self.container.trailingAnchor),
+                self.dinnerButton.topAnchor.constraint(equalTo: self.container.topAnchor),
+                self.dinnerButton.bottomAnchor.constraint(equalTo: self.container.bottomAnchor),
+            ])
+            
+            NSLayoutConstraint.activate([
+                self.mealNameLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 21),
+                self.mealNameLabel.topAnchor.constraint(equalTo: self.container.bottomAnchor, constant: 44),
+                self.mealNameLabel.heightAnchor.constraint(equalToConstant: 26)
+            ])
+            
+            NSLayoutConstraint.activate([
+                self.nameTextField.leadingAnchor.constraint(equalTo: self.mealNameLabel.leadingAnchor),
+                self.nameTextField.trailingAnchor.constraint(equalTo: self.view.trailingAnchor,constant: -20),
+                self.nameTextField.topAnchor.constraint(equalTo: self.mealNameLabel.bottomAnchor, constant: 9),
+                self.nameTextField.heightAnchor.constraint(equalToConstant: 50)
+            ])
+            
+            NSLayoutConstraint.activate([
+                self.memoLabel.leadingAnchor.constraint(equalTo: self.mealNameLabel.leadingAnchor),
+                self.memoLabel.topAnchor.constraint(equalTo: self.nameTextField.bottomAnchor, constant: 31),
+                self.memoLabel.heightAnchor.constraint(equalToConstant: 26),
+            ])
+            
+            NSLayoutConstraint.activate([
+                self.memoTextView.leadingAnchor.constraint(equalTo: self.mealNameLabel.leadingAnchor),
+                self.memoTextView.trailingAnchor.constraint(equalTo: self.nameTextField.trailingAnchor),
+                self.memoTextView.topAnchor.constraint(equalTo: self.memoLabel.bottomAnchor, constant: 9),
+                self.memoTextView.heightAnchor.constraint(equalToConstant: 50),
+            ])
+            
+        }
+
+// MARK: - 탭바처리
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -207,7 +321,6 @@ class MealWritingViewController: UIViewController, UICollectionViewDelegateFlowL
         }
     }
     
-    // MARK: - 키보드처리
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
@@ -216,13 +329,13 @@ class MealWritingViewController: UIViewController, UICollectionViewDelegateFlowL
             tabBarController.customTabBar.isHidden = false
         }
     }
-    
+
+//MARK: - 키보드 처리
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         // NotificationCenter에 관찰자를 등록하는 행위.
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-            
     }
         
     // 관찰자 분리.
@@ -231,129 +344,34 @@ class MealWritingViewController: UIViewController, UICollectionViewDelegateFlowL
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
+    
     @objc func viewDidTap(gesture: UITapGestureRecognizer) {
-        // 뷰를 탭하면 에디팅을 멈추게함.
-        // 에디팅이 멈추므로 키보드가 내려감.
+        // 뷰를 탭하면 키보드가 내려감.
         view.endEditing(true)
     }
-
-    func navigationControl() {
-        let backbutton = UIBarButtonItem(image: UIImage(named: "back2"), style: .plain, target: self, action: #selector(back(_:)))
-        //간격을 배열로 설정
-        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        flexibleSpace.width = 5.0
-        navigationItem.leftBarButtonItem = backbutton
-        let rightBarButton = UIBarButtonItem(title: "저장", style: .plain, target: self, action: #selector(save(_:)))
-        rightBarButton.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: .normal)
-        navigationItem.rightBarButtonItem = rightBarButton
-        self.navigationItem.title = "집밥토크 글쓰기"
-        self.navigationController?.navigationBar.backgroundColor = UIColor(named: "gray2")
-        //title 흰색으로 설정
-        if let navigationBar = navigationController?.navigationBar {
-            navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-            }
-        let navigationBarAppearance = UINavigationBarAppearance()
-        navigationBarAppearance.backgroundColor = UIColor(named: "gray2")
-        navigationController?.navigationBar.standardAppearance = navigationBarAppearance
-        navigationController?.navigationBar.scrollEdgeAppearance = navigationBarAppearance
-    }
     
-    func configUI() {
-        //let customButton = makeCustomButton()
-        customButton.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addSubview(self.imageView)
-        view.bringSubviewToFront(self.imageView)
-        self.view.addSubview(collectionView)
-        self.view.addSubview(self.customButton)
-        self.view.addSubview(self.container)
-        self.container.addArrangedSubview(self.breackfastButton)
-        self.container.addArrangedSubview(self.lunchButton)
-        self.container.addArrangedSubview(self.dinnerButton)
-        self.view.addSubview(self.mealNameLabel)
-        self.view.addSubview(self.nameTextField)
-        self.view.addSubview(self.memoLabel)
-        self.view.addSubview(self.memoTextView)
-        memoTextView.addObserver(self, forKeyPath: "contentSize", options: [.new], context: nil)
-        
-        
-        NSLayoutConstraint.activate([
-            self.imageView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor,constant: 51),
-            self.imageView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 108),
-            self.imageView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -109),
-            self.imageView.heightAnchor.constraint(equalToConstant: 176),
-            
-        ])
-        
-        NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor,constant: 51),
-            collectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            collectionView.heightAnchor.constraint(equalToConstant: 176),
-        ])
-        
-        NSLayoutConstraint.activate([
-            customButton.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 48),
-            customButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 108),
-            customButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -109),
-            customButton.heightAnchor.constraint(equalToConstant: 176),
-        ])
-        
-        NSLayoutConstraint.activate([
-            self.container.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 370),
-            self.container.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 47),
-            self.container.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -47),
-            self.container.heightAnchor.constraint(equalToConstant: 40),
-
-            
-            self.breackfastButton.leadingAnchor.constraint(equalTo: self.container.leadingAnchor),
-            self.breackfastButton.topAnchor.constraint(equalTo: self.container.topAnchor),
-            self.breackfastButton.bottomAnchor.constraint(equalTo: self.container.bottomAnchor),
-            
-            self.breackfastButton.bottomAnchor.constraint(equalTo: self.container.bottomAnchor),
-            self.breackfastButton.topAnchor.constraint(equalTo: self.container.topAnchor),
-            
-            self.dinnerButton.trailingAnchor.constraint(equalTo: self.container.trailingAnchor),
-            self.dinnerButton.topAnchor.constraint(equalTo: self.container.topAnchor),
-            self.dinnerButton.bottomAnchor.constraint(equalTo: self.container.bottomAnchor),
-        ])
-        
-        NSLayoutConstraint.activate([
-            self.mealNameLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 21),
-            self.mealNameLabel.topAnchor.constraint(equalTo: self.container.bottomAnchor, constant: 44),
-            self.mealNameLabel.heightAnchor.constraint(equalToConstant: 26)
-        ])
-        
-        NSLayoutConstraint.activate([
-            self.nameTextField.leadingAnchor.constraint(equalTo: self.mealNameLabel.leadingAnchor),
-            self.nameTextField.trailingAnchor.constraint(equalTo: self.view.trailingAnchor,constant: -20),
-            self.nameTextField.topAnchor.constraint(equalTo: self.mealNameLabel.bottomAnchor, constant: 9),
-            self.nameTextField.heightAnchor.constraint(equalToConstant: 50)
-        ])
-        
-        NSLayoutConstraint.activate([
-            self.memoLabel.leadingAnchor.constraint(equalTo: self.mealNameLabel.leadingAnchor),
-            self.memoLabel.topAnchor.constraint(equalTo: self.nameTextField.bottomAnchor, constant: 31),
-            self.memoLabel.heightAnchor.constraint(equalToConstant: 26),
-        ])
-        
-        NSLayoutConstraint.activate([
-            self.memoTextView.leadingAnchor.constraint(equalTo: self.mealNameLabel.leadingAnchor),
-            self.memoTextView.trailingAnchor.constraint(equalTo: self.nameTextField.trailingAnchor),
-            self.memoTextView.topAnchor.constraint(equalTo: self.memoLabel.bottomAnchor, constant: 9),
-            self.memoTextView.heightAnchor.constraint(equalToConstant: 50),
-        ])
-        
-    }
-    
-    //MARK: - 사진과 앨범 파트 and 태그파트
-    // sizeForItemAt 메서드 추가
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        // 셀 크기 설정
-        if collectionView == self.collectionView {
-            return CGSize(width: 176, height: 176)
+    @objc override func keyboardWillShow(_ sender: Notification) {
+        // 키보드 높이만큼 뷰를 스크롤하는 코드로 수정
+        if let keyboardFrame = sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
+            self.view.frame.origin.y = -keyboardFrame.height
         }
-        return CGSize.zero
     }
+
+    @objc override func keyboardWillHide(_ sender: Notification) {
+        // 키보드가 사라질 때 뷰를 원래 위치로 되돌리는 코드로 수정
+        self.view.frame.origin.y = 0
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        // 다음 텍스트 필드로 포커스를 이동하는 코드로 수정
+        if textField == nameTextField {
+            memoTextView.becomeFirstResponder()
+        } else {
+            textField.resignFirstResponder()
+        }
+        return true
+    }
+
     
     // contentSize의 변경을 관찰하여 동적으로 높이 조정
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -368,6 +386,24 @@ class MealWritingViewController: UIViewController, UICollectionViewDelegateFlowL
         memoTextView.removeObserver(self, forKeyPath: "contentSize")
     }
     
+    //MARK: - objc 메서드
+    var selectedButton: UIButton? = nil
+    // 해시태그 버튼을 클릭했을 때 이벤트
+    @objc func hashtagTapped(_ sender: UIButton) {
+        if let selectedButton = selectedButton {
+                // 이전에 선택된 버튼이 있는 경우, 선택 해제
+                selectedButton.setTitleColor(UIColor(named: "green"), for: .normal)
+                selectedButton.layer.borderColor = UIColor(named: "green")?.cgColor
+            selectedButton.layer.borderWidth = 0
+            }
+            
+        // 현재 선택된 버튼 처리
+                sender.setTitleColor(UIColor(named: "green"), for: .normal)
+                sender.layer.borderColor = UIColor(named: "green")?.cgColor
+                sender.layer.borderWidth = 2
+                selectedButton = sender
+        }
+    
     //뒤로가기
     @objc func back(_ sender: Any) {
          self.navigationController?.popViewController(animated: true)
@@ -376,17 +412,23 @@ class MealWritingViewController: UIViewController, UICollectionViewDelegateFlowL
     
     //저장
     @objc func save(_ sender: UIBarButtonItem) {
-        guard let name = nameTextField.text, let memo = memoTextView.text, let tag = breackfastButton.titleLabel?.text else {
-            // title 또는 content가 nil이라면 에러 처리 또는 사용자에게 알림
-                return
+        let buttonText = selectedButton?.titleLabel?.text
+        let trimmedText = buttonText?.replacingOccurrences(of: "#", with: "")
+        guard let name = nameTextField.text,
+              let memo = memoTextView.text,
+              let tag = trimmedText,
+              let accessToken = UserDefaults.standard.string(forKey: "loginToken") // 사용자의 토큰을 가져옴
+        else {
+                // 필요한 정보가 없을 경우 에러 처리 또는 사용자에게 알림
+            return
         }
-
-        FoodGeneralAPI.saveFoodTalk(name: name, memo: memo, tag: tag) { result in
+        FoodGeneralAPI.saveFoodTalk(name: name, memo: memo, tag: tag, accessToken: accessToken) { result in
             switch result {
             case .success(let foodTalk):
                     print("FoodTalk 저장 성공: \(foodTalk)")
                     print("title:\(name)")
-                    print("content\(memo)")
+                    print("content:\(memo)")
+                    print("tag:\(tag)")
                 
                 // 이미지 업로드를 수행합니다.
                 FoodGeneralAPI.uploadImages(foodTalkID: foodTalk.id, images: self.selectedImages) { uploadResult in
@@ -408,7 +450,16 @@ class MealWritingViewController: UIViewController, UICollectionViewDelegateFlowL
         tabBarController?.tabBar.isHidden = true //하단 탭바 안보이게 전환
         navigationController?.pushViewController(nextVC, animated: true)
     }
-    //MARK: - 사진과 앨범 파트
+    //MARK: - 사진과 앨범 파트 and 태그파트
+    // sizeForItemAt 메서드 추가
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        // 셀 크기 설정
+        if collectionView == self.collectionView {
+            return CGSize(width: 176, height: 176)
+        }
+        return CGSize.zero
+    }
+    
     // 버튼 액션 함수
     @objc func touchUpImageAddButton(button: UIButton) {
         // 갤러리 접근 권한 허용 여부 체크
@@ -430,7 +481,6 @@ class MealWritingViewController: UIViewController, UICollectionViewDelegateFlowL
         }
     }
     
-    //MARK: - 사진과 앨범 파트
     // 갤러리 불러오기
     func pickImage(){
         let photoLibrary = PHPhotoLibrary.shared()
@@ -473,8 +523,6 @@ class MealWritingViewController: UIViewController, UICollectionViewDelegateFlowL
         return customButton
     }
     
-    // MARK: - @objc 메서드
-    //MARK: - 사진과 앨범 파트
     @objc func buttonTapped() {
         let actionSheetController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 
@@ -503,37 +551,6 @@ class MealWritingViewController: UIViewController, UICollectionViewDelegateFlowL
         self.present(actionSheetController, animated: true, completion: nil)
     }
     
-    private var selectedButton: UIButton? = nil
-    // 해시태그 버튼을 클릭했을 때 이벤트
-    @objc func hashtagTapped(_ sender: UIButton) {
-        if let selectedButton = selectedButton {
-                // 이전에 선택된 버튼이 있는 경우, 선택 해제
-                selectedButton.setTitleColor(UIColor(named: "green"), for: .normal)
-                selectedButton.layer.borderColor = UIColor(named: "green")?.cgColor
-            selectedButton.layer.borderWidth = 0
-            }
-            
-            if selectedButton === sender {
-                // 이미 선택된 버튼을 다시 클릭한 경우, 선택 해제
-                selectedButton = nil
-            } else {
-                // 새로운 버튼을 선택한 경우, 선택 처리
-                sender.setTitleColor(UIColor(named: "green"), for: .normal)
-                sender.layer.borderColor = UIColor(named: "green")?.cgColor
-                sender.layer.borderWidth = 2
-                selectedButton = sender
-            }
-    }
-    
-    @objc func navigateToTagPlusViewController(_ sender: Any) {
-        let tagplusVC = TagPlusViewController()
-        tabBarController?.tabBar.isHidden = true //하단 탭바 안보이게 전환
-
-        self.navigationController?.pushViewController(tagplusVC, animated: true)
-        print("tagplus click")
-    }
-    
-    //MARK: - 사진과 앨범 파트
     @objc private func openCamera() {
        #if targetEnvironment(simulator)
        fatalError()
@@ -584,10 +601,11 @@ class MealWritingViewController: UIViewController, UICollectionViewDelegateFlowL
           self.present(alertController, animated: true)
         }
       }
-
+    
+    
     }
 
-// MARK: - Extension
+// MARK: - 카메라 버튼 extension
 extension MealWritingViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     func imagePickerController(
         _ picker: UIImagePickerController,
@@ -620,7 +638,7 @@ extension MealWritingViewController: UINavigationControllerDelegate, UIImagePick
     }
 }
 
-//MARK: - 사진과 앨범 파트
+//MARK: - 사진과 앨범 extension
 extension MealWritingViewController: PHPickerViewControllerDelegate {
     // 사진 선택이 끝났을 때 호출되는 함수
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
@@ -694,18 +712,17 @@ extension MealWritingViewController: UICollectionViewDelegate, UICollectionViewD
         }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
             
-            if collectionView == self.collectionView {
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCollectionViewCell.reuseIdentifier, for: indexPath) as! PhotoCollectionViewCell
-                let image = selectedImages[indexPath.item]
-                cell.imageView.image = image
-                return cell
-            }
-
+        if collectionView == self.collectionView {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCollectionViewCell.reuseIdentifier, for: indexPath) as! PhotoCollectionViewCell
+            let image = selectedImages[indexPath.item]
+            cell.imageView.image = image
+            return cell
+        }
             return UICollectionViewCell()
     }
-    
-    
 }
+
+//MARK: - TextView Extension
 extension MealWritingViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.text == "오늘의 음식이 담고 있는 이야기는?" {
@@ -719,6 +736,8 @@ extension MealWritingViewController: UITextViewDelegate {
         }
     }
 }
+
+
 
 
 

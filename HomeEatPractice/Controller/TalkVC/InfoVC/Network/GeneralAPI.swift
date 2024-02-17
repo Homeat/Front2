@@ -4,7 +4,7 @@ import Alamofire
 class GeneralAPI {
     static let baseURL = "https://dev.homeat.site/"
 
-    static func saveInfoTalk(title: String, content: String, tags: [String], completion: @escaping (Result<InfoTalk, Error>) -> Void) {
+    static func saveInfoTalk(title: String, content: String, tags: [String], accessToken: String,completion: @escaping (Result<InfoTalk, Error>) -> Void) {
         let endpoint = "v1/infoTalk/save"
         let url = baseURL + endpoint
 
@@ -13,8 +13,13 @@ class GeneralAPI {
             "content": content,
             "tags": tags
         ]
+        
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(accessToken)",
+                    "Content-Type": "application/json"
+            ]
 
-        AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default)
+        AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
             .validate()
             .responseDecodable(of: InfoTalk.self) { response in
                 switch response.result {

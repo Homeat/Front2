@@ -360,13 +360,15 @@ class InfoWritingViewController: UIViewController, UICollectionViewDelegateFlowL
      }
     //저장
     @objc func save(_ sender: UIBarButtonItem) {
-        guard let title = titleField.text, let content = contentField.text else {
-            // title 또는 content가 nil이라면 에러 처리 또는 사용자에게 알림
+        guard let
+                title = titleField.text,
+                let content = contentField.text ,
+                let accessToken = UserDefaults.standard.string(forKey: "loginToken") else {
             
             return
         }
     //MARK: - 서버 연동
-    GeneralAPI.saveInfoTalk(title: title, content: content, tags: selectedTags) { result in
+    GeneralAPI.saveInfoTalk(title: title, content: content, tags: selectedTags,accessToken: accessToken) { result in
            switch result {
            case .success(let infoTalk):
                print("InfoTalk 저장 성공: \(infoTalk)")

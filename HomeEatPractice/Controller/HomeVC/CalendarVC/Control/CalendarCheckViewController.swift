@@ -12,7 +12,7 @@ class CalendarCheckViewController: UIViewController {
     private var currentDate = Date() // 현재 날짜를 가져옴
     private lazy var weekStackView = UIStackView()
     private lazy var calendarCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-
+    let calendarManager = CalendarManager()
     //MARK: - 안내 프로퍼티 생성
     private let guideImage1: UIImageView = {
         let image = UIImageView()
@@ -201,12 +201,18 @@ class CalendarCheckViewController: UIViewController {
         view.backgroundColor = UIColor(named: "gray2")
         updateDayLabel() // DayLabel을 업데이트합니다.
         updateYearMonthLabel()
+        updateCalendarData()
         setViews()
         setAddViews()
         setConstraints()
         
         
 
+    }
+    
+    func updateCalendarData() {
+        self.calendarManager.setMonthDays()
+        
     }
     private func updateDayLabel() {
         let formatter = DateFormatter()
@@ -232,6 +238,10 @@ class CalendarCheckViewController: UIViewController {
         self.configureWeekLabel()
     }
     func configureCalendarCollectionView() {
+        let flowLayout = UICollectionViewFlowLayout()
+//        flowLayout.minimumInteritemSpacing = 5 // 셀 간의 가로 간격
+//        flowLayout.minimumLineSpacing = 10 // 셀 간의 세로 간격
+        self.calendarCollectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
         self.progressView.addSubview(calendarCollectionView)
         self.calendarCollectionView.dataSource = self
         self.calendarCollectionView.delegate = self
@@ -241,7 +251,7 @@ class CalendarCheckViewController: UIViewController {
         NSLayoutConstraint.activate([
             self.calendarCollectionView.leadingAnchor.constraint(equalTo: self.progressView.leadingAnchor),
             self.calendarCollectionView.trailingAnchor.constraint(equalTo: self.progressView.trailingAnchor),
-            self.calendarCollectionView.topAnchor.constraint(equalTo: self.progressView.topAnchor, constant: 75),
+            self.calendarCollectionView.topAnchor.constraint(equalTo: self.progressView.topAnchor, constant: 79),
             self.calendarCollectionView.bottomAnchor.constraint(equalTo: self.progressView.bottomAnchor)
         ])
     }
@@ -428,8 +438,22 @@ class CalendarCheckViewController: UIViewController {
         updateYearMonthLabel()
     }
     @objc private func nextIconTapped() {
-        currentDate = Calendar.current.date(byAdding: .month, value: +1, to: currentDate) ?? Date()
-        updateYearMonthLabel()
+        // 다음 월의 첫 번째 날에 해당하는 IndexPath 생성
+        let nextMonthFirstDayIndexPath = IndexPath(item: 0, section: self.calendarManager.yearMonths.firstIndex(of: currentDate) ?? 0)
+        
+        // 다음 섹션으로 이동하기 전에 현재 섹션과 총 섹션 수를 확인합니다.
+        let currentSection = nextMonthFirstDayIndexPath.section
+        let totalSections = self.calendarManager.yearMonths.count
+        
+        // 다음 섹션으로 이동할 때 섹션이 넘어가지 않도록 제한합니다.
+        if currentSection < totalSections - 1 {
+            // 현재 월을 1 증가시킴
+            currentDate = Calendar.current.date(byAdding: .month, value: +1, to: currentDate) ?? Date()
+            // YearMonthLabel 업데이트
+            updateYearMonthLabel()
+            // 해당 IndexPath로 스크롤
+            calendarCollectionView.scrollToItem(at: nextMonthFirstDayIndexPath, at: .left, animated: true)
+        }
     }
     // YearMonthLabel을 업데이트하는 함수
     private func updateYearMonthLabel() {
@@ -442,17 +466,36 @@ class CalendarCheckViewController: UIViewController {
 }
 extension CalendarCheckViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 30
+        return self.calendarManager.monthDays[section].count
     }
-    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+            return self.calendarManager.yearMonths.count
+        }
+    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+            return false // 셀을 선택할 수 없도록 설정
+    }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CalendarCollectionViewCell.identifier, for: indexPath) as? CalendarCollectionViewCell else { return UICollectionViewCell()}
-               
-           cell.configureLabel(text: "0")
-           
-           return cell
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CalendarCollectionViewCell.identifier, for: indexPath) as? CalendarCollectionViewCell else { return UICollectionViewCell() }
+            
+            let monthDays = self.calendarManager.monthDays[indexPath.section]
+            let day = monthDays[indexPath.item]
+            let isCustomColor = (day == "1" || day == "3")
+            cell.configureCellBackground(for: day) // 배경 설정
+            cell.configureLabel(text: day, isCustomColor: isCustomColor)
+            return cell
     }
-    
-    
+
+}
+extension CalendarCheckViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+           return 0 // 셀 간의 가로 간격을 0으로 설정합니다.
+       }
+       
+       func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+           return 0 // 셀 간의 세로 간격을 0으로 설정합니다.
+       }
+        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+            return CGSize(width: collectionView.frame.width, height: 30)
+        }
 }
 

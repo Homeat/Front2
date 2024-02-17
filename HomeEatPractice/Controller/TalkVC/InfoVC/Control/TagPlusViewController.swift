@@ -199,6 +199,7 @@ class TagPlusViewController: UIViewController {
         let InfoWriteVC = InfoWritingViewController()
         InfoWriteVC.selectedTags = selectedTags // 선택된 태그 전달
         tabBarController?.tabBar.isHidden = true //하단 탭바 안보이게 전환
+        //pop
         self.navigationController?.pushViewController(InfoWriteVC, animated: true)
     }
     // 선택된 태그 배열을 다른 뷰 컨트롤러로 전달하는 메서드

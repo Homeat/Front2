@@ -4,23 +4,29 @@
 //
 //  Created by 이지우 on 2024/01/28.
 //
-
+import UIKit
 import Alamofire
 
 class FoodGeneralAPI {
     static let baseURL = "https://dev.homeat.site/"
 
-    static func saveFoodTalk(name: String, memo: String, tag: String, completion: @escaping (Result<FoodId, Error>) -> Void) {
+    static func saveFoodTalk(name: String, memo: String, tag: String, accessToken: String, completion: @escaping (Result<FoodId, Error>) -> Void) {
         let endpoint = "v1/foodTalk/save"
         let url = baseURL + endpoint
  
         let parameters: [String: Any] = [
             "name": name,
             "memo": memo,
-            "tags": tag
+            "tag": tag
         ]
+        
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(accessToken)",
+                    "Content-Type": "application/json"
+            ]
+        
         //post요청 생성
-        AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default)
+        AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
             .validate()
             .responseDecodable(of: FoodId.self) { response in
                 switch response.result {

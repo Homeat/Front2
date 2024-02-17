@@ -8,15 +8,65 @@
 import UIKit
 import Then
 import Alamofire
+import SnapKit
 //게시글 화면
-class PostViewController: UIViewController, UIScrollViewDelegate {
+class PostViewController: UIViewController, UIScrollViewDelegate,UICollectionViewDelegateFlowLayout {
     // 게시물의 ID
+    // 이미지 캐시
+    var imageCache = NSCache<NSString, UIImage>()
     var postId: Int = 0
+    var selectedTags : [String] = []
     var post: MyItem? // 선택된 게시물 데이터
     // 서버에서 받아온 이미지를 저장할 배열
     var images: [UIImage] = []
     var imageViews = [UIImageView]()
-    
+    let talk12Image: UIImage? = UIImage(named: "Talk12")
+    //스크롤 뷰
+    private let mainScrollview = UIScrollView().then {
+        $0.backgroundColor = .clear
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
+    private let contentView = UIView().then {
+        $0.backgroundColor = .clear
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
+    //태그 컬렉션 뷰
+    private lazy var TagcollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.minimumInteritemSpacing = 10
+        layout.minimumLineSpacing = 10
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.backgroundColor = .clear
+        collectionView.showsHorizontalScrollIndicator = false
+        //셀 만들어야 함
+        collectionView.register(TagCollectionViewCell.self, forCellWithReuseIdentifier: "TagCell")
+        
+        return collectionView
+    }()
+    //테이블 뷰
+    private let commenttableView =  UITableView().then {
+        $0.allowsSelection = true //셀 클릭이 가능하게 하는거
+        $0.showsVerticalScrollIndicator = true
+        $0.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        $0.register(CommentTableViewCell.self, forCellReuseIdentifier: CommentTableViewCell.identifier)
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
+    //댓글 header
+    lazy var commentHeaderView: UIView = {
+        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: commenttableView.frame.width, height: 85.5))
+        headerView.backgroundColor = UIColor(named: "gray2") // 적절한 색상으로 설정합니다.
+        return headerView
+    }()
+    //대댓글 footer
+    lazy var plusCommentFooterView: UIView = {
+        let footerView = UIView(frame: CGRect(x: 0, y: 0, width: commenttableView.frame.width, height: 265))
+        footerView.backgroundColor = UIColor(named: "gray2") // 적절한 색상으로 설정합니다.
+        return footerView
+    }()
     // MARK: - 프로퍼티 생성
     //프로필이미지 넣을 원형뷰
     lazy var circleView: UIView = {
@@ -153,6 +203,10 @@ class PostViewController: UIViewController, UIScrollViewDelegate {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
+    private let barView = UIView().then {
+        $0.backgroundColor = UIColor.init(named: "gray4")
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
     //댓글 입력 textfield
     private let inputTextField = UITextField().then {
         $0.placeholder = "댓글을 남겨보세요."
@@ -171,8 +225,8 @@ class PostViewController: UIViewController, UIScrollViewDelegate {
     // MARK: - 탭바제거
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        // 커스텀 탭바를 숨깁니다.
+        //fetchImagesForPost()
+        //updateUI() // 뷰가 화면에 나타날 때마다 UI를 업데이트합니다.
         if let tabBarController = self.tabBarController as? MainTabBarController {
             tabBarController.customTabBar.isHidden = true
         }
@@ -188,9 +242,12 @@ class PostViewController: UIViewController, UIScrollViewDelegate {
     // MARK: - ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+        images = [] // 이미지 배열 초기화
         navigationcontrol()
         view.backgroundColor = UIColor(named: "gray3")
         scrollView.delegate = self
+//        commenttableView.delegate = self
+//        commenttableView.dataSource = self
         addContentScrollView()
         setPageControl()
         fetchDataFromServer()
@@ -199,24 +256,32 @@ class PostViewController: UIViewController, UIScrollViewDelegate {
         configUI()
         tabBarController?.tabBar.isHidden = true
         tabBarController?.tabBar.isTranslucent = true
+        
+        // 키보드 노티피케이션 등록
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     // MARK: - ViewSet
     func addSubView() {
-        
-        view.addSubview(circleView)
+        view.addSubview(mainScrollview)
+        mainScrollview.addSubview(contentView)
+        contentView.addSubview(circleView)
         circleView.addSubview(profileImageView)
-        view.addSubview(profileName)
-        view.addSubview(dateLabel)
-        view.addSubview(complainLabel)
-        view.addSubview(postTitleLabel)
-        view.addSubview(postContentLabel)
-        self.view.addSubview(scrollView)
-        self.view.addSubview(pageControl)
+        contentView.addSubview(profileName)
+        contentView.addSubview(dateLabel)
+        contentView.addSubview(complainLabel)
+        contentView.addSubview(TagcollectionView)
+        contentView.addSubview(postTitleLabel)
+        contentView.addSubview(postContentLabel)
+        contentView.addSubview(scrollView)
+        contentView.addSubview(pageControl)
         view.addSubview(inputUIView)
-        view.addSubview(SmallheartButton)
-        view.addSubview(heartCountLabel)
-        view.addSubview(SmallChatButton)
-        view.addSubview(chatCountLabel)
+        contentView.addSubview(SmallheartButton)
+        contentView.addSubview(heartCountLabel)
+        contentView.addSubview(SmallChatButton)
+        contentView.addSubview(chatCountLabel)
+        contentView.addSubview(barView)
+//        contentView.addSubview(commenttableView)
         inputUIView.addSubview(heartButton)
         inputUIView.addSubview(inputTextField)
         inputUIView.addSubview(sendButton)
@@ -224,11 +289,33 @@ class PostViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func configUI() {
+        NSLayoutConstraint.activate([
+            mainScrollview.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            mainScrollview.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            mainScrollview.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            mainScrollview.bottomAnchor.constraint(equalTo: view.bottomAnchor,constant: -91), // scrollView의 bottom을 inputUIView의 top에 맞춥니다.
+        ])
+
+        NSLayoutConstraint.activate([
+            contentView.topAnchor.constraint(equalTo: mainScrollview.contentLayoutGuide.topAnchor),
+            contentView.leadingAnchor.constraint(equalTo: mainScrollview.contentLayoutGuide.leadingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: mainScrollview.contentLayoutGuide.trailingAnchor),
+            contentView.bottomAnchor.constraint(equalTo: inputUIView.topAnchor, constant: -20), // inputUIView의 top에서 20만큼 위로 설정
+            contentView.widthAnchor.constraint(equalTo: mainScrollview.frameLayoutGuide.widthAnchor) // contentView의 너비를 scrollView의 frameLayoutGuide의 너비와 같도록 설정
+        ])
+
+        // inputUIView의 레이아웃 설정
+        NSLayoutConstraint.activate([
+            inputUIView.bottomAnchor.constraint(equalTo: view.bottomAnchor), // inputUIView의 bottom을 view의 bottom과 같도록 설정하여 고정시킵니다.
+            inputUIView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor), // inputUIView의 leading을 contentView의 leading과 같도록 설정
+            inputUIView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor), // inputUIView의 trailing을 contentView의 trailing과 같도록 설정
+            inputUIView.heightAnchor.constraint(equalToConstant: 91) // inputUIView의 높이를 91로 고정합니다.
+        ])
         // 제약 조건 설정
         NSLayoutConstraint.activate([
             // 서클 뷰의 크기와 위치 설정
-            circleView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
-            circleView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 20),
+            circleView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
+            circleView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 20),
             circleView.widthAnchor.constraint(equalToConstant: 37.8),
             circleView.heightAnchor.constraint(equalToConstant: 37.8),
             
@@ -246,7 +333,7 @@ class PostViewController: UIViewController, UIScrollViewDelegate {
             complainLabel.topAnchor.constraint(equalTo: dateLabel.topAnchor),
             complainLabel.leadingAnchor.constraint(equalTo:dateLabel.trailingAnchor,constant: 195),
             
-            postTitleLabel.topAnchor.constraint(equalTo: circleView.bottomAnchor,constant: 15.2),
+            postTitleLabel.topAnchor.constraint(equalTo: TagcollectionView.bottomAnchor,constant: 13),
             postTitleLabel.leadingAnchor.constraint(equalTo: circleView.leadingAnchor),
             
             postContentLabel.topAnchor.constraint(equalTo: postTitleLabel.bottomAnchor,constant: 8),
@@ -262,12 +349,32 @@ class PostViewController: UIViewController, UIScrollViewDelegate {
             pageControl.heightAnchor.constraint(equalToConstant: 10),
             
             SmallheartButton.topAnchor.constraint(equalTo: pageControl.bottomAnchor, constant: 22),
+            SmallheartButton.widthAnchor.constraint(equalToConstant: 11.9),
+            SmallheartButton.heightAnchor.constraint(equalToConstant: 11),
+            SmallheartButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 21),
             
+            heartCountLabel.leadingAnchor.constraint(equalTo: SmallheartButton.trailingAnchor, constant: 2.1),
+            heartCountLabel.topAnchor.constraint(equalTo: pageControl.bottomAnchor,constant: 20),
+            heartCountLabel.heightAnchor.constraint(equalToConstant: 14),
             
-            inputUIView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            inputUIView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            inputUIView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            inputUIView.heightAnchor.constraint(equalToConstant: 91),
+            SmallChatButton.topAnchor.constraint(equalTo: pageControl.bottomAnchor, constant: 22),
+            SmallChatButton.leadingAnchor.constraint(equalTo: heartCountLabel.trailingAnchor, constant: 12),
+            SmallChatButton.widthAnchor.constraint(equalToConstant: 12),
+            SmallChatButton.heightAnchor.constraint(equalToConstant: 10.7),
+            
+            chatCountLabel.topAnchor.constraint(equalTo: pageControl.bottomAnchor, constant: 20),
+            chatCountLabel.leadingAnchor.constraint(equalTo: SmallChatButton.trailingAnchor, constant: 2.1),
+            chatCountLabel.heightAnchor.constraint(equalToConstant: 14),
+            
+            barView.topAnchor.constraint(equalTo: SmallheartButton.bottomAnchor, constant: 18),
+            barView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            barView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            barView.heightAnchor.constraint(equalToConstant: 4),
+            
+//            commenttableView.topAnchor.constraint(equalTo: barView.bottomAnchor),
+//            commenttableView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+//            commenttableView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+//            commenttableView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
             heartButton.topAnchor.constraint(equalTo: inputUIView.topAnchor,constant: 13),
             heartButton.leadingAnchor.constraint(equalTo: inputUIView.leadingAnchor,constant: 21),
@@ -285,7 +392,21 @@ class PostViewController: UIViewController, UIScrollViewDelegate {
             sendButton.topAnchor.constraint(equalTo: inputUIView.topAnchor,constant: 18),
             sendButton.leadingAnchor.constraint(equalTo: inputTextField.trailingAnchor, constant: 5),
             sendButton.trailingAnchor.constraint(equalTo: inputUIView.trailingAnchor, constant: -9),
+            
+            
         ])
+        NSLayoutConstraint.activate([
+            TagcollectionView.topAnchor.constraint(equalTo: profileImageView.bottomAnchor,constant: 20),
+            TagcollectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 20),
+            TagcollectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            TagcollectionView.heightAnchor.constraint(equalToConstant: 20),
+        ])
+    }
+    //collectionview
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let tag = selectedTags[indexPath.item]
+        let tagWidth = tag.width(withConstrainedHeight: 40, font: UIFont.systemFont(ofSize: 15), margin: 50)
+        return CGSize(width: tagWidth, height: 40)
     }
     //MARK: - PageControl 스크롤뷰 메서드
     private func addContentScrollView() {
@@ -329,6 +450,7 @@ class PostViewController: UIViewController, UIScrollViewDelegate {
     }
     //MARK: = 서버 데이터 받아오기
     func fetchDataFromServer() {
+        
         let url = "https://dev.homeat.site/v1/infoTalk/\(postId)"
         // Alamofire를 사용하여 서버에서 데이터를 가져옵니다
         AF.request(url, method: .get)
@@ -414,38 +536,53 @@ class PostViewController: UIViewController, UIScrollViewDelegate {
                 }
             }.resume()
         }
-        // 이미지 데이터 가져오는 함수 추가
-        func fetchImages(from urls: [String]) {
-            for (index, imageUrl) in urls.enumerated() {
-                guard let url = URL(string: imageUrl) else { continue }
-                
-                URLSession.shared.dataTask(with: url) { [weak self] (data, response, error) in
-                    guard let self = self else { return }
-                    if let error = error {
-                        print("Error fetching image: \(error.localizedDescription)")
-                        return
-                    }
-                    
-                    guard let data = data, let image = UIImage(data: data) else {
-                        print("No image data received")
-                        return
-                    }
-                    
-                    // 이미지를 받아오면 UI 업데이트를 메인 스레드에서 수행합니다.
-                    DispatchQueue.main.async {
-                        self.images.append(image)
-                        if index == self.pageControl.currentPage {
-                            // Update UI with the received images
-                            self.updateUIWithImages()
-                        }
-                    }
-                }.resume()
-            }
-        }
+    // 이미지를 가져오는 메서드
+       func fetchImages(from urls: [String]) {
+           for imageUrl in urls {
+               guard let url = URL(string: imageUrl) else { continue }
+               
+               // 이미지가 캐시에 있는지 확인합니다.
+               if let cachedImage = imageCache.object(forKey: imageUrl as NSString) {
+                   // 캐시에 이미지가 있으면 이미지를 바로 사용합니다.
+                   self.images.append(cachedImage)
+                   // UI를 업데이트합니다.
+                   DispatchQueue.main.async {
+                       self.updateUIWithImages()
+                   }
+               } else {
+                   // 캐시에 이미지가 없으면 네트워크 요청을 보냅니다.
+                   URLSession.shared.dataTask(with: url) { [weak self] (data, response, error) in
+                       guard let self = self else { return }
+                       if let error = error {
+                           print("Error fetching image: \(error.localizedDescription)")
+                           return
+                       }
+                       
+                       guard let data = data, let image = UIImage(data: data) else {
+                           print("No image data received")
+                           return
+                       }
+                       
+                       // 이미지를 캐시에 저장합니다.
+                       self.imageCache.setObject(image, forKey: imageUrl as NSString)
+                       
+                       // 이미지를 배열에 추가합니다.
+                       self.images.append(image)
+                       
+                       // UI를 업데이트합니다.
+                       DispatchQueue.main.async {
+                           self.updateUIWithImages()
+                       }
+                   }.resume()
+               }
+           }
+       }
         
-        // 서버에서 받아온 이미지를 화면에 표시합니다.
+    // 이미지를 화면에 표시하는 메서드
         func updateUIWithImages() {
-            pageControl.numberOfPages = images.count
+            // 이미지를 받아올 때마다 UIScrollView를 초기화합니다.
+            scrollView.subviews.forEach { $0.removeFromSuperview() }
+            
             // 서버에서 받아온 이미지를 UIScrollView에 추가하여 화면에 표시합니다.
             for (index, image) in images.enumerated() {
                 let imageView = UIImageView(image: image)
@@ -455,6 +592,9 @@ class PostViewController: UIViewController, UIScrollViewDelegate {
                 scrollView.addSubview(imageView)
             }
             scrollView.contentSize = CGSize(width: scrollView.bounds.width * CGFloat(images.count), height: scrollView.bounds.height)
+            
+            // 페이지 컨트롤을 업데이트합니다.
+            pageControl.numberOfPages = images.count
         }
         
         // MARK: - @objc 메서드
@@ -468,6 +608,45 @@ class PostViewController: UIViewController, UIScrollViewDelegate {
             let declareVC = DeclareViewController()
             navigationController?.pushViewController(declareVC, animated: true)
         }
+    
     }
+extension PostViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    //셀 개수 카운팅 
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return selectedTags.count
+    }
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TagCell", for: indexPath) as! TagCollectionViewCell
+        let tag = selectedTags[indexPath.item]
+        cell.configure(with: tag, image: talk12Image)
+        return cell
+    }
+}
+extension PostViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+         return 3 // 서버에서 받아온 데이터의 개수만큼 셀을 표시합니다.
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: CommentTableViewCell.identifier, for: indexPath) as? CommentTableViewCell else {
+            return UITableViewCell()
+        }
+
+        return cell
+    }
+
+
+}
+extension PostViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+            print("cell click")
+            //셀을 선택된 후에 셀의 선택상태를 즉시해제 !
+            tableView.deselectRow(at: indexPath, animated: true)
+    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 150
+    }
+}
     
 

@@ -124,74 +124,81 @@ class InfoViewController: UIViewController {
             .responseJSON { response in
                 switch response.result {
                 case .success(let value):
-        if let jsonDict = value as? [String: Any] {
-            if let jsonArray = jsonDict["content"] as? [[String: Any]] {
-                print(jsonArray) // 서버 응답 확인을 위한 출력
-                
-            if !jsonArray.isEmpty {
-                // 마지막 정보 대화 ID 설정
-                if let lastItem = jsonArray.last, let id = lastItem["id"] as? Int {
-                    self.lastInfoTalkId = id
-                    print("Last Info Talk ID: \(id)")
-                }
-                        
-                // 새로운 데이터를 담을 임시 배열
-                var newPosts: [MyItem] = []
-                for json in jsonArray {
-                    if let myItem = self.parseMyItemFromJSON(json) {
-                        newPosts.append(myItem)
+                    if let jsonDict = value as? [String: Any] {
+                        if let jsonArray = jsonDict["content"] as? [[String: Any]] {
+                            // 서버 응답 확인을 위한 출력
+                            print(jsonArray)
+                            // 데이터를 가져온 후에 tableView를 리로드합니다.
+                            
+                            if !jsonArray.isEmpty {
+                                
+                                if let lastItem = jsonArray.last, let id = lastItem["infoTalkId"] as? Int {
+                                    self.lastInfoTalkId = id
+                                    print("Last Info Talk ID: \(id)")
+                                }
+                                
+                                // 새로운 데이터를 담을 임시 배열
+                                var newPosts: [MyItem] = []
+                                for json in jsonArray {
+                                    if let myItem = self.parseMyItemFromJSON(json) {
+                                        newPosts.append(myItem)
+                                        print("MyItem created successfully with infoTalkId: \(myItem.id)")
+
+                                    }else {
+                                        
+                                    }
+                                    
+                                }
+                                // 새로운 데이터를 기존 데이터에 추가
+                                self.posts.append(contentsOf: newPosts)
+                                self.tableView.reloadData()
+                                print("Fetched \(jsonArray.count) items")
+                                print("Total number of items in posts array: \(self.posts.count)")
+
+                            } else {
+                                print("No data available")
+                            }
+                        }
                     }
-                }
-                // 새로운 데이터를 기존 데이터에 추가
-                        self.posts.append(contentsOf: newPosts)
-                        self.tableView.reloadData()
-                        print("Fetched \(jsonArray.count) items")
-                    } else {
-                        print("No data available")
-                    }
-                }
-            }
                 case .failure(let error):
                     print("Error fetching data from server: \(error)") // 에러 처리 확인을 위한 출력
                 }
         }
     }
 
-    // InfoViewController.swift 파일에 parseMyItemFromJSON 함수 추가
     func parseMyItemFromJSON(_ json: [String: Any]) -> MyItem? {
-        guard let id = json["id"] as? Int,
-              let title = json["title"] as? String,
-              let createdAt = json["createdAt"] as? String,
-              let updatedAt = json["updatedAt"] as? String,
-              let content = json["content"] as? String,
+        guard let infoTalkId = json["infoTalkId"] as? Int,
+             let title = json["title"] as? String,
+             let createdAt = json["createdAt"] as? String,
+             let updatedAt = json["updatedAt"] as? String,
+             let content = json["content"] as? String,
+            let url = json["url"] as? String, // 이미지 URL 추가
               let love = json["love"] as? Int,
               let view = json["view"] as? Int,
-              let commentNumber = json["commentNumber"] as? Int,
-              let save = json["save"] as? String,
-              let infoPicturesArray = json["infoPictures"] as? [[String: Any]],
-              let infoHashTags = json["infoHashTags"] as? [String] // infoHashTags 추가
-
-            
-        else {
-            return nil
-        }
-
-        // infoPicturesArray에서 InfoPicture 인스턴스 배열을 생성합니다.
-        let infoPictures: [InfoPicture] = infoPicturesArray.compactMap { picture -> InfoPicture? in
-            guard let id = picture["id"] as? Int,
-                  let url = picture["url"] as? String else {
-                return nil
-            }
-            // InfoPicture 인스턴스를 생성하여 반환합니다.
-            return InfoPicture(createdAt: "", updatedAt: "", id: id, url: url)
-        }
-        // 원하는 날짜 형식으로 변환
+             let commentNumber = json["commentNumber"] as? Int
+       else {
+           return nil
+       }
+        let infoPictures: [InfoPicture] = [InfoPicture(createdAt: "", updatedAt: "", id: infoTalkId, url: url)]
+        
         let formattedCreatedAt = formatDateString(createdAt)
         let formattedUpdatedAt = formatDateString(updatedAt)
-
-        return MyItem(id: id, title: title, createdAt: formattedCreatedAt, updatedAt: formattedUpdatedAt, content: content, love: love, view: view, commentNumber: commentNumber, save: save, infoPictures: infoPictures, infoHashTags: infoHashTags) // infoHashTags 추가
-
+        
+        return MyItem(id: infoTalkId,
+                          title: title,
+                          createdAt: formattedCreatedAt,
+                          updatedAt: formattedUpdatedAt,
+                          content: content,
+                          love: love, // JSON 데이터에는 love 필드가 없으므로 기본값으로 설정
+                          view: view, // 조회수 필드가 없으므로 기본값으로 설정
+                          commentNumber: commentNumber,
+                          setLove: false, // setLove 필드가 없으므로 기본값으로 설정
+                          save: "", // save 필드가 없으므로 빈 문자열로 설정
+                          infoPictures: infoPictures,
+                          infoHashTags: [], // infoHashTags 필드가 없으므로 빈 배열로 설정
+                          infoTalkComments: []) // infoTalkComments 필드가 없으므로 빈 배열로 설정
     }
+    
     func formatDateString(_ dateString: String) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSS"
@@ -205,9 +212,9 @@ class InfoViewController: UIViewController {
 
 
 
-    func displayDataOnCollectionView(_ myItem: MyItem) {
-        self.posts.append(myItem)
-    }
+//    func displayDataOnCollectionView(_ myItem: MyItem) {
+//        self.posts.append(myItem)
+//    }
 
     func addSubView() {
         view.addSubview(SearchView)
@@ -323,13 +330,11 @@ class InfoViewController: UIViewController {
         
         print("present click")
     }
-    
-    
 
 }
 
 extension InfoViewController {
-    //글쓰기 버튼 
+    //글쓰기 버튼
     @objc private func floatingButtonAction(_ sender: UIButton) {
         let nextVC = InfoWritingViewController()
         tabBarController?.tabBar.isHidden = true //하단 탭바 안보이게 전환
@@ -345,6 +350,7 @@ extension InfoViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCellOne.identifier, for: indexPath) as? TableViewCellOne else {
             return UITableViewCell()
         }
@@ -355,7 +361,7 @@ extension InfoViewController: UITableViewDataSource {
         cell.contentLabel.text = post.content
         cell.heartLabel.text = "\(post.love)"
         cell.chatLabel.text = "\(post.commentNumber)"
-
+        cell.selectionStyle = .none
         // 이미지를 비동기적으로 가져오는 방법에 따라 구현
         if let imageUrl = post.infoPictures.first?.url {
             AF.request(imageUrl).responseData { response in
@@ -383,14 +389,13 @@ extension InfoViewController: UITableViewDelegate {
             let selectedPost = posts[indexPath.row]
             //셀을 선택된 후에 셀의 선택상태를 즉시해제 !
             tableView.deselectRow(at: indexPath, animated: true)
-            navigateToPostViewController(with: selectedPost.id)
-            print(selectedPost.id)
+        navigateToPostViewController(with: selectedPost.id)
+        print(selectedPost.id)
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 150
     }
 }
-    
 
     
 

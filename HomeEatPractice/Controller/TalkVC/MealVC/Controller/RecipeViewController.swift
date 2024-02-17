@@ -11,7 +11,12 @@ import AVFoundation
 import Photos
 import PhotosUI
 
-class RecipeViewController: UIViewController {
+
+
+class RecipeViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    // 레시피 단계들을 저장
+    var recipeSteps:[RecipeStep] = []
     
     lazy var recipeTableView: UITableView = {
         let tableView = UITableView()
@@ -32,52 +37,52 @@ class RecipeViewController: UIViewController {
         footerView.backgroundColor = UIColor(named: "gray2") // 적절한 색상으로 설정합니다.
         return footerView
     }()
-   
+    
     // 레시피 라벨
-        lazy var recipeLabel: UILabel = {
-            let label = UILabel()
-            label.text = "레시피"
-            label.font = UIFont(name: "NotoSansKR-Medium", size: 18)
-            label.textColor = UIColor(named: "green")
-            label.translatesAutoresizingMaskIntoConstraints = false
-            return label
-        }()
-        
-        // 위쪽 경계선
-        lazy var overBorderLine: UIView = {
-            let view = UIView()
-            view.backgroundColor = UIColor(r: 102, g: 102, b: 102)
-            view.translatesAutoresizingMaskIntoConstraints = false
-            return view
-        }()
-
+    lazy var recipeLabel: UILabel = {
+        let label = UILabel()
+        label.text = "레시피"
+        label.font = UIFont(name: "NotoSansKR-Medium", size: 18)
+        label.textColor = UIColor(named: "green")
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    // 위쪽 경계선
+    lazy var overBorderLine: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(r: 102, g: 102, b: 102)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     // 스텝 추가 버튼
-       lazy var plusButton: UIButton = {
-           let button = UIButton()
-           button.setImage(UIImage(named: "addIcon"), for: .normal)
-           button.translatesAutoresizingMaskIntoConstraints = false
-           button.backgroundColor = UIColor(r: 54, g: 56, b: 57)
-           button.layer.cornerRadius = 10
-           button.clipsToBounds = true
-           button.layer.borderWidth = 2
-           button.layer.borderColor = UIColor(r: 150, g: 150, b: 150).cgColor
-           button.addTarget(self, action: #selector(plusButtonTapped), for: .touchUpInside)
-           return button
-       }()
-       
-       // 레시피 추가하기 버튼
-       lazy var recipePlusButton: UIButton = {
-           let button = UIButton()
-           button.setTitle("레시피 추가하기", for: .normal)
-           button.backgroundColor = UIColor(named: "green")
-           button.titleLabel?.font = UIFont(name: "NotoSansKR-Medium", size: 20)
-           button.setTitleColor(.black, for: .normal)
-           button.clipsToBounds = true
-           button.layer.cornerRadius = 10
-           button.addTarget(self, action: #selector(recipePlusButtonTapped), for: .touchUpInside)
-           button.translatesAutoresizingMaskIntoConstraints = false
-           return button
-       }()
+    lazy var plusButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "addIcon"), for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.backgroundColor = UIColor(r: 54, g: 56, b: 57)
+        button.layer.cornerRadius = 10
+        button.clipsToBounds = true
+        button.layer.borderWidth = 2
+        button.layer.borderColor = UIColor(r: 150, g: 150, b: 150).cgColor
+        button.addTarget(self, action: #selector(plusButtonTapped), for: .touchUpInside)
+        return button
+    }()
+    
+    // 레시피 추가하기 버튼
+    lazy var recipePlusButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("레시피 추가하기", for: .normal)
+        button.backgroundColor = UIColor(named: "green")
+        button.titleLabel?.font = UIFont(name: "NotoSansKR-Medium", size: 20)
+        button.setTitleColor(.black, for: .normal)
+        button.clipsToBounds = true
+        button.layer.cornerRadius = 10
+        button.addTarget(self, action: #selector(recipePlusButtonTapped), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -85,6 +90,8 @@ class RecipeViewController: UIViewController {
         recipeTableView.dataSource = self
         recipeTableView.delegate = self
         recipeTableView.register(RecipeTableViewCell.self, forCellReuseIdentifier: "RecipeTableViewCell")
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(viewDidTap))
+        self.view.addGestureRecognizer(tapGesture)
         navigationControl()
         setUI()
         setConstraints()
@@ -129,9 +136,6 @@ class RecipeViewController: UIViewController {
             recipePlusButton.topAnchor.constraint(equalTo: plusButton.bottomAnchor, constant: 43), // 원하는 너비
             recipePlusButton.heightAnchor.constraint(equalToConstant: 57) // 원하는 높이
         ])
-        
-      
-        
     }
     
     func navigationControl() {
@@ -145,14 +149,14 @@ class RecipeViewController: UIViewController {
         //title 흰색으로 설정
         if let navigationBar = navigationController?.navigationBar {
             navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-            }
+        }
         let navigationBarAppearance = UINavigationBarAppearance()
         navigationBarAppearance.backgroundColor = UIColor(named: "gray2")
         navigationController?.navigationBar.standardAppearance = navigationBarAppearance
         navigationController?.navigationBar.scrollEdgeAppearance = navigationBarAppearance
     }
     
-    // MARK: - 탭바제거
+    // MARK: - 탭바처리
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -178,7 +182,7 @@ class RecipeViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
-        
+    
     // 관찰자 분리.
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
@@ -186,66 +190,81 @@ class RecipeViewController: UIViewController {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
-//MARK: - @objc 메서드
-    var numberOfCells = 1
-    var stepNumber = 1
+    @objc func viewDidTap(gesture: UITapGestureRecognizer) {
+        // 뷰를 탭하면 키보드가 내려감.
+        view.endEditing(true)
+    }
+    
+    @objc override func keyboardWillShow(_ sender: Notification) {
+        if let keyboardFrame = sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
+                self.recipeTableView.contentInset.bottom = keyboardFrame.height
+                // 키보드가 recipeTextView를 가리지 않도록 선택된 셀이 가리키도록 스크롤
+                if let selectedIndexPath = self.recipeTableView.indexPathForSelectedRow {
+                    self.recipeTableView.scrollToRow(at: selectedIndexPath, at: .none, animated: true)
+                }
+            }
+    }
+    
+    @objc override func keyboardWillHide(_ sender: Notification) {
+        // 키보드가 사라질 때 뷰를 원래 위치로 되돌리는 코드로 수정
+        self.view.frame.origin.y = 0
+    }
+    
+    
+    
+    //MARK: - @objc 메서드
     @objc func plusButtonTapped() {
         print("버튼클릭")
-        numberOfCells += 1
-        stepNumber += 1
-        recipeTableView.reloadData()
     }
+    func addRecipeStep(_ step: RecipeStep) {
+            recipeSteps.append(step)
+        }
     
+    //레시피를 추가
     @objc func recipePlusButtonTapped() {
-        print("레시피버튼클릭")
-    }
-    
-    @objc func viewDidTap(gesture: UITapGestureRecognizer) {
-        // 뷰를 탭하면 에디팅을 멈추게함.
-        // 에디팅이 멈추므로 키보드가 내려감.
-        view.endEditing(true)
+        print("레시피추가 버튼클릭")
+        let nextVC = WriteViewController()
+        tabBarController?.tabBar.isHidden = true //하단 탭바 안보이게 전환
+        navigationController?.pushViewController(nextVC, animated: true)
     }
     
     //뒤로가기
     @objc func back(_ sender: Any) {
-         self.navigationController?.popViewController(animated: true)
+        self.navigationController?.popViewController(animated: true)
         print("back click")
-     }
+    }
+    
 }
-
 
 //MARK: - 레시피 스텝 추가,삭제 Extension
 extension RecipeViewController: UITableViewDelegate, UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return numberOfCells
+        return recipeSteps.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "RecipeTableViewCell", for: indexPath) as? RecipeTableViewCell else { return UITableViewCell() }
-        cell.delegate = self
-        cell.stepLabel.text = "Step \(indexPath.row + 1)"
+        let cell = tableView.dequeueReusableCell(withIdentifier: RecipeTableViewCell.identifier, for: indexPath) as! RecipeTableViewCell
+                
+                // 해당 indexPath에 맞는 레시피 단계를 셀에 전달하여 설정
+                let step = recipeSteps[indexPath.row]
+                cell.configure(with: step)
 
-        return cell
+                // 셀의 delegate를 설정
+                cell.delegate = self
+
+                return cell
     }
 }
 
 extension RecipeViewController: RecipeCellDelegate {
+    
+    
     func didTapRemoveButton(cell: RecipeTableViewCell) {
-        if let indexPath = recipeTableView.indexPath(for: cell) {
-            numberOfCells -= 1
-            stepNumber -= 1
-            
-            recipeTableView.beginUpdates()
-            recipeTableView.deleteRows(at: [indexPath], with: .automatic)
-            recipeTableView.endUpdates()
-            
-            // 삭제된 셀 이후의 셀들의 stepLabel을 업데이트합니다.
-            for i in indexPath.row..<numberOfCells {
-                if let cell = recipeTableView.cellForRow(at: IndexPath(row: i, section: 0)) as? RecipeTableViewCell {
-                    // 셀의 stepLabel을 업데이트합니다.
-                    cell.stepLabel.text = "Step \(i + 1)"
-                }
-            }
+            guard let indexPath = recipeTableView.indexPath(for: cell) else { return }
+            recipeSteps.remove(at: indexPath.row)
+            recipeTableView.reloadData() // 변경된 데이터로 테이블 뷰를 다시 로드
         }
-    }
 }
+
+
