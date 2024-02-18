@@ -201,7 +201,7 @@ class RegisterViewController : UIViewController ,UITextFieldDelegate{
         }
         let customButton = UIButton(configuration: config, primaryAction: buttonAction)
         customButton.heightAnchor.constraint(equalToConstant: 57).isActive = true
-        
+        customButton.isEnabled = false
         return customButton
     }()
     
@@ -341,6 +341,16 @@ class RegisterViewController : UIViewController ,UITextFieldDelegate{
                 notiLabel5.text = "멋진 닉네임이네요:)"
             }
             
+        }
+        
+        
+        //다음버튼 활성화 부분 추가파트
+        if notiLabel1.text == " ", notiLabel2.text == " ", notiLabel3.text == " ", notiLabel4.text == " "{
+            continueButton.isEnabled = true
+            continueButton.configuration?.background.backgroundColor = UIColor(named: "green")
+        } else {
+            continueButton.isEnabled = false
+            continueButton.configuration?.background.backgroundColor = UIColor(named: "searchfont")
         }
         
     }

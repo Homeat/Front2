@@ -7,6 +7,33 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2D0DB3292B81B53E00FFBDD3 /* MemberAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D0DB30B2B81B53E00FFBDD3 /* MemberAPI.swift */; };
+		2D0DB32A2B81B53E00FFBDD3 /* MemberData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D0DB30C2B81B53E00FFBDD3 /* MemberData.swift */; };
+		2D0DB32B2B81B53E00FFBDD3 /* AddLocationInfromViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D0DB30D2B81B53E00FFBDD3 /* AddLocationInfromViewController.swift */; };
+		2D0DB32C2B81B53E00FFBDD3 /* AddBirthInformViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D0DB30E2B81B53E00FFBDD3 /* AddBirthInformViewController.swift */; };
+		2D0DB32D2B81B53E00FFBDD3 /* AddIncomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D0DB30F2B81B53E00FFBDD3 /* AddIncomeViewController.swift */; };
+		2D0DB32E2B81B53E00FFBDD3 /* AddAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D0DB3102B81B53E00FFBDD3 /* AddAccountViewController.swift */; };
+		2D0DB32F2B81B53E00FFBDD3 /* BankCertifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D0DB3112B81B53E00FFBDD3 /* BankCertifyViewController.swift */; };
+		2D0DB3302B81B53E00FFBDD3 /* SearchLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D0DB3122B81B53E00FFBDD3 /* SearchLocationViewController.swift */; };
+		2D0DB3312B81B53E00FFBDD3 /* AddSexViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D0DB3132B81B53E00FFBDD3 /* AddSexViewController.swift */; };
+		2D0DB3322B81B53E00FFBDD3 /* FindPwViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D0DB3142B81B53E00FFBDD3 /* FindPwViewController.swift */; };
+		2D0DB3332B81B53E00FFBDD3 /* RegisterSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D0DB3152B81B53E00FFBDD3 /* RegisterSelectViewController.swift */; };
+		2D0DB3342B81B53E00FFBDD3 /* RegisterDoneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D0DB3162B81B53E00FFBDD3 /* RegisterDoneViewController.swift */; };
+		2D0DB3352B81B53E00FFBDD3 /* Policy3ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D0DB3182B81B53E00FFBDD3 /* Policy3ViewController.swift */; };
+		2D0DB3362B81B53E00FFBDD3 /* Policy2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D0DB3192B81B53E00FFBDD3 /* Policy2ViewController.swift */; };
+		2D0DB3372B81B53E00FFBDD3 /* Policy1ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D0DB31A2B81B53E00FFBDD3 /* Policy1ViewController.swift */; };
+		2D0DB3382B81B53E00FFBDD3 /* Policy4ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D0DB31B2B81B53E00FFBDD3 /* Policy4ViewController.swift */; };
+		2D0DB3392B81B53E00FFBDD3 /* TermsOfUseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D0DB31C2B81B53E00FFBDD3 /* TermsOfUseViewController.swift */; };
+		2D0DB33A2B81B53E00FFBDD3 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D0DB31E2B81B53E00FFBDD3 /* MapViewController.swift */; };
+		2D0DB33B2B81B53E00FFBDD3 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D0DB3202B81B53E00FFBDD3 /* MapView.swift */; };
+		2D0DB33C2B81B53E00FFBDD3 /* MaptestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D0DB3212B81B53E00FFBDD3 /* MaptestViewController.swift */; };
+		2D0DB33D2B81B53E00FFBDD3 /* PwChangedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D0DB3222B81B53E00FFBDD3 /* PwChangedViewController.swift */; };
+		2D0DB33E2B81B53E00FFBDD3 /* AddBudgetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D0DB3232B81B53E00FFBDD3 /* AddBudgetViewController.swift */; };
+		2D0DB33F2B81B53E00FFBDD3 /* CustomProgressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D0DB3242B81B53E00FFBDD3 /* CustomProgressViewController.swift */; };
+		2D0DB3402B81B53E00FFBDD3 /* BankSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D0DB3252B81B53E00FFBDD3 /* BankSelectViewController.swift */; };
+		2D0DB3412B81B53E00FFBDD3 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D0DB3262B81B53E00FFBDD3 /* LoginViewController.swift */; };
+		2D0DB3422B81B53E00FFBDD3 /* SelectMangeUnitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D0DB3272B81B53E00FFBDD3 /* SelectMangeUnitViewController.swift */; };
+		2D0DB3432B81B53E00FFBDD3 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D0DB3282B81B53E00FFBDD3 /* RegisterViewController.swift */; };
 		2D8CFEB82B5A301000FDE2E5 /* HomeatIcon.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 2D8CFEB52B5A301000FDE2E5 /* HomeatIcon.pdf */; };
 		2D8CFEB92B5A301000FDE2E5 /* LaunchScreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D8CFEB62B5A301000FDE2E5 /* LaunchScreen.png */; };
 		2D8CFEBA2B5A301000FDE2E5 /* HomeatLogo.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 2D8CFEB72B5A301000FDE2E5 /* HomeatLogo.pdf */; };
@@ -26,8 +53,6 @@
 		5807E7962B80D3FB006239E6 /* InfoTalkComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5807E7952B80D3FB006239E6 /* InfoTalkComment.swift */; };
 		5807E7982B810C44006239E6 /* FoodTalkComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5807E7972B810C44006239E6 /* FoodTalkComment.swift */; };
 		5807E79A2B81A9B0006239E6 /* MealPhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5807E7992B81A9B0006239E6 /* MealPhotoCollectionViewCell.swift */; };
-		58279A6E2B763888009DCE96 /* MemberAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58279A6D2B763888009DCE96 /* MemberAPI.swift */; };
-		58279A702B7638A1009DCE96 /* MemberData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58279A6F2B7638A1009DCE96 /* MemberData.swift */; };
 		58279A742B779657009DCE96 /* InfoPicture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58279A732B779657009DCE96 /* InfoPicture.swift */; };
 		58279A762B790C52009DCE96 /* RecipeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58279A752B790C52009DCE96 /* RecipeTableViewCell.swift */; };
 		58279A7C2B7B956E009DCE96 /* PhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58279A7B2B7B956E009DCE96 /* PhotoCell.swift */; };
@@ -51,27 +76,6 @@
 		582A98D02B68CCAE008F30CA /* TagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582A98CF2B68CCAE008F30CA /* TagCollectionViewCell.swift */; };
 		582A98D22B6B7BB0008F30CA /* LeaveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582A98D12B6B7BB0008F30CA /* LeaveViewController.swift */; };
 		582A98D42B6B819E008F30CA /* AnalysisViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582A98D32B6B819E008F30CA /* AnalysisViewController.swift */; };
-		582A99242B6F31C0008F30CA /* AddLocationInfromViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582A990C2B6F31C0008F30CA /* AddLocationInfromViewController.swift */; };
-		582A99252B6F31C0008F30CA /* AddBirthInformViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582A990D2B6F31C0008F30CA /* AddBirthInformViewController.swift */; };
-		582A99262B6F31C0008F30CA /* AddIncomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582A990E2B6F31C0008F30CA /* AddIncomeViewController.swift */; };
-		582A99272B6F31C0008F30CA /* AddAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582A990F2B6F31C0008F30CA /* AddAccountViewController.swift */; };
-		582A99282B6F31C0008F30CA /* BankCertifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582A99102B6F31C0008F30CA /* BankCertifyViewController.swift */; };
-		582A99292B6F31C0008F30CA /* SearchLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582A99112B6F31C0008F30CA /* SearchLocationViewController.swift */; };
-		582A992A2B6F31C0008F30CA /* AddSexViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582A99122B6F31C0008F30CA /* AddSexViewController.swift */; };
-		582A992B2B6F31C0008F30CA /* FindPwViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582A99132B6F31C0008F30CA /* FindPwViewController.swift */; };
-		582A992C2B6F31C0008F30CA /* RegisterSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582A99142B6F31C0008F30CA /* RegisterSelectViewController.swift */; };
-		582A992D2B6F31C0008F30CA /* RegisterDoneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582A99152B6F31C0008F30CA /* RegisterDoneViewController.swift */; };
-		582A992E2B6F31C0008F30CA /* TermsOfUseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582A99172B6F31C0008F30CA /* TermsOfUseViewController.swift */; };
-		582A992F2B6F31C0008F30CA /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582A99192B6F31C0008F30CA /* MapViewController.swift */; };
-		582A99302B6F31C0008F30CA /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582A991B2B6F31C0008F30CA /* MapView.swift */; };
-		582A99312B6F31C0008F30CA /* MaptestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582A991C2B6F31C0008F30CA /* MaptestViewController.swift */; };
-		582A99322B6F31C0008F30CA /* PwChangedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582A991D2B6F31C0008F30CA /* PwChangedViewController.swift */; };
-		582A99332B6F31C0008F30CA /* AddBudgetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582A991E2B6F31C0008F30CA /* AddBudgetViewController.swift */; };
-		582A99342B6F31C0008F30CA /* CustomProgressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582A991F2B6F31C0008F30CA /* CustomProgressViewController.swift */; };
-		582A99352B6F31C0008F30CA /* BankSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582A99202B6F31C0008F30CA /* BankSelectViewController.swift */; };
-		582A99362B6F31C0008F30CA /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582A99212B6F31C0008F30CA /* LoginViewController.swift */; };
-		582A99372B6F31C0008F30CA /* SelectMangeUnitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582A99222B6F31C0008F30CA /* SelectMangeUnitViewController.swift */; };
-		582A99382B6F31C0008F30CA /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582A99232B6F31C0008F30CA /* RegisterViewController.swift */; };
 		582A993A2B6F89F5008F30CA /* TagPlusCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582A99392B6F89F5008F30CA /* TagPlusCollectionViewCell.swift */; };
 		582A993C2B6F8C70008F30CA /* TagItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582A993B2B6F8C70008F30CA /* TagItem.swift */; };
 		588A09262B4E5BE200638D16 /* WriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588A09252B4E5BE200638D16 /* WriteViewController.swift */; };
@@ -100,6 +104,33 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2D0DB30B2B81B53E00FFBDD3 /* MemberAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemberAPI.swift; sourceTree = "<group>"; };
+		2D0DB30C2B81B53E00FFBDD3 /* MemberData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemberData.swift; sourceTree = "<group>"; };
+		2D0DB30D2B81B53E00FFBDD3 /* AddLocationInfromViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddLocationInfromViewController.swift; sourceTree = "<group>"; };
+		2D0DB30E2B81B53E00FFBDD3 /* AddBirthInformViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddBirthInformViewController.swift; sourceTree = "<group>"; };
+		2D0DB30F2B81B53E00FFBDD3 /* AddIncomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddIncomeViewController.swift; sourceTree = "<group>"; };
+		2D0DB3102B81B53E00FFBDD3 /* AddAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddAccountViewController.swift; sourceTree = "<group>"; };
+		2D0DB3112B81B53E00FFBDD3 /* BankCertifyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BankCertifyViewController.swift; sourceTree = "<group>"; };
+		2D0DB3122B81B53E00FFBDD3 /* SearchLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchLocationViewController.swift; sourceTree = "<group>"; };
+		2D0DB3132B81B53E00FFBDD3 /* AddSexViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddSexViewController.swift; sourceTree = "<group>"; };
+		2D0DB3142B81B53E00FFBDD3 /* FindPwViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindPwViewController.swift; sourceTree = "<group>"; };
+		2D0DB3152B81B53E00FFBDD3 /* RegisterSelectViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterSelectViewController.swift; sourceTree = "<group>"; };
+		2D0DB3162B81B53E00FFBDD3 /* RegisterDoneViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterDoneViewController.swift; sourceTree = "<group>"; };
+		2D0DB3182B81B53E00FFBDD3 /* Policy3ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Policy3ViewController.swift; sourceTree = "<group>"; };
+		2D0DB3192B81B53E00FFBDD3 /* Policy2ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Policy2ViewController.swift; sourceTree = "<group>"; };
+		2D0DB31A2B81B53E00FFBDD3 /* Policy1ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Policy1ViewController.swift; sourceTree = "<group>"; };
+		2D0DB31B2B81B53E00FFBDD3 /* Policy4ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Policy4ViewController.swift; sourceTree = "<group>"; };
+		2D0DB31C2B81B53E00FFBDD3 /* TermsOfUseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TermsOfUseViewController.swift; sourceTree = "<group>"; };
+		2D0DB31E2B81B53E00FFBDD3 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		2D0DB3202B81B53E00FFBDD3 /* MapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		2D0DB3212B81B53E00FFBDD3 /* MaptestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaptestViewController.swift; sourceTree = "<group>"; };
+		2D0DB3222B81B53E00FFBDD3 /* PwChangedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PwChangedViewController.swift; sourceTree = "<group>"; };
+		2D0DB3232B81B53E00FFBDD3 /* AddBudgetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddBudgetViewController.swift; sourceTree = "<group>"; };
+		2D0DB3242B81B53E00FFBDD3 /* CustomProgressViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomProgressViewController.swift; sourceTree = "<group>"; };
+		2D0DB3252B81B53E00FFBDD3 /* BankSelectViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BankSelectViewController.swift; sourceTree = "<group>"; };
+		2D0DB3262B81B53E00FFBDD3 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		2D0DB3272B81B53E00FFBDD3 /* SelectMangeUnitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectMangeUnitViewController.swift; sourceTree = "<group>"; };
+		2D0DB3282B81B53E00FFBDD3 /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		2D8CFEB52B5A301000FDE2E5 /* HomeatIcon.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = HomeatIcon.pdf; sourceTree = "<group>"; };
 		2D8CFEB62B5A301000FDE2E5 /* LaunchScreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LaunchScreen.png; sourceTree = "<group>"; };
 		2D8CFEB72B5A301000FDE2E5 /* HomeatLogo.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = HomeatLogo.pdf; sourceTree = "<group>"; };
@@ -121,8 +152,6 @@
 		5807E7952B80D3FB006239E6 /* InfoTalkComment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoTalkComment.swift; sourceTree = "<group>"; };
 		5807E7972B810C44006239E6 /* FoodTalkComment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodTalkComment.swift; sourceTree = "<group>"; };
 		5807E7992B81A9B0006239E6 /* MealPhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealPhotoCollectionViewCell.swift; sourceTree = "<group>"; };
-		58279A6D2B763888009DCE96 /* MemberAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberAPI.swift; sourceTree = "<group>"; };
-		58279A6F2B7638A1009DCE96 /* MemberData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberData.swift; sourceTree = "<group>"; };
 		58279A732B779657009DCE96 /* InfoPicture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoPicture.swift; sourceTree = "<group>"; };
 		58279A752B790C52009DCE96 /* RecipeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeTableViewCell.swift; sourceTree = "<group>"; };
 		58279A7B2B7B956E009DCE96 /* PhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCell.swift; sourceTree = "<group>"; };
@@ -146,27 +175,6 @@
 		582A98CF2B68CCAE008F30CA /* TagCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCollectionViewCell.swift; sourceTree = "<group>"; };
 		582A98D12B6B7BB0008F30CA /* LeaveViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaveViewController.swift; sourceTree = "<group>"; };
 		582A98D32B6B819E008F30CA /* AnalysisViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalysisViewController.swift; sourceTree = "<group>"; };
-		582A990C2B6F31C0008F30CA /* AddLocationInfromViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddLocationInfromViewController.swift; sourceTree = "<group>"; };
-		582A990D2B6F31C0008F30CA /* AddBirthInformViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddBirthInformViewController.swift; sourceTree = "<group>"; };
-		582A990E2B6F31C0008F30CA /* AddIncomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddIncomeViewController.swift; sourceTree = "<group>"; };
-		582A990F2B6F31C0008F30CA /* AddAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddAccountViewController.swift; sourceTree = "<group>"; };
-		582A99102B6F31C0008F30CA /* BankCertifyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BankCertifyViewController.swift; sourceTree = "<group>"; };
-		582A99112B6F31C0008F30CA /* SearchLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchLocationViewController.swift; sourceTree = "<group>"; };
-		582A99122B6F31C0008F30CA /* AddSexViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddSexViewController.swift; sourceTree = "<group>"; };
-		582A99132B6F31C0008F30CA /* FindPwViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindPwViewController.swift; sourceTree = "<group>"; };
-		582A99142B6F31C0008F30CA /* RegisterSelectViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterSelectViewController.swift; sourceTree = "<group>"; };
-		582A99152B6F31C0008F30CA /* RegisterDoneViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterDoneViewController.swift; sourceTree = "<group>"; };
-		582A99172B6F31C0008F30CA /* TermsOfUseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TermsOfUseViewController.swift; sourceTree = "<group>"; };
-		582A99192B6F31C0008F30CA /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
-		582A991B2B6F31C0008F30CA /* MapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
-		582A991C2B6F31C0008F30CA /* MaptestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaptestViewController.swift; sourceTree = "<group>"; };
-		582A991D2B6F31C0008F30CA /* PwChangedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PwChangedViewController.swift; sourceTree = "<group>"; };
-		582A991E2B6F31C0008F30CA /* AddBudgetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddBudgetViewController.swift; sourceTree = "<group>"; };
-		582A991F2B6F31C0008F30CA /* CustomProgressViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomProgressViewController.swift; sourceTree = "<group>"; };
-		582A99202B6F31C0008F30CA /* BankSelectViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BankSelectViewController.swift; sourceTree = "<group>"; };
-		582A99212B6F31C0008F30CA /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
-		582A99222B6F31C0008F30CA /* SelectMangeUnitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectMangeUnitViewController.swift; sourceTree = "<group>"; };
-		582A99232B6F31C0008F30CA /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		582A99392B6F89F5008F30CA /* TagPlusCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagPlusCollectionViewCell.swift; sourceTree = "<group>"; };
 		582A993B2B6F8C70008F30CA /* TagItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagItem.swift; sourceTree = "<group>"; };
 		588A09252B4E5BE200638D16 /* WriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteViewController.swift; sourceTree = "<group>"; };
@@ -208,6 +216,72 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2D0DB3092B81B53E00FFBDD3 /* RegisterVC */ = {
+			isa = PBXGroup;
+			children = (
+				2D0DB30A2B81B53E00FFBDD3 /* Network2 */,
+				2D0DB30D2B81B53E00FFBDD3 /* AddLocationInfromViewController.swift */,
+				2D0DB30E2B81B53E00FFBDD3 /* AddBirthInformViewController.swift */,
+				2D0DB30F2B81B53E00FFBDD3 /* AddIncomeViewController.swift */,
+				2D0DB3102B81B53E00FFBDD3 /* AddAccountViewController.swift */,
+				2D0DB3112B81B53E00FFBDD3 /* BankCertifyViewController.swift */,
+				2D0DB3122B81B53E00FFBDD3 /* SearchLocationViewController.swift */,
+				2D0DB3132B81B53E00FFBDD3 /* AddSexViewController.swift */,
+				2D0DB3142B81B53E00FFBDD3 /* FindPwViewController.swift */,
+				2D0DB3152B81B53E00FFBDD3 /* RegisterSelectViewController.swift */,
+				2D0DB3162B81B53E00FFBDD3 /* RegisterDoneViewController.swift */,
+				2D0DB3172B81B53E00FFBDD3 /* PolicyVC */,
+				2D0DB31D2B81B53E00FFBDD3 /* MapVC */,
+				2D0DB3222B81B53E00FFBDD3 /* PwChangedViewController.swift */,
+				2D0DB3232B81B53E00FFBDD3 /* AddBudgetViewController.swift */,
+				2D0DB3242B81B53E00FFBDD3 /* CustomProgressViewController.swift */,
+				2D0DB3252B81B53E00FFBDD3 /* BankSelectViewController.swift */,
+				2D0DB3262B81B53E00FFBDD3 /* LoginViewController.swift */,
+				2D0DB3272B81B53E00FFBDD3 /* SelectMangeUnitViewController.swift */,
+				2D0DB3282B81B53E00FFBDD3 /* RegisterViewController.swift */,
+			);
+			path = RegisterVC;
+			sourceTree = "<group>";
+		};
+		2D0DB30A2B81B53E00FFBDD3 /* Network2 */ = {
+			isa = PBXGroup;
+			children = (
+				2D0DB30B2B81B53E00FFBDD3 /* MemberAPI.swift */,
+				2D0DB30C2B81B53E00FFBDD3 /* MemberData.swift */,
+			);
+			path = Network2;
+			sourceTree = "<group>";
+		};
+		2D0DB3172B81B53E00FFBDD3 /* PolicyVC */ = {
+			isa = PBXGroup;
+			children = (
+				2D0DB3182B81B53E00FFBDD3 /* Policy3ViewController.swift */,
+				2D0DB3192B81B53E00FFBDD3 /* Policy2ViewController.swift */,
+				2D0DB31A2B81B53E00FFBDD3 /* Policy1ViewController.swift */,
+				2D0DB31B2B81B53E00FFBDD3 /* Policy4ViewController.swift */,
+				2D0DB31C2B81B53E00FFBDD3 /* TermsOfUseViewController.swift */,
+			);
+			path = PolicyVC;
+			sourceTree = "<group>";
+		};
+		2D0DB31D2B81B53E00FFBDD3 /* MapVC */ = {
+			isa = PBXGroup;
+			children = (
+				2D0DB31E2B81B53E00FFBDD3 /* MapViewController.swift */,
+				2D0DB31F2B81B53E00FFBDD3 /* View */,
+				2D0DB3212B81B53E00FFBDD3 /* MaptestViewController.swift */,
+			);
+			path = MapVC;
+			sourceTree = "<group>";
+		};
+		2D0DB31F2B81B53E00FFBDD3 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				2D0DB3202B81B53E00FFBDD3 /* MapView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		2D8CFEB42B5A301000FDE2E5 /* LaunchScreenImage */ = {
 			isa = PBXGroup;
 			children = (
@@ -260,15 +334,6 @@
 				58A40D782B5805520053E302 /* UIColor + Extension.swift */,
 			);
 			path = HomeEatPractice;
-			sourceTree = "<group>";
-		};
-		58279A6C2B76383D009DCE96 /* Network2 */ = {
-			isa = PBXGroup;
-			children = (
-				58279A6D2B763888009DCE96 /* MemberAPI.swift */,
-				58279A6F2B7638A1009DCE96 /* MemberData.swift */,
-			);
-			path = Network2;
 			sourceTree = "<group>";
 		};
 		58279A7D2B7BAB0F009DCE96 /* AnylysisNetWork */ = {
@@ -332,59 +397,6 @@
 			path = Network;
 			sourceTree = "<group>";
 		};
-		582A990B2B6F31C0008F30CA /* RegisterVC */ = {
-			isa = PBXGroup;
-			children = (
-				58279A6C2B76383D009DCE96 /* Network2 */,
-				582A990C2B6F31C0008F30CA /* AddLocationInfromViewController.swift */,
-				582A990D2B6F31C0008F30CA /* AddBirthInformViewController.swift */,
-				582A990E2B6F31C0008F30CA /* AddIncomeViewController.swift */,
-				582A990F2B6F31C0008F30CA /* AddAccountViewController.swift */,
-				582A99102B6F31C0008F30CA /* BankCertifyViewController.swift */,
-				582A99112B6F31C0008F30CA /* SearchLocationViewController.swift */,
-				582A99122B6F31C0008F30CA /* AddSexViewController.swift */,
-				582A99132B6F31C0008F30CA /* FindPwViewController.swift */,
-				582A99142B6F31C0008F30CA /* RegisterSelectViewController.swift */,
-				582A99152B6F31C0008F30CA /* RegisterDoneViewController.swift */,
-				582A99162B6F31C0008F30CA /* PolicyVC */,
-				582A99182B6F31C0008F30CA /* MapVC */,
-				582A991D2B6F31C0008F30CA /* PwChangedViewController.swift */,
-				582A991E2B6F31C0008F30CA /* AddBudgetViewController.swift */,
-				582A991F2B6F31C0008F30CA /* CustomProgressViewController.swift */,
-				582A99202B6F31C0008F30CA /* BankSelectViewController.swift */,
-				582A99212B6F31C0008F30CA /* LoginViewController.swift */,
-				582A99222B6F31C0008F30CA /* SelectMangeUnitViewController.swift */,
-				582A99232B6F31C0008F30CA /* RegisterViewController.swift */,
-			);
-			path = RegisterVC;
-			sourceTree = "<group>";
-		};
-		582A99162B6F31C0008F30CA /* PolicyVC */ = {
-			isa = PBXGroup;
-			children = (
-				582A99172B6F31C0008F30CA /* TermsOfUseViewController.swift */,
-			);
-			path = PolicyVC;
-			sourceTree = "<group>";
-		};
-		582A99182B6F31C0008F30CA /* MapVC */ = {
-			isa = PBXGroup;
-			children = (
-				582A99192B6F31C0008F30CA /* MapViewController.swift */,
-				582A991A2B6F31C0008F30CA /* View */,
-				582A991C2B6F31C0008F30CA /* MaptestViewController.swift */,
-			);
-			path = MapVC;
-			sourceTree = "<group>";
-		};
-		582A991A2B6F31C0008F30CA /* View */ = {
-			isa = PBXGroup;
-			children = (
-				582A991B2B6F31C0008F30CA /* MapView.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
 		5875D9C92B5169D600F484DF /* MypageVC */ = {
 			isa = PBXGroup;
 			children = (
@@ -408,7 +420,7 @@
 		588A09272B4E680400638D16 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				582A990B2B6F31C0008F30CA /* RegisterVC */,
+				2D0DB3092B81B53E00FFBDD3 /* RegisterVC */,
 				58A40D9C2B5FF13C0053E302 /* TabbarVC */,
 				58A40D832B5C04F40053E302 /* ReportVC */,
 				5875D9CA2B51773200F484DF /* HomeVC */,
@@ -716,87 +728,91 @@
 			files = (
 				588A09302B4FF9A900638D16 /* MyItem.swift in Sources */,
 				582A98A52B636F2F008F30CA /* SceneDelegate.swift in Sources */,
-				582A992B2B6F31C0008F30CA /* FindPwViewController.swift in Sources */,
-				582A99372B6F31C0008F30CA /* SelectMangeUnitViewController.swift in Sources */,
 				58279A842B7CF88F009DCE96 /* FoodId.swift in Sources */,
 				58279A922B806734009DCE96 /* CalendarManager.swift in Sources */,
 				409AA3402B43E9640096CDBB /* CashViewController.swift in Sources */,
-				582A99352B6F31C0008F30CA /* BankSelectViewController.swift in Sources */,
+				2D0DB33D2B81B53E00FFBDD3 /* PwChangedViewController.swift in Sources */,
 				588A09262B4E5BE200638D16 /* WriteViewController.swift in Sources */,
+				2D0DB33E2B81B53E00FFBDD3 /* AddBudgetViewController.swift in Sources */,
 				58A40D972B5FAC490053E302 /* MealPostViewController.swift in Sources */,
+				2D0DB33B2B81B53E00FFBDD3 /* MapView.swift in Sources */,
 				58A40D9B2B5FACAF0053E302 /* MealSource.swift in Sources */,
 				5807E7982B810C44006239E6 /* FoodTalkComment.swift in Sources */,
-				58279A702B7638A1009DCE96 /* MemberData.swift in Sources */,
 				58A40D9E2B5FF1560053E302 /* TabbarInfo.swift in Sources */,
+				2D0DB3412B81B53E00FFBDD3 /* LoginViewController.swift in Sources */,
+				2D0DB3352B81B53E00FFBDD3 /* Policy3ViewController.swift in Sources */,
+				2D0DB3342B81B53E00FFBDD3 /* RegisterDoneViewController.swift in Sources */,
 				58279A8E2B8065EE009DCE96 /* CalendarDateFormatter.swift in Sources */,
 				58279A9A2B80815F009DCE96 /* FoodRecipePicture.swift in Sources */,
+				2D0DB32B2B81B53E00FFBDD3 /* AddLocationInfromViewController.swift in Sources */,
+				2D0DB32C2B81B53E00FFBDD3 /* AddBirthInformViewController.swift in Sources */,
 				58279A942B8080FA009DCE96 /* FoodPicture.swift in Sources */,
 				58A40D802B5BEFC40053E302 /* CalendarCheckViewController.swift in Sources */,
+				2D0DB32E2B81B53E00FFBDD3 /* AddAccountViewController.swift in Sources */,
+				2D0DB33A2B81B53E00FFBDD3 /* MapViewController.swift in Sources */,
 				582A98CC2B6632BB008F30CA /* GeneralAPI.swift in Sources */,
+				2D0DB32A2B81B53E00FFBDD3 /* MemberData.swift in Sources */,
+				2D0DB3292B81B53E00FFBDD3 /* MemberAPI.swift in Sources */,
 				58A1E7872B7351BF00C45CEA /* EmailEditViewController.swift in Sources */,
-				582A99342B6F31C0008F30CA /* CustomProgressViewController.swift in Sources */,
 				409AA3282B43A0470096CDBB /* AppDelegate.swift in Sources */,
 				58279A822B7CB1E0009DCE96 /* CalendarCollectionViewCell.swift in Sources */,
+				2D0DB3312B81B53E00FFBDD3 /* AddSexViewController.swift in Sources */,
 				58A1E78D2B735D5400C45CEA /* FinalLeaveViewController.swift in Sources */,
 				58A40D992B5FAC6A0053E302 /* MealWritingViewController.swift in Sources */,
 				58A1E78A2B7351ED00C45CEA /* MonthMoneyEditViewController.swift in Sources */,
-				582A99252B6F31C0008F30CA /* AddBirthInformViewController.swift in Sources */,
-				582A992C2B6F31C0008F30CA /* RegisterSelectViewController.swift in Sources */,
 				582A993C2B6F8C70008F30CA /* TagItem.swift in Sources */,
+				2D0DB3302B81B53E00FFBDD3 /* SearchLocationViewController.swift in Sources */,
 				58A40D952B5FAC1B0053E302 /* MealViewCell.swift in Sources */,
 				582A993A2B6F89F5008F30CA /* TagPlusCollectionViewCell.swift in Sources */,
+				2D0DB33C2B81B53E00FFBDD3 /* MaptestViewController.swift in Sources */,
 				58279A962B808105009DCE96 /* FoodRecipe.swift in Sources */,
 				409AA3482B467EFB0096CDBB /* PayAnalyzeViewController.swift in Sources */,
 				582A98CA2B66325D008F30CA /* ItemData.swift in Sources */,
-				582A99292B6F31C0008F30CA /* SearchLocationViewController.swift in Sources */,
 				58279A7C2B7B956E009DCE96 /* PhotoCell.swift in Sources */,
 				58279A9C2B80816F009DCE96 /* Reply.swift in Sources */,
 				58A40D8E2B5D01F70053E302 /* WeekCashViewController.swift in Sources */,
-				582A99312B6F31C0008F30CA /* MaptestViewController.swift in Sources */,
 				582A98C72B653C61008F30CA /* PasswordEditViewController.swift in Sources */,
 				409AA3422B43E9760096CDBB /* TalkViewController.swift in Sources */,
-				582A992E2B6F31C0008F30CA /* TermsOfUseViewController.swift in Sources */,
+				2D0DB3422B81B53E00FFBDD3 /* SelectMangeUnitViewController.swift in Sources */,
 				58A40D772B57DD730053E302 /* EditViewController.swift in Sources */,
+				2D0DB3372B81B53E00FFBDD3 /* Policy1ViewController.swift in Sources */,
 				409AA33E2B43E94B0096CDBB /* HomeViewController.swift in Sources */,
-				582A99362B6F31C0008F30CA /* LoginViewController.swift in Sources */,
-				582A99282B6F31C0008F30CA /* BankCertifyViewController.swift in Sources */,
 				58A40D792B5805520053E302 /* UIColor + Extension.swift in Sources */,
+				2D0DB3382B81B53E00FFBDD3 /* Policy4ViewController.swift in Sources */,
+				2D0DB3322B81B53E00FFBDD3 /* FindPwViewController.swift in Sources */,
 				58279A762B790C52009DCE96 /* RecipeTableViewCell.swift in Sources */,
+				2D0DB32D2B81B53E00FFBDD3 /* AddIncomeViewController.swift in Sources */,
 				582A98CE2B678AD5008F30CA /* PhotoCollectionViewCell.swift in Sources */,
+				2D0DB3432B81B53E00FFBDD3 /* RegisterViewController.swift in Sources */,
 				4060C4192B74B2EA0012F06D /* RecipeViewController.swift in Sources */,
 				58279A742B779657009DCE96 /* InfoPicture.swift in Sources */,
-				582A992A2B6F31C0008F30CA /* AddSexViewController.swift in Sources */,
-				58279A6E2B763888009DCE96 /* MemberAPI.swift in Sources */,
-				582A99242B6F31C0008F30CA /* AddLocationInfromViewController.swift in Sources */,
+				2D0DB33F2B81B53E00FFBDD3 /* CustomProgressViewController.swift in Sources */,
 				40852A292B6F371300150395 /* FoodItemData.swift in Sources */,
 				409AA33C2B43A6B20096CDBB /* MainTabBarController.swift in Sources */,
+				2D0DB32F2B81B53E00FFBDD3 /* BankCertifyViewController.swift in Sources */,
+				2D0DB3392B81B53E00FFBDD3 /* TermsOfUseViewController.swift in Sources */,
 				58A40D732B56AF190053E302 /* InfoWritingViewController.swift in Sources */,
-				582A99332B6F31C0008F30CA /* AddBudgetViewController.swift in Sources */,
 				588A09342B50EC5900638D16 /* PostViewController.swift in Sources */,
+				2D0DB3402B81B53E00FFBDD3 /* BankSelectViewController.swift in Sources */,
+				2D0DB3332B81B53E00FFBDD3 /* RegisterSelectViewController.swift in Sources */,
 				58279A8B2B7FAE8F009DCE96 /* CommentTableViewCell.swift in Sources */,
 				409AA3462B453F3B0096CDBB /* PayAddViewController.swift in Sources */,
-				582A992F2B6F31C0008F30CA /* MapViewController.swift in Sources */,
 				58A40DA02B6120970053E302 /* DeclareViewController.swift in Sources */,
 				40852A2B2B6F374900150395 /* FoodGeneralAPI.swift in Sources */,
 				582A98D42B6B819E008F30CA /* AnalysisViewController.swift in Sources */,
-				582A99302B6F31C0008F30CA /* MapView.swift in Sources */,
-				582A99322B6F31C0008F30CA /* PwChangedViewController.swift in Sources */,
-				582A992D2B6F31C0008F30CA /* RegisterDoneViewController.swift in Sources */,
 				58A1E7912B760DF800C45CEA /* InfoTalk.swift in Sources */,
 				58279A872B7E42A4009DCE96 /* WeekCollectionViewCell.swift in Sources */,
 				588A092D2B4FB9F200638D16 /* TableViewCellOne.swift in Sources */,
 				588A09292B4E6ED400638D16 /* InfoViewController.swift in Sources */,
 				58A40D822B5C00D30053E302 /* TagPlusViewController.swift in Sources */,
 				5807E79A2B81A9B0006239E6 /* MealPhotoCollectionViewCell.swift in Sources */,
+				2D0DB3362B81B53E00FFBDD3 /* Policy2ViewController.swift in Sources */,
 				58279A7F2B7BAB47009DCE96 /* AnylysisAPI.swift in Sources */,
 				409AA3442B43E98A0096CDBB /* MyPageViewController.swift in Sources */,
-				582A99272B6F31C0008F30CA /* AddAccountViewController.swift in Sources */,
-				582A99262B6F31C0008F30CA /* AddIncomeViewController.swift in Sources */,
 				5807E7962B80D3FB006239E6 /* InfoTalkComment.swift in Sources */,
 				582A98D22B6B7BB0008F30CA /* LeaveViewController.swift in Sources */,
 				582A98D02B68CCAE008F30CA /* TagCollectionViewCell.swift in Sources */,
 				58A40DA22B6120B70053E302 /* DeclareWriteViewController.swift in Sources */,
-				582A99382B6F31C0008F30CA /* RegisterViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -936,7 +952,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = G62DUX396A;
+				DEVELOPMENT_TEAM = GH95G7PN63;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = HomeEatPractice/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "카메라 접근권한";
@@ -969,7 +985,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = G62DUX396A;
+				DEVELOPMENT_TEAM = GH95G7PN63;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = HomeEatPractice/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "카메라 접근권한";
