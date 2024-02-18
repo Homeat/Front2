@@ -8,7 +8,7 @@
 import UIKit
 
 final class CalendarCheckViewController: UIViewController {
-    
+    private var currentDate = Date() // 현재 날짜를 가져옴
     private lazy var scrollView = UIScrollView()
     private lazy var contentView = UIView()
     private lazy var titleLabel = UILabel()
@@ -47,7 +47,22 @@ final class CalendarCheckViewController: UIViewController {
            label.translatesAutoresizingMaskIntoConstraints = false
            return label
        }()
-       
+    private let circleView = UIImageView().then {
+           let circleSize: CGFloat = 16
+           $0.frame.size = CGSize(width: circleSize, height: circleSize)
+           $0.backgroundColor = UIColor(named: "gray2")
+           $0.layer.cornerRadius = circleSize / 2
+           $0.clipsToBounds = true
+           $0.translatesAutoresizingMaskIntoConstraints = false
+       }
+       private let circleView2 = UIImageView().then {
+           let circleSize: CGFloat = 16
+           $0.frame.size = CGSize(width: circleSize, height: circleSize)
+           $0.backgroundColor = UIColor(named: "gray2")
+           $0.layer.cornerRadius = circleSize / 2
+           $0.clipsToBounds = true
+           $0.translatesAutoresizingMaskIntoConstraints = false
+       }
     private let mealLabel = UILabel().then {
            $0.text = "집밥"
            $0.textColor = .black
@@ -161,7 +176,7 @@ final class CalendarCheckViewController: UIViewController {
         self.contentView.addSubview(self.guidelabel1)
         self.contentView.addSubview(self.mealLabel)
         self.contentView.addSubview(deliveryLabel2)
-        //self.contentView.addSubview(DayLabel)
+        self.contentView.addSubview(DayLabel)
         self.contentView.addSubview(mealIcon)
         self.contentView.addSubview(mealVerticalView)
         self.contentView.addSubview(mealLabel2)
@@ -174,9 +189,17 @@ final class CalendarCheckViewController: UIViewController {
         self.contentView.addSubview(remainVerticalView)
         self.contentView.addSubview(remainMoneyLabel)
         self.contentView.addSubview(remainMoneyCoin)
+        updateDayLabel()
         navigationcontrol()
         self.configure()
         configUI()
+    }
+    private func updateDayLabel() {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "MM월 dd일 EEEE" // 월/일/요일 형식으로 포맷 지정
+            let formattedDate = formatter.string(from: currentDate)
+            DayLabel.text = formattedDate
+            DayLabel.translatesAutoresizingMaskIntoConstraints = false
     }
     //네비게이션 바 설정
     func navigationcontrol() {
@@ -217,25 +240,25 @@ final class CalendarCheckViewController: UIViewController {
            self.guideImage2.widthAnchor.constraint(equalToConstant: 12),
            self.guideImage2.trailingAnchor.constraint(equalTo: self.guideImage1.trailingAnchor)
        ])
-//        NSLayoutConstraint.activate([
-//            DayLabel.heightAnchor.constraint(equalToConstant: 22),
-//            DayLabel.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 33),
-//            DayLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 19),
-//        ])
         NSLayoutConstraint.activate([
-            mealIcon.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 10),
+            DayLabel.heightAnchor.constraint(equalToConstant: 22),
+            DayLabel.topAnchor.constraint(equalTo: collectionView.bottomAnchor),
+            DayLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 19),
+        ])
+        NSLayoutConstraint.activate([
+            mealIcon.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 40),
             mealIcon.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 26),
             mealIcon.heightAnchor.constraint(equalToConstant: 12),
             mealIcon.widthAnchor.constraint(equalToConstant: 13),
         ])
         NSLayoutConstraint.activate([
             mealVerticalView.leadingAnchor.constraint(equalTo: mealIcon.trailingAnchor,constant: 7),
-            mealVerticalView.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 10),
+            mealVerticalView.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 40),
             mealVerticalView.widthAnchor.constraint(equalToConstant: 4),
             mealVerticalView.heightAnchor.constraint(equalToConstant: 18),
         ])
         NSLayoutConstraint.activate([
-            mealLabel2.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 10),
+            mealLabel2.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 40),
             mealLabel2.bottomAnchor.constraint(equalTo: mealVerticalView.bottomAnchor),
             mealLabel2.leadingAnchor.constraint(equalTo: mealVerticalView.trailingAnchor,constant: 7),
         ])
@@ -403,7 +426,7 @@ final class CalendarCheckViewController: UIViewController {
             self.collectionView.topAnchor.constraint(equalTo: self.weekStackView.bottomAnchor, constant: 10),
             self.collectionView.leadingAnchor.constraint(equalTo: self.weekStackView.leadingAnchor),
             self.collectionView.trailingAnchor.constraint(equalTo: self.weekStackView.trailingAnchor),
-            self.collectionView.heightAnchor.constraint(equalTo: self.collectionView.widthAnchor, multiplier: 1.5),
+            self.collectionView.heightAnchor.constraint(equalToConstant: 300),
             self.collectionView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor)
         ])
     }
@@ -421,6 +444,9 @@ extension CalendarCheckViewController: UICollectionViewDataSource, UICollectionV
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.days.count
     }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+            return 5
+        }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CalendarCollectionViewCell.identifier, for: indexPath) as? CalendarCollectionViewCell else { return UICollectionViewCell() }
@@ -429,8 +455,8 @@ extension CalendarCheckViewController: UICollectionViewDataSource, UICollectionV
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = self.weekStackView.frame.width / 7
-        return CGSize(width: width, height: width * 1.3)
+        let width = (self.collectionView.frame.width - 30) / 7
+        return CGSize(width: width, height: width * 0.8) 
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {

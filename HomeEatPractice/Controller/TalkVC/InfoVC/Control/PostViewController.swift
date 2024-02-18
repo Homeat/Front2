@@ -331,7 +331,8 @@ class PostViewController: UIViewController, UIScrollViewDelegate,UICollectionVie
             dateLabel.leadingAnchor.constraint(equalTo: profileName.leadingAnchor),
             
             complainLabel.topAnchor.constraint(equalTo: dateLabel.topAnchor),
-            complainLabel.leadingAnchor.constraint(equalTo:dateLabel.trailingAnchor,constant: 195),
+            complainLabel.widthAnchor.constraint(equalToConstant: 37),
+            complainLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             
             postTitleLabel.topAnchor.constraint(equalTo: TagcollectionView.bottomAnchor,constant: 13),
             postTitleLabel.leadingAnchor.constraint(equalTo: circleView.leadingAnchor),
