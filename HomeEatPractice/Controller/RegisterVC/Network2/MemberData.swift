@@ -7,10 +7,23 @@
 
 import Foundation
 
-struct MemberData : Codable {
+struct RegisterData : Codable {
     let email : String
     let password : String
     let nickname : String
+}
+
+struct RegisterResponse : Codable {
+    let isSuccess: Bool
+    let code: String
+    let message: String
+    let data : registerData?
+}
+
+struct registerData : Codable {
+    let token : String
+    let memberId : Int
+    let createdAt : String
 }
 
 struct LoginData : Codable {
@@ -28,18 +41,6 @@ struct LoginResponse: Codable {
 struct TokenData: Codable {
     let token: String
     let expiredAt: String
-}
-
-struct ExpenseData : Codable {
-    let money : Int
-    let type : String
-    let memo : String
-}
-
-struct ExpenseResponse : Codable {
-    let money : Int
-    let type : String
-    let memo : String
 }
 
 struct MypageResponse : Codable{

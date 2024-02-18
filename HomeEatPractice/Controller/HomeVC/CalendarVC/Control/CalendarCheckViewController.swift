@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+import Alamofire
 final class CalendarCheckViewController: UIViewController {
     private var selectedIndexPath: IndexPath?
     private var currentDate = Date() // 현재 날짜를 가져옴
@@ -449,6 +449,14 @@ extension CalendarCheckViewController: UICollectionViewDataSource, UICollectionV
             return 5
         }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        // 선택된 날짜 계산
+        let selectedDate = calendar.date(byAdding: .day, value: indexPath.item - startDayOfTheWeek(), to: calendar.startOfDay(for: calendarDate))!
+
+        // 현재 월의 날짜가 아닌 경우, 선택된 셀을 무시하고 함수 종료
+        if !calendar.isDate(selectedDate, equalTo: calendarDate, toGranularity: .month) {
+            return
+        }
+
         // 선택된 셀의 인덱스를 업데이트
         selectedIndexPath = indexPath
         
@@ -466,7 +474,6 @@ extension CalendarCheckViewController: UICollectionViewDataSource, UICollectionV
             cell.dayLabel.textColor = .black
             
             // 선택된 날짜의 요일을 가져와서 날짜 레이블을 업데이트
-            let selectedDate = calendar.date(byAdding: .day, value: indexPath.item - startDayOfTheWeek(), to: calendar.startOfDay(for: calendarDate))!
             let formatter = DateFormatter()
             formatter.dateFormat = "MM월 dd일 EEEE"
             let formattedDate = formatter.string(from: selectedDate)
@@ -534,11 +541,13 @@ extension CalendarCheckViewController {
     private func minusMonth() {
         self.calendarDate = self.calendar.date(byAdding: DateComponents(month: -1), to: self.calendarDate) ?? Date()
         self.updateCalendar()
+        self.selectedIndexPath = nil // 월 변경 후 선택된 셀의 인덱스 경로 초기화
     }
     
     private func plusMonth() {
         self.calendarDate = self.calendar.date(byAdding: DateComponents(month: 1), to: self.calendarDate) ?? Date()
         self.updateCalendar()
+        self.selectedIndexPath = nil // 월 변경 후 선택된 셀의 인덱스 경로 초기화
     }
     
     private func today() {
