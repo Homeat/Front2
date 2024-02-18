@@ -30,6 +30,18 @@ struct TokenData: Codable {
     let expiredAt: String
 }
 
+struct ExpenseData : Codable {
+    let money : Int
+    let type : String
+    let memo : String
+}
+
+struct ExpenseResponse : Codable {
+    let money : Int
+    let type : String
+    let memo : String
+}
+
 struct MypageResponse : Codable{
     let isSuccess: Bool
     let code: String
@@ -45,3 +57,4 @@ struct UserData : Codable{
             case nickname
         }
 }
+

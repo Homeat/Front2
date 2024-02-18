@@ -14,8 +14,6 @@
 		2D0DB2F02B81B2F100FFBDD3 /* AddIncomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D0DB2CF2B81B2F100FFBDD3 /* AddIncomeViewController.swift */; };
 		2D0DB2F12B81B2F100FFBDD3 /* AddAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D0DB2D02B81B2F100FFBDD3 /* AddAccountViewController.swift */; };
 		2D0DB2F22B81B2F100FFBDD3 /* BankCertifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D0DB2D12B81B2F100FFBDD3 /* BankCertifyViewController.swift */; };
-		2D0DB2F32B81B2F100FFBDD3 /* MemberAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D0DB2D32B81B2F100FFBDD3 /* MemberAPI.swift */; };
-		2D0DB2F42B81B2F100FFBDD3 /* MemberData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D0DB2D42B81B2F100FFBDD3 /* MemberData.swift */; };
 		2D0DB2F52B81B2F100FFBDD3 /* SearchLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D0DB2D52B81B2F100FFBDD3 /* SearchLocationViewController.swift */; };
 		2D0DB2F62B81B2F100FFBDD3 /* AddSexViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D0DB2D62B81B2F100FFBDD3 /* AddSexViewController.swift */; };
 		2D0DB2F72B81B2F100FFBDD3 /* FindPwViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D0DB2D72B81B2F100FFBDD3 /* FindPwViewController.swift */; };
@@ -113,8 +111,6 @@
 		2D0DB2CF2B81B2F100FFBDD3 /* AddIncomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddIncomeViewController.swift; sourceTree = "<group>"; };
 		2D0DB2D02B81B2F100FFBDD3 /* AddAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddAccountViewController.swift; sourceTree = "<group>"; };
 		2D0DB2D12B81B2F100FFBDD3 /* BankCertifyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BankCertifyViewController.swift; sourceTree = "<group>"; };
-		2D0DB2D32B81B2F100FFBDD3 /* MemberAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemberAPI.swift; sourceTree = "<group>"; };
-		2D0DB2D42B81B2F100FFBDD3 /* MemberData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemberData.swift; sourceTree = "<group>"; };
 		2D0DB2D52B81B2F100FFBDD3 /* SearchLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchLocationViewController.swift; sourceTree = "<group>"; };
 		2D0DB2D62B81B2F100FFBDD3 /* AddSexViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddSexViewController.swift; sourceTree = "<group>"; };
 		2D0DB2D72B81B2F100FFBDD3 /* FindPwViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindPwViewController.swift; sourceTree = "<group>"; };
@@ -229,7 +225,6 @@
 				2D0DB2CF2B81B2F100FFBDD3 /* AddIncomeViewController.swift */,
 				2D0DB2D02B81B2F100FFBDD3 /* AddAccountViewController.swift */,
 				2D0DB2D12B81B2F100FFBDD3 /* BankCertifyViewController.swift */,
-				2D0DB2D22B81B2F100FFBDD3 /* Network */,
 				2D0DB2D52B81B2F100FFBDD3 /* SearchLocationViewController.swift */,
 				2D0DB2D62B81B2F100FFBDD3 /* AddSexViewController.swift */,
 				2D0DB2D72B81B2F100FFBDD3 /* FindPwViewController.swift */,
@@ -255,15 +250,6 @@
 				2D0DB2CC2B81B2F100FFBDD3 /* MemberData.swift */,
 			);
 			path = Network2;
-			sourceTree = "<group>";
-		};
-		2D0DB2D22B81B2F100FFBDD3 /* Network */ = {
-			isa = PBXGroup;
-			children = (
-				2D0DB2D32B81B2F100FFBDD3 /* MemberAPI.swift */,
-				2D0DB2D42B81B2F100FFBDD3 /* MemberData.swift */,
-			);
-			path = Network;
 			sourceTree = "<group>";
 		};
 		2D0DB2DA2B81B2F100FFBDD3 /* PolicyVC */ = {
@@ -751,7 +737,6 @@
 				2D0DB2F52B81B2F100FFBDD3 /* SearchLocationViewController.swift in Sources */,
 				58A40D9B2B5FACAF0053E302 /* MealSource.swift in Sources */,
 				5807E7982B810C44006239E6 /* FoodTalkComment.swift in Sources */,
-				2D0DB2F42B81B2F100FFBDD3 /* MemberData.swift in Sources */,
 				58A40D9E2B5FF1560053E302 /* TabbarInfo.swift in Sources */,
 				58279A8E2B8065EE009DCE96 /* CalendarDateFormatter.swift in Sources */,
 				58279A9A2B80815F009DCE96 /* FoodRecipePicture.swift in Sources */,
@@ -791,7 +776,6 @@
 				409AA33E2B43E94B0096CDBB /* HomeViewController.swift in Sources */,
 				58A40D792B5805520053E302 /* UIColor + Extension.swift in Sources */,
 				2D0DB3042B81B2F100FFBDD3 /* CustomProgressViewController.swift in Sources */,
-				2D0DB2F32B81B2F100FFBDD3 /* MemberAPI.swift in Sources */,
 				58279A762B790C52009DCE96 /* RecipeTableViewCell.swift in Sources */,
 				2D0DB2F02B81B2F100FFBDD3 /* AddIncomeViewController.swift in Sources */,
 				582A98CE2B678AD5008F30CA /* PhotoCollectionViewCell.swift in Sources */,

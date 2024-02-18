@@ -55,6 +55,25 @@ class MemberAPI {
         }
     }
     
+    static func postExpense(money : Int, type : String, memo : String, completion: @escaping (Result<String, Error>) -> Void) {
+        let endpoint = "v1/home/add-expense"
+        let url = baseURL + endpoint
+        
+        let expenseInfo = ExpenseData(money: money, type: type, memo: memo)
+        //post요청 생성
+        AF.request(url, method: .post, parameters: expenseInfo, encoder: JSONParameterEncoder.default)
+            .response { response in
+                //api호출에 대한 응답처리
+                switch response.result {
+                case .success:
+                    completion(.success(""))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+
+    }
+    
     static func getUserInfo(jwtToken: String, completion: @escaping (Result<UserData, Error>) -> Void) {
         let endpoint = "v1/members/mypage"
         let url = baseURL + endpoint
@@ -85,3 +104,4 @@ class MemberAPI {
         
     }
 }
+
