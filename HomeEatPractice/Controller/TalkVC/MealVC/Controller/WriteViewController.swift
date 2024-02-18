@@ -194,6 +194,7 @@ class WriteViewController: UIViewController, UITextFieldDelegate {
    
     override func viewDidLoad() {
         super.viewDidLoad()
+        fetchDataFromServer()
         addViews()
         setConstraints()
         searchTextField.delegate = self
@@ -204,7 +205,7 @@ class WriteViewController: UIViewController, UITextFieldDelegate {
     func initialize() {
         self.collectionView.dataSource = self
         self.collectionView.delegate = self
-        collectionView.register(MealViewCell.self, forCellWithReuseIdentifier: "\(MealViewCell.self)")
+        collectionView.register(MealViewCell.self, forCellWithReuseIdentifier: "MealViewCell")
     }
     
     private func addViews() {
@@ -320,7 +321,7 @@ class WriteViewController: UIViewController, UITextFieldDelegate {
                 fetchDataFromServer()
             }
         }
-    
+//MARK: - 기본 게시글 정렬
     func fetchDataFromServer() {
         let url = "https://dev.homeat.site/v1/foodTalk/posts/latest"
         var parameters: [String: Any] = [:] // 파라미터 변수를 var로 변경
@@ -329,41 +330,45 @@ class WriteViewController: UIViewController, UITextFieldDelegate {
             parameters["lastFoodTalkId"] = Int.max //99999999
         } else {
             parameters["lastFoodTalkId"] = self.lastFoodTalkId
+            print(lastFoodTalkId)
         }
         parameters["size"] = pageSize // 한 번에 가져올 아이템 수 설정
-        parameters["object"] = ["search": ""] // 검색
-        parameters["object2"] = ["tag": ""]  // 태그
+        parameters["object"] = ["search": ""]
+        parameters["object2"] = ["tag": ""]
         print(parameters) // parameters 값 출력
         AF.request(url, method: .get, parameters: parameters)
             .validate()
             .responseJSON { response in
                 switch response.result {
                 case .success(let value):
-        if let jsonDict = value as? [String: Any] {
-            if let jsonArray = jsonDict["content"] as? [[String: Any]] {
-                print(jsonArray) // 서버 응답 확인을 위한 출력
-                
-            if !jsonArray.isEmpty {
-                // 마지막 정보 대화 ID 설정
-                if let lastItem = jsonArray.last, let id = lastItem["id"] as? Int {
-                    self.lastFoodTalkId = id
-                    print("Last Food Talk ID: \(id)")
-                }
+                    if let jsonDict = value as? [String: Any] {
+                        if let jsonArray = jsonDict["content"] as? [[String: Any]] {
+                            print(jsonArray) // 서버 응답 확인을 위한 출력
+                            print("성공")
+                            if !jsonArray.isEmpty {
+                                // 마지막 정보 대화 ID 설정
+                                if let lastItem = jsonArray.last, let id = lastItem["foodTalkId"] as? Int {
+                                    print(id)
+                                    self.lastFoodTalkId = id
+                                    print("Last Food Talk ID: \(id)")
+                                    print("id성공")
+                                }
                         
-                // 새로운 데이터를 담을 임시 배열
-                var newPosts: [MealSource] = []
-                for json in jsonArray {
-                    if let mealSource = self.parseMyItemFromJSON(json) {
-                        newPosts.append(mealSource)
-                    }
-                }
-                // 새로운 데이터를 기존 데이터에 추가
-                        self.foodPosts.append(contentsOf: newPosts)
-                        self.collectionView.reloadData()
-                        print("Fetched \(jsonArray.count) items")
-                    } else {
-                        print("No data available")
-                    }
+                                // 새로운 데이터를 담을 임시 배열
+                                var newPosts: [MealSource] = []
+                                for json in jsonArray {
+                                    if let mealSource = self.parseMyItemFromJSON(json) {
+                                        newPosts.append(mealSource)
+                                        
+                                    }
+                                }
+                                // 새로운 데이터를 기존 데이터에 추가
+                                self.foodPosts.append(contentsOf: newPosts)
+                                self.collectionView.reloadData()
+                                print("Fetched \(jsonArray.count) items")
+                            } else {
+                                print("No data available")
+                            }
                 }
             }
                 case .failure(let error):
@@ -371,90 +376,32 @@ class WriteViewController: UIViewController, UITextFieldDelegate {
                 }
         }
     }
-
     // InfoViewController.swift 파일에 parseMyItemFromJSON 함수 추가
     func parseMyItemFromJSON(_ json: [String: Any]) -> MealSource? {
-        guard let createdAt = json["createdAt"] as? String,
-                let updatedAt =  json["updatedAt"] as? String,
-                let id = json["id"] as? Int,
-                let name = json["name"] as? String,
-                let memo = json["memo"] as? String,
-                let tag = json["tag"] as? String,
-                let love = json["love"] as? Int,
-                let view = json["view"] as?Int,
-                let commentNumber = json["commentNumber"] as? Int,
-                let setLove = json["setLove"] as? Bool,
-                let save = json["save"] as? String,
-                let foodPicturesArray = json["foodPictures"] as? [[String: Any]],
-                let foodRecipesArray = json["foodRecipes"] as? [[String: Any]],
-                let foodTalkCommentArray = json["foodTalkComments"] as? [[String: Any]]
-        else {
-            return nil
-        }
-
-        // infoPicturesArray에서 InfoPicture 인스턴스 배열을 생성합니다.
-        let foodPictures: [FoodPicture] = foodPicturesArray.compactMap { picture -> FoodPicture? in
-            guard let id = picture["id"] as? Int,
-                  let url = picture["url"] as? String else {
-                return nil
-            }
-            // InfoPicture 인스턴스를 생성하여 반환합니다.
-            return FoodPicture(createdAt: "", updatedAt: "", id: id, url: url)
-        }
-        
-        let foodRecipes: [FoodRecipe] = foodRecipesArray.compactMap { recipe in
-                guard let createdAt = recipe["createdAt"] as? String,
-                      let updatedAt = recipe["updatedAt"] as? String,
-                      let id = recipe["id"] as? Int,
-                      let recipeText = recipe["recipe"] as? String,
-                      let ingredient = recipe["ingredient"] as? String,
-                      let tip = recipe["tip"] as? String,
-                      let foodRecipePicturesArray = recipe["foodRecipePictures"] as? [[String: Any]]
-                else {
+        guard let foodTalkId = json["foodTalkId"] as? Int,
+              let url = json["url"] as? String, // 이미지 URL 추가
+                let foodName = json["foodName"] as? String,
+                let view = json["view"] as? Int,
+                let love = json["love"] as? Int
+            else {
                     return nil
                 }
-                
-                let foodRecipePictures: [FoodRecipePicture] = foodRecipePicturesArray.compactMap { picture in
-                    guard let id = picture["id"] as? Int,
-                          let url = picture["url"] as? String else {
-                        return nil
-                    }
-                    return FoodRecipePicture(createdAt: "", updatedAt: "", id: id, url: url)
-                }
-                
-                return FoodRecipe(createdAt: createdAt, updatedAt: updatedAt, id: id, recipe: recipeText, ingredient: ingredient, tip: tip, foodRecipePictures: foodRecipePictures)
-            }
+        let foodPictures: [FoodPicture] = [FoodPicture(createdAt: "", updatedAt: "", id: foodTalkId, url: url)]
         
-        // foodTalkComments 배열 생성
-            let foodTalkComments: [FoodTalkComment] = foodTalkCommentArray.compactMap { comment in
-                guard let createdAt = comment["createdAt"] as? String,
-                      let updatedAt = comment["updatedAt"] as? String,
-                      let id = comment["id"] as? Int,
-                      let content = comment["content"] as? String,
-                      let replyListArray = comment["replyList"] as? [[String: Any]]
-                else {
-                    return nil
-                }
-                
-                let replyList: [Reply] = replyListArray.compactMap { reply in
-                    guard let createdAt = reply["createdAt"] as? String,
-                          let updatedAt = reply["updatedAt"] as? String,
-                          let id = reply["id"] as? Int,
-                          let content = reply["content"] as? String
-                    else {
-                        return nil
-                    }
-                    return Reply(createdAt: createdAt, updatedAt: updatedAt, id: id, content: content)
-                }
-                
-                return FoodTalkComment(createdAt: createdAt, updatedAt: updatedAt, id: id, content: content, replyList: replyList)
-            }
-        
-        // 원하는 날짜 형식으로 변환
-        let formattedCreatedAt = formatDateString(createdAt)
-        let formattedUpdatedAt = formatDateString(updatedAt)
-
-        return MealSource(createdAt: formattedCreatedAt, updatedAt: formattedUpdatedAt, id: id, name: name, memo: memo, tag: tag, love: love, view: view, commentNumber: commentNumber, setLove: setLove, save: save, foodPictures: foodPictures, foodRecipes: foodRecipes, foodTalkComments: foodTalkComments)
+        return MealSource(createdAt: "",
+                          updatedAt: "",
+                          id: foodTalkId,
+                          name: foodName,
+                          memo: "",
+                          tag: "",
+                          love: love,
+                          view: view,
+                          commentNumber: 0,
+                          setLove: false,
+                          save: "",
+                          foodPictures: foodPictures,
+                          foodRecipes: [],
+                          foodTalkComments: [])
     }
     
     func formatDateString(_ dateString: String) -> String {
@@ -471,6 +418,8 @@ class WriteViewController: UIViewController, UITextFieldDelegate {
     func displayDataOnCollectionView(_ mealSource: MealSource) {
         self.foodPosts.append(mealSource)
     }
+    
+
 
 //MARK: - objc 메서드
     // 해시태그 버튼을 클릭했을 때 발생하는 이벤트
@@ -520,6 +469,7 @@ class WriteViewController: UIViewController, UITextFieldDelegate {
         }
         let viewsAction = UIAlertAction(title: "조회순", style: .default) { _ in
             print("조회순 selected")
+           
         }
         let oldestAction = UIAlertAction(title: "오래된 순", style: .default) { _ in
             print("오래된 순 selected")
@@ -557,7 +507,7 @@ extension WriteViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MealViewCell", for: indexPath) as? MealViewCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MealViewCell.id, for: indexPath) as? MealViewCell else {
             return UICollectionViewCell()
         }
         
@@ -585,7 +535,6 @@ extension WriteViewController: UICollectionViewDelegate {
         collectionView.deselectItem(at: indexPath, animated: true)
         navigateToPostViewController(with: selectedPost.id)
         print(selectedPost.id)
-        navigateToPostViewController()
     }
 }
 
@@ -593,7 +542,7 @@ extension WriteViewController: UICollectionViewDelegate {
 extension WriteViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        let width = collectionView.bounds.width / 2 - 20
+        let width = collectionView.bounds.width / 2 - 18
         return CGSize(width: width, height: width)
     }
     

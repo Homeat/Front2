@@ -24,6 +24,8 @@
 		409AA3462B453F3B0096CDBB /* PayAddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409AA3452B453F3B0096CDBB /* PayAddViewController.swift */; };
 		409AA3482B467EFB0096CDBB /* PayAnalyzeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409AA3472B467EFB0096CDBB /* PayAnalyzeViewController.swift */; };
 		5807E7962B80D3FB006239E6 /* InfoTalkComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5807E7952B80D3FB006239E6 /* InfoTalkComment.swift */; };
+		5807E7982B810C44006239E6 /* FoodTalkComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5807E7972B810C44006239E6 /* FoodTalkComment.swift */; };
+		5807E79A2B81A9B0006239E6 /* MealPhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5807E7992B81A9B0006239E6 /* MealPhotoCollectionViewCell.swift */; };
 		58279A6E2B763888009DCE96 /* MemberAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58279A6D2B763888009DCE96 /* MemberAPI.swift */; };
 		58279A702B7638A1009DCE96 /* MemberData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58279A6F2B7638A1009DCE96 /* MemberData.swift */; };
 		58279A742B779657009DCE96 /* InfoPicture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58279A732B779657009DCE96 /* InfoPicture.swift */; };
@@ -38,7 +40,6 @@
 		58279A922B806734009DCE96 /* CalendarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58279A912B806733009DCE96 /* CalendarManager.swift */; };
 		58279A942B8080FA009DCE96 /* FoodPicture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58279A932B8080FA009DCE96 /* FoodPicture.swift */; };
 		58279A962B808105009DCE96 /* FoodRecipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58279A952B808105009DCE96 /* FoodRecipe.swift */; };
-		58279A982B808112009DCE96 /* FoodTalkComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58279A972B808112009DCE96 /* FoodTalkComment.swift */; };
 		58279A9A2B80815F009DCE96 /* FoodRecipePicture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58279A992B80815F009DCE96 /* FoodRecipePicture.swift */; };
 		58279A9C2B80816F009DCE96 /* Reply.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58279A9B2B80816F009DCE96 /* Reply.swift */; };
 		582A98A12B636EA0008F30CA /* cameraIcon.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 582A98A02B636EA0008F30CA /* cameraIcon.pdf */; };
@@ -118,6 +119,8 @@
 		409AA3452B453F3B0096CDBB /* PayAddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayAddViewController.swift; sourceTree = "<group>"; };
 		409AA3472B467EFB0096CDBB /* PayAnalyzeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayAnalyzeViewController.swift; sourceTree = "<group>"; };
 		5807E7952B80D3FB006239E6 /* InfoTalkComment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoTalkComment.swift; sourceTree = "<group>"; };
+		5807E7972B810C44006239E6 /* FoodTalkComment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodTalkComment.swift; sourceTree = "<group>"; };
+		5807E7992B81A9B0006239E6 /* MealPhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealPhotoCollectionViewCell.swift; sourceTree = "<group>"; };
 		58279A6D2B763888009DCE96 /* MemberAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberAPI.swift; sourceTree = "<group>"; };
 		58279A6F2B7638A1009DCE96 /* MemberData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberData.swift; sourceTree = "<group>"; };
 		58279A732B779657009DCE96 /* InfoPicture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoPicture.swift; sourceTree = "<group>"; };
@@ -132,7 +135,6 @@
 		58279A912B806733009DCE96 /* CalendarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarManager.swift; sourceTree = "<group>"; };
 		58279A932B8080FA009DCE96 /* FoodPicture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodPicture.swift; sourceTree = "<group>"; };
 		58279A952B808105009DCE96 /* FoodRecipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodRecipe.swift; sourceTree = "<group>"; };
-		58279A972B808112009DCE96 /* FoodTalkComment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodTalkComment.swift; sourceTree = "<group>"; };
 		58279A992B80815F009DCE96 /* FoodRecipePicture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodRecipePicture.swift; sourceTree = "<group>"; };
 		58279A9B2B80816F009DCE96 /* Reply.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reply.swift; sourceTree = "<group>"; };
 		582A98A02B636EA0008F30CA /* cameraIcon.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = cameraIcon.pdf; sourceTree = "<group>"; };
@@ -537,6 +539,7 @@
 				58A40D942B5FAC1B0053E302 /* MealViewCell.swift */,
 				58279A752B790C52009DCE96 /* RecipeTableViewCell.swift */,
 				58279A7B2B7B956E009DCE96 /* PhotoCell.swift */,
+				5807E7992B81A9B0006239E6 /* MealPhotoCollectionViewCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -557,10 +560,10 @@
 		58A40D932B5FABF60053E302 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				5807E7972B810C44006239E6 /* FoodTalkComment.swift */,
 				58A40D9A2B5FACAF0053E302 /* MealSource.swift */,
 				58279A932B8080FA009DCE96 /* FoodPicture.swift */,
 				58279A952B808105009DCE96 /* FoodRecipe.swift */,
-				58279A972B808112009DCE96 /* FoodTalkComment.swift */,
 				58279A992B80815F009DCE96 /* FoodRecipePicture.swift */,
 				58279A9B2B80816F009DCE96 /* Reply.swift */,
 			);
@@ -722,6 +725,7 @@
 				588A09262B4E5BE200638D16 /* WriteViewController.swift in Sources */,
 				58A40D972B5FAC490053E302 /* MealPostViewController.swift in Sources */,
 				58A40D9B2B5FACAF0053E302 /* MealSource.swift in Sources */,
+				5807E7982B810C44006239E6 /* FoodTalkComment.swift in Sources */,
 				58279A702B7638A1009DCE96 /* MemberData.swift in Sources */,
 				58A40D9E2B5FF1560053E302 /* TabbarInfo.swift in Sources */,
 				58279A8E2B8065EE009DCE96 /* CalendarDateFormatter.swift in Sources */,
@@ -742,7 +746,6 @@
 				58A40D952B5FAC1B0053E302 /* MealViewCell.swift in Sources */,
 				582A993A2B6F89F5008F30CA /* TagPlusCollectionViewCell.swift in Sources */,
 				58279A962B808105009DCE96 /* FoodRecipe.swift in Sources */,
-				58279A982B808112009DCE96 /* FoodTalkComment.swift in Sources */,
 				409AA3482B467EFB0096CDBB /* PayAnalyzeViewController.swift in Sources */,
 				582A98CA2B66325D008F30CA /* ItemData.swift in Sources */,
 				582A99292B6F31C0008F30CA /* SearchLocationViewController.swift in Sources */,
@@ -784,6 +787,7 @@
 				588A092D2B4FB9F200638D16 /* TableViewCellOne.swift in Sources */,
 				588A09292B4E6ED400638D16 /* InfoViewController.swift in Sources */,
 				58A40D822B5C00D30053E302 /* TagPlusViewController.swift in Sources */,
+				5807E79A2B81A9B0006239E6 /* MealPhotoCollectionViewCell.swift in Sources */,
 				58279A7F2B7BAB47009DCE96 /* AnylysisAPI.swift in Sources */,
 				409AA3442B43E98A0096CDBB /* MyPageViewController.swift in Sources */,
 				582A99272B6F31C0008F30CA /* AddAccountViewController.swift in Sources */,

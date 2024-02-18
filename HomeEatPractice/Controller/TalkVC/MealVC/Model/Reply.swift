@@ -2,7 +2,7 @@
 //  Reply.swift
 //  HomeEatPractice
 //
-//  Created by 김민솔 on 2024/02/17.
+//  Created by 이지우 on 2/17/24.
 //
 
 import Foundation
@@ -11,4 +11,4 @@ struct Reply: Codable {
             let updatedAt: String
             let id: Int
             let content: String
-}
+        }

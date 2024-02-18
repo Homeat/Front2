@@ -5,20 +5,20 @@
 //  Created by 이지우 on 2024/01/20.
 //
 
-import UIKit
+import Foundation
 
-struct MealSource {
-    let createdAt: String
-        let updatedAt: String
+struct MealSource: Codable {
+        let createdAt: String?
+        let updatedAt: String?
         let id: Int
-        let name: String
-        let memo: String
-        let tag: String
-        let love: Int
-        let view: Int
-        let commentNumber: Int
-        let setLove: Bool
-        let save: String
+        let name: String?
+        let memo: String?
+        let tag: String?
+        let love: Int?
+        let view: Int?
+        let commentNumber: Int?
+        let setLove: Bool?
+        let save: String?
         let foodPictures: [FoodPicture]
         let foodRecipes: [FoodRecipe]
         let foodTalkComments: [FoodTalkComment]

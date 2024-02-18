@@ -223,9 +223,9 @@ class RecipeViewController: UIViewController, UIImagePickerControllerDelegate, U
     //레시피를 추가
     @objc func recipePlusButtonTapped() {
         print("레시피추가 버튼클릭")
-        let nextVC = WriteViewController()
-        tabBarController?.tabBar.isHidden = true //하단 탭바 안보이게 전환
-        navigationController?.pushViewController(nextVC, animated: true)
+        let nextVC = TalkViewController() // 이동할 뷰 컨트롤러 인스턴스 생성
+        nextVC.navigationItem.hidesBackButton = true // 백 버튼 숨기기
+        self.navigationController?.pushViewController(nextVC, animated: true)
     }
     
     //뒤로가기

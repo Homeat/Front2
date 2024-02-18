@@ -12,7 +12,7 @@ class MealViewCell: UICollectionViewCell {
     
     var mealLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 15, weight: .medium)
+        label.font = UIFont(name: "NotoSansKR-Medium", size: 15)
         label.textColor = .white
         label.textAlignment = .center
         label.numberOfLines = 1

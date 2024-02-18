@@ -415,13 +415,13 @@ class MealWritingViewController: UIViewController, UITextFieldDelegate, UICollec
         let buttonText = selectedButton?.titleLabel?.text
         let trimmedText = buttonText?.replacingOccurrences(of: "#", with: "")
         guard let name = nameTextField.text,
-              let memo = memoTextView.text,
-              let tag = trimmedText,
-              let accessToken = UserDefaults.standard.string(forKey: "loginToken") // 사용자의 토큰을 가져옴
-        else {
+                  let memo = memoTextView.text,
+                  let tag = trimmedText,
+                  let accessToken = UserDefaults.standard.string(forKey: "loginToken") // 사용자의 토큰을 가져옴
+            else {
                 // 필요한 정보가 없을 경우 에러 처리 또는 사용자에게 알림
-            return
-        }
+                return
+            }
         FoodGeneralAPI.saveFoodTalk(name: name, memo: memo, tag: tag, accessToken: accessToken) { result in
             switch result {
             case .success(let foodTalk):
