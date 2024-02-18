@@ -185,16 +185,16 @@ class RegisterViewController : UIViewController ,UITextFieldDelegate{
                 return
             }
             
-//            MemberAPI.saveMemberInfo(email: email, password: password, nickname: nickname) { result in
-//                switch result {
-//                case .success:
-//                    print("API 호출 성공")
-//                    // 성공 시 처리할 내용 추가
-//                case .failure(let error):
-//                    print("API 호출 실패: \(error.localizedDescription)")
-//                    // 실패 시 처리할 내용 추가
-//                }
-//            }
+            MemberAPI.saveMemberInfo(email: email, password: password, nickname: nickname) { result in
+                switch result {
+                case .success:
+                    print("API 호출 성공")
+                    // 성공 시 처리할 내용 추가
+                case .failure(let error):
+                    print("API 호출 실패: \(error.localizedDescription)")
+                    // 실패 시 처리할 내용 추가
+                }
+            }
             
             self.navigationController?.pushViewController(RegisterDoneViewController(), animated: true)
             

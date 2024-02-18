@@ -12,8 +12,12 @@ import Photos
 import PhotosUI
 
 class PayAddViewController : UIViewController, UITextFieldDelegate{
+    var hashTag = ""
+    var memoString = ""
+    var expenseData = 0
     
-    private var selectedImages: [UIImage] = []
+    
+    private var selectedImages : UIImage?
     let talk12Image: UIImage? = UIImage(named: "Talk12")
 
     private lazy var customButton: UIButton = makeCustomButton()
@@ -110,6 +114,8 @@ class PayAddViewController : UIViewController, UITextFieldDelegate{
             if self.tagButton3.isSelected{
                 self.tagButton3.isSelected.toggle()
             }
+            self.hashTag = "장보기"
+            print(self.hashTag ?? "nil")
         }
         let button = UIButton(configuration: config, primaryAction: buttonAction )
         
@@ -145,6 +151,9 @@ class PayAddViewController : UIViewController, UITextFieldDelegate{
             if self.tagButton3.isSelected{
                 self.tagButton3.isSelected.toggle()
             }
+            
+            self.hashTag = "외식비"
+            print(self.hashTag ?? "nil")
         }
         let button = UIButton(configuration: config, primaryAction: buttonAction )
         
@@ -180,6 +189,8 @@ class PayAddViewController : UIViewController, UITextFieldDelegate{
             if self.tagButton1.isSelected{
                 self.tagButton1.isSelected.toggle()
             }
+            self.hashTag = "배달비"
+            print(self.hashTag)
 
         }
         let button = UIButton(configuration: config, primaryAction: buttonAction )
@@ -206,6 +217,7 @@ class PayAddViewController : UIViewController, UITextFieldDelegate{
 //MARK: - 뷰에 추가
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(UserDefaults.standard.string(forKey: "loginToken"))
         
         self.view.backgroundColor = UIColor(named: "gray2")
         //현재 뷰에서는 tabBar 사용 안 함
@@ -213,8 +225,8 @@ class PayAddViewController : UIViewController, UITextFieldDelegate{
         tabBarController?.tabBar.isTranslucent = true
         configUI()
         //네비게이션 바
-        let saveButtonItem = UIBarButtonItem(title: "저장", style: .plain, target: self, action: nil)
-        saveButtonItem.tintColor = .green
+        let saveButtonItem = UIBarButtonItem(title: "저장", style: .plain, target: self, action: #selector(save(_:)))
+        saveButtonItem.tintColor = UIColor(named: "green")
         self.navigationItem.setRightBarButton(saveButtonItem, animated: false)
 
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_ :)), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -225,6 +237,7 @@ class PayAddViewController : UIViewController, UITextFieldDelegate{
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
 
         postTextField.delegate = self
+        priceTextField.delegate = self
         customButton.translatesAutoresizingMaskIntoConstraints = false
 //MARK: - 제약설정
         NSLayoutConstraint.activate([
@@ -239,6 +252,7 @@ class PayAddViewController : UIViewController, UITextFieldDelegate{
             self.hashContainer.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 37),
             self.hashContainer.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -37),
             self.hashContainer.topAnchor.constraint(equalTo: priceTextField.bottomAnchor, constant: 37),
+            self.hashContainer.heightAnchor.constraint(equalToConstant: 40),
             
             self.postLabel.topAnchor.constraint(equalTo: hashContainer.bottomAnchor, constant: 25),
             self.postLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20),
@@ -298,7 +312,27 @@ class PayAddViewController : UIViewController, UITextFieldDelegate{
             tabBarController.customTabBar.isHidden = false
         }
     }
+    
+    
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        if textField == postTextField{
+            memoString = textField.text ?? ""
+        }
+    }
+    //memo textfield 입력 종료시에 update
+    func textFieldDidEndEditing(_ textField: UITextField) {
 
+        if textField == priceTextField{
+            if let text = textField.text, let intValue = Int(text) {
+                print(text)
+                expenseData = intValue
+            } else {
+                // 변환 실패 시 기본값(0)을 사용합니다.
+                expenseData = 0
+            }
+        }
+
+    }
     
     func makeCustomButton() -> UIButton {
         var config = UIButton.Configuration.plain()
@@ -358,6 +392,51 @@ class PayAddViewController : UIViewController, UITextFieldDelegate{
             self.present(picker, animated: true, completion: nil)
         }
     }
+//MARK: - save 버튼 파트
+    @objc func save(_ sender: UIBarButtonItem){
+        print(expenseData)
+        print(memoString)
+        print(hashTag)
+        print(selectedImages)
+        
+        if let selectedImage = self.selectedImages {
+            HomeAPI.uploadImage(image: selectedImage) { uploadResult in
+                switch uploadResult {
+                case .success:
+                    print("이미지 업로드 성공")
+                    
+                case .failure(let error):
+                    print("이미지 업로드 실패: \(error.localizedDescription)")
+                    // 실패 시 처리할 내용 추가
+                }
+            }
+        } else {
+            print("선택된 이미지가 없습니다.")
+            // 선택된 이미지가 없을 때 처리할 내용 추가
+        }
+        
+        HomeAPI.postExpense(money: expenseData , type: hashTag, memo: memoString) { result in
+            switch result {
+            case .success:
+                print("API 호출 성공")
+                
+                HomeAPI.getHomeData(){result in
+                    switch result{
+                    case .success:
+                        print("data불러오기 성공")
+                    case .failure(_):
+                        print("data불러오기 실패")
+                    }
+                    
+                }
+            case .failure(_):
+                print("API 호출 실패")
+            }
+            
+            self.navigationController?.popViewController(animated: true)
+        }
+        
+    }
     @objc func buttonTapped(){
         
         let actionSheetController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
@@ -387,6 +466,11 @@ class PayAddViewController : UIViewController, UITextFieldDelegate{
         
         
     }
+                                             
+
+                                             
+                                             
+                                             
     //MARK: - 사진과 앨범 파트
     @objc private func openCamera() {
        #if targetEnvironment(simulator)
@@ -483,7 +567,7 @@ extension PayAddViewController : UINavigationControllerDelegate, UIImagePickerCo
             return
         }
         // 이미지를 selectedImages 배열에 추가
-        selectedImages.append(image)
+        selectedImages = image
         
         // 이미지 뷰에 선택된 이미지 표시
         imageView.image = image
@@ -513,7 +597,7 @@ extension PayAddViewController: PHPickerViewControllerDelegate {
                 guard let image = image as? UIImage, error == nil else { return }
                 DispatchQueue.main.async {
                     // 이미지를 selectedImages 배열에 추가
-                    self?.selectedImages.append(image)
+                    self?.selectedImages = image
                     // 이미지 뷰에 선택된 이미지 표시
                     self?.imageView.image = image
                     // 버튼을 숨기고 이미지 뷰를 표시하도록 설정
@@ -524,5 +608,7 @@ extension PayAddViewController: PHPickerViewControllerDelegate {
         }
     }
 }
+
+
 
 

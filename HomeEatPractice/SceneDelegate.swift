@@ -10,7 +10,7 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-    var check : Int = 0
+    
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
@@ -23,23 +23,33 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         // 윈도우의 크기 설정
         window = UIWindow(frame: UIScreen.main.bounds)
-        
-        // 뷰컨트롤러 인스턴스 설정
         let mainTC = MainTabBarController()
-        
         let navigationController = UINavigationController(rootViewController: RegisterSelectViewController())
-        // 루트 네비게이션 컨트롤러 설정
         
-        // 루트뷰 컨트롤러를 위에서 설정한 네비게이션 컨트롤러로 설정
-        //rootView 투트랙으로 가야돼서 조건 임시 설정 *수정필요함
-        if check == 1 {
-            window?.rootViewController = mainTC
-            mainTC.tabBar.backgroundColor = .darkGray
-                } else {
-                    window?.rootViewController = navigationController
-                }
+        // 토근 만료 시간을 조회하고 첫 페이지 뭘 띄울지 결정하는 부분
+        let expirationDateString = UserDefaults.standard.string(forKey: "loginTokenExpired") ?? ""
         
-//        window?.rootViewController = mainTC
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+        if let expirationDate = dateFormatter.date(from: expirationDateString) {
+            // 현재 시간 가져오기
+            let currentDate = Date()
+
+            // 현재 시간과 만료 시간 비교
+            if currentDate > expirationDate{
+                print("토큰이 만료되었습니다.")
+                window?.rootViewController = navigationController
+                
+            } else {
+                window?.rootViewController = mainTC
+                print("토큰이 아직 유효합니다.")
+            }
+        } else {
+            window?.rootViewController = navigationController
+            print("잘못된 날짜 형식입니다.")
+        }
+
+        
         
         // 설정한 윈도우를 보이게끔 설정
         window?.makeKeyAndVisible()
