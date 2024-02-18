@@ -7,12 +7,15 @@
 
 import UIKit
 import Then
+import Alamofire
+
 class WeekCashViewController: UIViewController {
     
     var reuseIdentifier = "WeekCollectionViewCell"
     // 보여줄셀의 개수
     var numberOfCell = 9
     
+    var responseData: UserResponseData?
 //MARK: - 일반프로퍼티
     private lazy var cashIcon: UIImageView = {
         let icon = UIImageView()
@@ -23,10 +26,19 @@ class WeekCashViewController: UIViewController {
     
     private let cashLabel: UILabel = {
         let label = UILabel()
-        label.text = "홈잇러버 OO님"
+        label.text = "홈잇러버"
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .white
-        label.font = UIFont(name: "NotoSansKR-Medium", size: 15)
+        label.font = UIFont.systemFont(ofSize: 15, weight: .medium)
+        return label
+    }()
+    
+    private let nickNamelabel: UILabel = {
+        let label = UILabel()
+        label.text = "OO님"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .white
+        label.font = UIFont.systemFont(ofSize: 15, weight: .medium)
         return label
     }()
     
@@ -51,12 +63,19 @@ class WeekCashViewController: UIViewController {
         badgeCollectionView.delegate = self
         badgeCollectionView.dataSource = self
         setConstraints()
-        
+        fetchDataFromServer() // 서버에서 데이터를 가져옴
+        if let name = UserDefaults.standard.string(forKey: "userNickname") {
+            nickNamelabel.text = "\(name) 님"
+        } else {
+            // UserDefaults에서 값이 없는 경우에 대한 처리
+            nickNamelabel.text = "닉네임이 설정되지 않았습니다."
+        }
     }
     
     func setConstraints() {
         self.view.addSubview(self.cashIcon)
         self.view.addSubview(self.cashLabel)
+        self.view.addSubview(self.nickNamelabel)
         self.view.addSubview(self.badgeCollectionView)
         
         NSLayoutConstraint.activate([
@@ -67,8 +86,12 @@ class WeekCashViewController: UIViewController {
             self.cashIcon.widthAnchor.constraint(equalToConstant: 15),
             
             self.cashLabel.leadingAnchor.constraint(equalTo: cashIcon.trailingAnchor, constant: 6),
-            self.cashLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 59),
-            self.cashLabel.heightAnchor.constraint(equalToConstant: 22),
+            self.cashLabel.topAnchor.constraint(equalTo: cashIcon.topAnchor),
+            self.cashLabel.bottomAnchor.constraint(equalTo: cashIcon.bottomAnchor),
+            
+            nickNamelabel.leadingAnchor.constraint(equalTo: cashLabel.trailingAnchor, constant: 6),
+            nickNamelabel.topAnchor.constraint(equalTo: cashIcon.topAnchor),
+            nickNamelabel.bottomAnchor.constraint(equalTo: cashIcon.bottomAnchor),
             
             self.badgeCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             self.badgeCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -77,6 +100,52 @@ class WeekCashViewController: UIViewController {
             
         ])
     }
+    
+    func fetchDataFromServer() {
+        let url = "https://dev.homeat.site/v1/badgeReport/TierNickname"
+        var loginToken = ""
+        if let token = UserDefaults.standard.string(forKey: "loginToken") {
+            // 옵셔널이 nil이 아닌 경우에만 이 코드 블록이 실행됩니다.
+            // token을 안전하게 사용할 수 있습니다.
+            loginToken = token
+        } else {
+            // 옵셔널이 nil인 경우에는 이 코드 블록이 실행됩니다.
+            print("토큰이 없습니다.")
+        }
+        
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(loginToken)",
+        ]
+        print("\(loginToken)")
+        
+        AF.request(url, method: .get, headers: headers)
+            .validate()
+            .responseDecodable(of: ResponseData.self) { response in
+                switch response.result {
+                case .success(let responseData):
+                    // 데이터 사용 가능
+                    print("isSuccess: \(responseData.isSuccess)")
+                    print("code: \(responseData.code)")
+                    print("message: \(responseData.message)")
+                    print("tierStatus: \(responseData.data.tierStatus)")
+                    print("nickname: \(responseData.data.nickname)")
+                case .failure(let error):
+                    print("Error fetching data: \(error)")
+                }
+            }
+    }
+        // JSON 데이터를 읽어와서 ResponseData 객체로 파싱하는 함수
+    func parseResponseData(from jsonData: Data) -> ResponseData? {
+        do {
+            let decoder = JSONDecoder()
+            let responseData = try decoder.decode(ResponseData.self, from: jsonData)
+            return responseData
+        } catch {
+            print("Error decoding JSON: \(error)")
+            return nil
+        }
+    }
+    
     
     }
 

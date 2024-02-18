@@ -59,7 +59,7 @@ class MealPostViewController: UIViewController, UIScrollViewDelegate {
         label.text = "우예진"
         label.textColor = .white
         label.textAlignment = .center
-        label.font = UIFont(name: "NotoSansKR-Medium", size: 15)
+        label.font = UIFont.boldSystemFont(ofSize: 15)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -67,7 +67,7 @@ class MealPostViewController: UIViewController, UIScrollViewDelegate {
     //게시 날짜
     lazy var date: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "NotoSansKR-Medium", size: 10)
+        label.font = .systemFont(ofSize: 10)
         label.text = "11월 20일 24:08"
         label.textColor = UIColor(named: "font4")
         label.numberOfLines = 0
@@ -96,7 +96,7 @@ class MealPostViewController: UIViewController, UIScrollViewDelegate {
         button.layer.borderColor = UIColor(named: "green")?.cgColor
         button.setTitle("#아침", for: .normal)
         button.setTitleColor(UIColor(named: "green"), for: .normal)
-        button.titleLabel?.font = UIFont(name: "NotoSansKR-Medium", size: 6)
+        button.titleLabel?.font = UIFont(name: "NotoSansKR-Medium", size: 4)
         button.contentEdgeInsets = UIEdgeInsets(top: 3, left: 8, bottom: 3, right: 8)
         return button
     }()
@@ -300,8 +300,8 @@ class MealPostViewController: UIViewController, UIScrollViewDelegate {
         ])
         
         NSLayoutConstraint.activate([
-            profileView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
-            profileView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor,constant: 20),
+            profileView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
+            profileView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 20),
             profileView.widthAnchor.constraint(equalToConstant: 37.8),
             profileView.heightAnchor.constraint(equalToConstant: 37.8),
 
@@ -310,26 +310,26 @@ class MealPostViewController: UIViewController, UIScrollViewDelegate {
             profileIcon.topAnchor.constraint(equalTo: profileView.topAnchor,constant: 6.8),
             profileIcon.leadingAnchor.constraint(equalTo: profileView.leadingAnchor,constant: 6),
             
-            nickName.topAnchor.constraint(equalTo: self.profileIcon.topAnchor),
-            nickName.leadingAnchor.constraint(equalTo: self.profileView.trailingAnchor, constant: 13),
-                
-            date.leadingAnchor.constraint(equalTo: self.nickName.leadingAnchor),
-            date.bottomAnchor.constraint(equalTo: profileView.bottomAnchor),
+            nickName.topAnchor.constraint(equalTo: profileView.topAnchor),
+            nickName.leadingAnchor.constraint(equalTo: profileView.trailingAnchor, constant: 13),
             
-            declareButton.topAnchor.constraint(equalTo: self.date.topAnchor),
-            declareButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20),
-            declareButton.bottomAnchor.constraint(equalTo: date.bottomAnchor),
+            date.topAnchor.constraint(equalTo: nickName.bottomAnchor,constant: 3),
+            date.leadingAnchor.constraint(equalTo: nickName.leadingAnchor),
             
+            declareButton.topAnchor.constraint(equalTo: date.topAnchor),
+            declareButton.widthAnchor.constraint(equalToConstant: 37),
+            declareButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            
+            hashtagCategoty.topAnchor.constraint(equalTo: profileIcon.bottomAnchor,constant: 20),
             hashtagCategoty.leadingAnchor.constraint(equalTo: profileView.leadingAnchor),
-            hashtagCategoty.topAnchor.constraint(equalTo: profileView.bottomAnchor, constant: 20),
+            hashtagCategoty.trailingAnchor.constraint(equalTo: profileView.trailingAnchor),
             hashtagCategoty.heightAnchor.constraint(equalToConstant: 20),
             
-            titleLabel.topAnchor.constraint(equalTo: self.hashtagCategoty.bottomAnchor, constant: 8),
-            titleLabel.leadingAnchor.constraint(equalTo: self.profileView.leadingAnchor),
-            titleLabel.heightAnchor.constraint(equalToConstant: 34),
+            titleLabel.topAnchor.constraint(equalTo: hashtagCategoty.bottomAnchor,constant: 13),
+            titleLabel.leadingAnchor.constraint(equalTo: profileView.leadingAnchor),
             
-            contentLabel.leadingAnchor.constraint(equalTo: self.profileView.leadingAnchor),
-            contentLabel.topAnchor.constraint(equalTo: self.titleLabel.bottomAnchor, constant: 5),
+            contentLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor,constant: 8),
+            contentLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
             
             scrollView.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: declareButton.trailingAnchor),
@@ -343,19 +343,19 @@ class MealPostViewController: UIViewController, UIScrollViewDelegate {
             SmallheartButton.topAnchor.constraint(equalTo: pageControl.bottomAnchor, constant: 22),
             SmallheartButton.widthAnchor.constraint(equalToConstant: 11.9),
             SmallheartButton.heightAnchor.constraint(equalToConstant: 11),
-            SmallheartButton.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            SmallheartButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 21),
             
-            heartCountLabel.leadingAnchor.constraint(equalTo: SmallheartButton.trailingAnchor, constant: 2),
-            heartCountLabel.centerYAnchor.constraint(equalTo: SmallheartButton.centerYAnchor),
+            heartCountLabel.leadingAnchor.constraint(equalTo: SmallheartButton.trailingAnchor, constant: 2.1),
+            heartCountLabel.topAnchor.constraint(equalTo: pageControl.bottomAnchor,constant: 20),
             heartCountLabel.heightAnchor.constraint(equalToConstant: 14),
             
+            SmallChatButton.topAnchor.constraint(equalTo: pageControl.bottomAnchor, constant: 22),
             SmallChatButton.leadingAnchor.constraint(equalTo: heartCountLabel.trailingAnchor, constant: 12),
-            SmallChatButton.centerYAnchor.constraint(equalTo: SmallheartButton.centerYAnchor),
             SmallChatButton.widthAnchor.constraint(equalToConstant: 12),
             SmallChatButton.heightAnchor.constraint(equalToConstant: 10.7),
             
-            chatCountLabel.leadingAnchor.constraint(equalTo: SmallChatButton.trailingAnchor, constant: 4),
-            chatCountLabel.centerYAnchor.constraint(equalTo: chatCountLabel.centerYAnchor),
+            chatCountLabel.topAnchor.constraint(equalTo: pageControl.bottomAnchor, constant: 20),
+            chatCountLabel.leadingAnchor.constraint(equalTo: SmallChatButton.trailingAnchor, constant: 2.1),
             chatCountLabel.heightAnchor.constraint(equalToConstant: 14),
             
             barView.topAnchor.constraint(equalTo: SmallheartButton.bottomAnchor, constant: 18),
@@ -363,6 +363,7 @@ class MealPostViewController: UIViewController, UIScrollViewDelegate {
             barView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             barView.heightAnchor.constraint(equalToConstant: 4),
             
+            // 댓글작성
             heartButton.topAnchor.constraint(equalTo: inputUIView.topAnchor,constant: 13),
             heartButton.leadingAnchor.constraint(equalTo: inputUIView.leadingAnchor,constant: 21),
             heartButton.bottomAnchor.constraint(equalTo: inputUIView.bottomAnchor,constant: -34),

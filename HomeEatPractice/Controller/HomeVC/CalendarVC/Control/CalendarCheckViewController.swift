@@ -171,6 +171,7 @@ final class CalendarCheckViewController: UIViewController {
     override func viewDidLoad() {
         
         super.viewDidLoad()
+//        fetchData()
         self.view.backgroundColor =  UIColor(named: "gray3")
         self.contentView.addSubview(self.guideImage1)
         self.contentView.addSubview(self.guideImage2)
@@ -194,6 +195,49 @@ final class CalendarCheckViewController: UIViewController {
         navigationcontrol()
         self.configure()
         configUI()
+    }
+    // 데이터를 가져오는 함수
+    func fetchData(year: String, month: String, day: String) {
+        let urlString = "https://dev.homeat.site/v1/home/calendar/daily"
+        var loginToken = ""
+        if let token = UserDefaults.standard.string(forKey: "loginToken") {
+            loginToken = token
+        } else {
+            print("토큰이 없습니다.")
+        }
+
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(loginToken)",
+        ]
+        
+        let parameters: Parameters = [
+            "year": year,
+            "month": month,
+            "day": day
+        ]
+
+        AF.request(urlString, method: .get, parameters: parameters, headers: headers).responseJSON { response in
+            switch response.result {
+            case .success(let value):
+                if let json = value as? [String: Any], let data = json["data"] as? [String: Any] {
+                    if let todayJipbapPrice = data["todayJipbapPrice"] as? Int,
+                       let todayOutPrice = data["todayOutPrice"] as? Int,
+                       let remainingGoal = data["remainingGoal"] as? Int {
+                        // 데이터를 사용하여 UI 업데이트 등의 작업 수행
+                        print("Today Jipbap Price: \(todayJipbapPrice)")
+                        print("Today Out Price: \(todayOutPrice)")
+                        print("Remaining Goal: \(remainingGoal)")
+                        // mealCoin, deliveryCoin, remainMoneyCoin 레이블 업데이트
+                        self.mealCoin.text = "\(todayJipbapPrice) 원"
+                        self.deliveryCoin.text = "\(todayOutPrice) 원"
+                        self.remainMoneyCoin.text = "\(remainingGoal) 원"
+                    }
+                }
+            case .failure(let error):
+                // 데이터 요청 실패 시 에러 처리
+                print("Error: \(error)")
+            }
+        }
     }
     private func updateDayLabel() {
             let formatter = DateFormatter()
@@ -478,6 +522,14 @@ extension CalendarCheckViewController: UICollectionViewDataSource, UICollectionV
             formatter.dateFormat = "MM월 dd일 EEEE"
             let formattedDate = formatter.string(from: selectedDate)
             DayLabel.text = formattedDate
+            
+            // 선택된 날짜의 year, month, day 추출
+            let year = calendar.component(.year, from: selectedDate)
+            let month = calendar.component(.month, from: selectedDate)
+            let day = calendar.component(.day, from: selectedDate)
+            
+            // 해당 날짜의 데이터를 서버에서 가져와 UI 업데이트
+            fetchData(year: String(year), month: String(month), day: String(day))
         }
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

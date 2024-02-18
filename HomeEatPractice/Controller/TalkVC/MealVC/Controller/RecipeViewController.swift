@@ -11,12 +11,11 @@ import AVFoundation
 import Photos
 import PhotosUI
 
-
-
 class RecipeViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
-    // 레시피 단계들을 저장
-    var recipeSteps:[RecipeStep] = []
+    // 레시피단계를 구조체에 배열로 저장
+    var data = [RecipeStep]()
+    var step = 0
     
     lazy var recipeTableView: UITableView = {
         let tableView = UITableView()
@@ -214,11 +213,13 @@ class RecipeViewController: UIViewController, UIImagePickerControllerDelegate, U
     
     //MARK: - @objc 메서드
     @objc func plusButtonTapped() {
-        print("버튼클릭")
+        let newRecipeStep = RecipeStep(stepNumber: data.count + 1, recipeText: "", sourceText: "", tipText: "")
+            data.append(newRecipeStep)
+            
+            // 테이블 뷰를 다시 로드하여 새로운 셀을 추가
+            recipeTableView.reloadData()
     }
-    func addRecipeStep(_ step: RecipeStep) {
-            recipeSteps.append(step)
-        }
+
     
     //레시피를 추가
     @objc func recipePlusButtonTapped() {
@@ -233,37 +234,42 @@ class RecipeViewController: UIViewController, UIImagePickerControllerDelegate, U
         self.navigationController?.popViewController(animated: true)
         print("back click")
     }
-    
+     
 }
 
 //MARK: - 레시피 스텝 추가,삭제 Extension
 extension RecipeViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return recipeSteps.count
+        return 5
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: RecipeTableViewCell.identifier, for: indexPath) as! RecipeTableViewCell
-                
-                // 해당 indexPath에 맞는 레시피 단계를 셀에 전달하여 설정
-                let step = recipeSteps[indexPath.row]
-                cell.configure(with: step)
+        
+        // 셀의 delegate를 설정
+        cell.delegate = self
+        let recipeStep = data[indexPath.row]
+        cell.recipeStep = recipeStep
+        cell.stepLabel.text = "Step\(indexPath.row + 1)"
+        cell.recipeTextView.text = data[indexPath.row].recipeText
+        cell.sourceTextField.text = data[indexPath.row].sourceText
+        cell.tipTextField.text = data[indexPath.row].tipText
 
-                // 셀의 delegate를 설정
-                cell.delegate = self
-
-                return cell
+        
+        return cell
     }
 }
 
 extension RecipeViewController: RecipeCellDelegate {
-    
-    
     func didTapRemoveButton(cell: RecipeTableViewCell) {
             guard let indexPath = recipeTableView.indexPath(for: cell) else { return }
-            recipeSteps.remove(at: indexPath.row)
             recipeTableView.reloadData() // 변경된 데이터로 테이블 뷰를 다시 로드
+        }
+    
+    func didSaveRecipeStep(_ recipeStep: RecipeStep) {
+            data.append(recipeStep)
+        recipeTableView.reloadData()
         }
 }
 
