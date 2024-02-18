@@ -8,6 +8,7 @@
 import UIKit
 
 final class CalendarCheckViewController: UIViewController {
+    private var selectedIndexPath: IndexPath?
     private var currentDate = Date() // 현재 날짜를 가져옴
     private lazy var scrollView = UIScrollView()
     private lazy var contentView = UIView()
@@ -286,7 +287,7 @@ final class CalendarCheckViewController: UIViewController {
             deliveryLabel2.leadingAnchor.constraint(equalTo: mealLabel2.leadingAnchor),
         ])
         NSLayoutConstraint.activate([
-            deliveryCoin.bottomAnchor.constraint(equalTo: deliveryLabel2.bottomAnchor),
+            deliveryCoin.bottomAnchor.constraint(equalTo: deliveryLabel2.bottomAnchor,constant: -3),
             deliveryCoin.trailingAnchor.constraint(equalTo: mealCoin.trailingAnchor),
             deliveryCoin.heightAnchor.constraint(equalToConstant: 13),
         ])
@@ -440,14 +441,38 @@ final class CalendarCheckViewController: UIViewController {
 }
 
 extension CalendarCheckViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    
+ 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.days.count
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
             return 5
         }
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        // 선택된 셀의 인덱스를 업데이트
+        selectedIndexPath = indexPath
+        
+        // 모든 셀의 배경색을 원래의 색으로 변경
+        for visibleCell in collectionView.visibleCells {
+            if let cell = visibleCell as? CalendarCollectionViewCell {
+                cell.backgroundColor = UIColor(named: "gray3")
+                cell.dayLabel.textColor = .white
+            }
+        }
+        
+        // 선택된 셀의 배경색과 텍스트 색상을 변경
+        if let cell = collectionView.cellForItem(at: indexPath) as? CalendarCollectionViewCell {
+            cell.backgroundColor = .white
+            cell.dayLabel.textColor = .black
+            
+            // 선택된 날짜의 요일을 가져와서 날짜 레이블을 업데이트
+            let selectedDate = calendar.date(byAdding: .day, value: indexPath.item - startDayOfTheWeek(), to: calendar.startOfDay(for: calendarDate))!
+            let formatter = DateFormatter()
+            formatter.dateFormat = "MM월 dd일 EEEE"
+            let formattedDate = formatter.string(from: selectedDate)
+            DayLabel.text = formattedDate
+        }
+    }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CalendarCollectionViewCell.identifier, for: indexPath) as? CalendarCollectionViewCell else { return UICollectionViewCell() }
         cell.update(day: self.days[indexPath.item])
@@ -456,7 +481,7 @@ extension CalendarCheckViewController: UICollectionViewDataSource, UICollectionV
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = (self.collectionView.frame.width - 30) / 7
-        return CGSize(width: width, height: width * 0.8) 
+        return CGSize(width: width, height: width * 0.8)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {

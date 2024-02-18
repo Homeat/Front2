@@ -53,6 +53,8 @@
 		5807E7962B80D3FB006239E6 /* InfoTalkComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5807E7952B80D3FB006239E6 /* InfoTalkComment.swift */; };
 		5807E7982B810C44006239E6 /* FoodTalkComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5807E7972B810C44006239E6 /* FoodTalkComment.swift */; };
 		5807E79A2B81A9B0006239E6 /* MealPhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5807E7992B81A9B0006239E6 /* MealPhotoCollectionViewCell.swift */; };
+		5807E79C2B81E7E7006239E6 /* InfoHashTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5807E79B2B81E7E7006239E6 /* InfoHashTag.swift */; };
+		5807E79E2B81F1BA006239E6 /* Member.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5807E79D2B81F1BA006239E6 /* Member.swift */; };
 		58279A742B779657009DCE96 /* InfoPicture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58279A732B779657009DCE96 /* InfoPicture.swift */; };
 		58279A762B790C52009DCE96 /* RecipeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58279A752B790C52009DCE96 /* RecipeTableViewCell.swift */; };
 		58279A7C2B7B956E009DCE96 /* PhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58279A7B2B7B956E009DCE96 /* PhotoCell.swift */; };
@@ -152,6 +154,8 @@
 		5807E7952B80D3FB006239E6 /* InfoTalkComment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoTalkComment.swift; sourceTree = "<group>"; };
 		5807E7972B810C44006239E6 /* FoodTalkComment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodTalkComment.swift; sourceTree = "<group>"; };
 		5807E7992B81A9B0006239E6 /* MealPhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealPhotoCollectionViewCell.swift; sourceTree = "<group>"; };
+		5807E79B2B81E7E7006239E6 /* InfoHashTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoHashTag.swift; sourceTree = "<group>"; };
+		5807E79D2B81F1BA006239E6 /* Member.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Member.swift; sourceTree = "<group>"; };
 		58279A732B779657009DCE96 /* InfoPicture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoPicture.swift; sourceTree = "<group>"; };
 		58279A752B790C52009DCE96 /* RecipeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeTableViewCell.swift; sourceTree = "<group>"; };
 		58279A7B2B7B956E009DCE96 /* PhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCell.swift; sourceTree = "<group>"; };
@@ -457,10 +461,12 @@
 		588A092E2B4FF99100638D16 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				5807E79D2B81F1BA006239E6 /* Member.swift */,
 				588A092F2B4FF9A900638D16 /* MyItem.swift */,
 				582A993B2B6F8C70008F30CA /* TagItem.swift */,
 				58279A732B779657009DCE96 /* InfoPicture.swift */,
 				5807E7952B80D3FB006239E6 /* InfoTalkComment.swift */,
+				5807E79B2B81E7E7006239E6 /* InfoHashTag.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -742,6 +748,7 @@
 				2D0DB3412B81B53E00FFBDD3 /* LoginViewController.swift in Sources */,
 				2D0DB3352B81B53E00FFBDD3 /* Policy3ViewController.swift in Sources */,
 				2D0DB3342B81B53E00FFBDD3 /* RegisterDoneViewController.swift in Sources */,
+				5807E79C2B81E7E7006239E6 /* InfoHashTag.swift in Sources */,
 				58279A8E2B8065EE009DCE96 /* CalendarDateFormatter.swift in Sources */,
 				58279A9A2B80815F009DCE96 /* FoodRecipePicture.swift in Sources */,
 				2D0DB32B2B81B53E00FFBDD3 /* AddLocationInfromViewController.swift in Sources */,
@@ -786,6 +793,7 @@
 				2D0DB3432B81B53E00FFBDD3 /* RegisterViewController.swift in Sources */,
 				4060C4192B74B2EA0012F06D /* RecipeViewController.swift in Sources */,
 				58279A742B779657009DCE96 /* InfoPicture.swift in Sources */,
+				5807E79E2B81F1BA006239E6 /* Member.swift in Sources */,
 				2D0DB33F2B81B53E00FFBDD3 /* CustomProgressViewController.swift in Sources */,
 				40852A292B6F371300150395 /* FoodItemData.swift in Sources */,
 				409AA33C2B43A6B20096CDBB /* MainTabBarController.swift in Sources */,
@@ -952,7 +960,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = GH95G7PN63;
+				DEVELOPMENT_TEAM = G62DUX396A;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = HomeEatPractice/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "카메라 접근권한";
@@ -985,7 +993,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = GH95G7PN63;
+				DEVELOPMENT_TEAM = G62DUX396A;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = HomeEatPractice/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "카메라 접근권한";

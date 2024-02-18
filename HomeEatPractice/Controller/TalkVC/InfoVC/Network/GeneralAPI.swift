@@ -16,7 +16,7 @@ class GeneralAPI {
         
         let headers: HTTPHeaders = [
             "Authorization": "Bearer \(accessToken)",
-                    "Content-Type": "application/json"
+            "Content-Type": "application/json"
             ]
 
         AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)

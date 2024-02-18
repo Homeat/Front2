@@ -141,7 +141,9 @@ class InfoViewController: UIViewController {
                                 var newPosts: [MyItem] = []
                                 for json in jsonArray {
                                     if let myItem = self.parseMyItemFromJSON(json) {
-                                        newPosts.append(myItem)
+                                        if !self.posts.contains(where: { $0.id == myItem.id }) {
+                                            newPosts.append(myItem)
+                                        }
                                         print("MyItem created successfully with infoTalkId: \(myItem.id)")
 
                                     }else {
@@ -179,6 +181,20 @@ class InfoViewController: UIViewController {
        else {
            return nil
        }
+//        var member: Member?
+//            if let memberDict = json["member"] as? [String: Any],
+//               let memberId = memberDict["id"] as? Int,
+//               let email = memberDict["email"] as? String,
+//               let password = memberDict["password"] as? String,
+//               let nickname = memberDict["nickname"] as? String,
+//               let createdAtMember = memberDict["createdAt"] as? String,
+//               let updatedAtMember = memberDict["updatedAt"] as? String,
+//               let loginType = memberDict["loginType"] as? String,
+//               let status = memberDict["status"] as? String {
+//                   // Member 객체 생성
+//                   member = Member(createdAt: createdAtMember, updatedAt: updatedAtMember, id: memberId, email: email, password: password, nickname: nickname, profileImgUrl: nil, loginType: loginType, status: status)
+//            }
+
         let infoPictures: [InfoPicture] = [InfoPicture(createdAt: "", updatedAt: "", id: infoTalkId, url: url)]
         
         let formattedCreatedAt = formatDateString(createdAt)
@@ -196,7 +212,8 @@ class InfoViewController: UIViewController {
                           save: "", // save 필드가 없으므로 빈 문자열로 설정
                           infoPictures: infoPictures,
                           infoHashTags: [], // infoHashTags 필드가 없으므로 빈 배열로 설정
-                          infoTalkComments: []) // infoTalkComments 필드가 없으므로 빈 배열로 설정
+                          infoTalkComments: []
+                            ) // infoTalkComments 필드가 없으므로 빈 배열로 설정
     }
     
     func formatDateString(_ dateString: String) -> String {

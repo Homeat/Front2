@@ -358,7 +358,12 @@ class WriteViewController: UIViewController, UITextFieldDelegate {
                                 var newPosts: [MealSource] = []
                                 for json in jsonArray {
                                     if let mealSource = self.parseMyItemFromJSON(json) {
-                                        newPosts.append(mealSource)
+                                        if !self.foodPosts.contains(where: { $0.id == mealSource.id }) {
+                                            newPosts.append(mealSource)
+                                        }
+                                        print("MyItem created successfully with infoTalkId: \(mealSource.id)")
+                                        
+                                    }else {
                                         
                                     }
                                 }

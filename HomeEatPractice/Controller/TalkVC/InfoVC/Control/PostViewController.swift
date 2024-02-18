@@ -47,10 +47,11 @@ class PostViewController: UIViewController, UIScrollViewDelegate,UICollectionVie
         
         return collectionView
     }()
-    //테이블 뷰
+    //MARK:- 댓글 테이블 뷰
     private let commenttableView =  UITableView().then {
         $0.allowsSelection = true //셀 클릭이 가능하게 하는거
         $0.showsVerticalScrollIndicator = true
+        $0.backgroundColor = UIColor.init(named: "gray3")
         $0.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         $0.register(CommentTableViewCell.self, forCellReuseIdentifier: CommentTableViewCell.identifier)
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -62,11 +63,11 @@ class PostViewController: UIViewController, UIScrollViewDelegate,UICollectionVie
         return headerView
     }()
     //대댓글 footer
-    lazy var plusCommentFooterView: UIView = {
-        let footerView = UIView(frame: CGRect(x: 0, y: 0, width: commenttableView.frame.width, height: 265))
-        footerView.backgroundColor = UIColor(named: "gray2") // 적절한 색상으로 설정합니다.
-        return footerView
-    }()
+//    lazy var plusCommentFooterView: UIView = {
+//        let footerView = UIView(frame: CGRect(x: 0, y: 0, width: commenttableView.frame.width, height: 265))
+//        footerView.backgroundColor = UIColor(named: "gray2") // 적절한 색상으로 설정합니다.
+//        return footerView
+//    }()
     // MARK: - 프로퍼티 생성
     //프로필이미지 넣을 원형뷰
     lazy var circleView: UIView = {
@@ -239,6 +240,7 @@ class PostViewController: UIViewController, UIScrollViewDelegate,UICollectionVie
             tabBarController.customTabBar.isHidden = false
         }
     }
+    
     // MARK: - ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -246,8 +248,12 @@ class PostViewController: UIViewController, UIScrollViewDelegate,UICollectionVie
         navigationcontrol()
         view.backgroundColor = UIColor(named: "gray3")
         scrollView.delegate = self
-//        commenttableView.delegate = self
-//        commenttableView.dataSource = self
+        commenttableView.delegate = self
+        commenttableView.dataSource = self
+        // 화면의 다른 곳을 누려면 키보드가 내려가는 메서드.
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(viewDidTap))
+       // view에 탭 제스처를 추가.
+        self.view.addGestureRecognizer(tapGesture)
         addContentScrollView()
         setPageControl()
         fetchDataFromServer()
@@ -258,8 +264,26 @@ class PostViewController: UIViewController, UIScrollViewDelegate,UICollectionVie
         tabBarController?.tabBar.isTranslucent = true
         
         // 키보드 노티피케이션 등록
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow),name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHideNotification), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        // NotificationCenter에 관찰자를 등록하는 행위.
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHideNotification), name: UIResponder.keyboardWillHideNotification, object: nil)
+            
+    }
+    // 관찰자 분리.
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    @objc func viewDidTap(gesture: UITapGestureRecognizer) {
+        // 뷰를 탭하면 에디팅을 멈추게함.
+        // 에디팅이 멈추므로 키보드가 내려감.
+        view.endEditing(true)
     }
     // MARK: - ViewSet
     func addSubView() {
@@ -281,7 +305,7 @@ class PostViewController: UIViewController, UIScrollViewDelegate,UICollectionVie
         contentView.addSubview(SmallChatButton)
         contentView.addSubview(chatCountLabel)
         contentView.addSubview(barView)
-//        contentView.addSubview(commenttableView)
+        contentView.addSubview(commenttableView)
         inputUIView.addSubview(heartButton)
         inputUIView.addSubview(inputTextField)
         inputUIView.addSubview(sendButton)
@@ -290,25 +314,25 @@ class PostViewController: UIViewController, UIScrollViewDelegate,UICollectionVie
     
     func configUI() {
         NSLayoutConstraint.activate([
-            mainScrollview.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            mainScrollview.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            mainScrollview.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            mainScrollview.bottomAnchor.constraint(equalTo: view.bottomAnchor,constant: -91), // scrollView의 bottom을 inputUIView의 top에 맞춥니다.
+            self.mainScrollview.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            self.mainScrollview.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
+            self.mainScrollview.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
+            self.mainScrollview.bottomAnchor.constraint(equalTo: inputUIView.topAnchor),
         ])
 
         NSLayoutConstraint.activate([
             contentView.topAnchor.constraint(equalTo: mainScrollview.contentLayoutGuide.topAnchor),
             contentView.leadingAnchor.constraint(equalTo: mainScrollview.contentLayoutGuide.leadingAnchor),
             contentView.trailingAnchor.constraint(equalTo: mainScrollview.contentLayoutGuide.trailingAnchor),
-            contentView.bottomAnchor.constraint(equalTo: inputUIView.topAnchor, constant: -20), // inputUIView의 top에서 20만큼 위로 설정
+            contentView.bottomAnchor.constraint(equalTo: inputUIView.topAnchor), // inputUIView의 top에서 20만큼 위로 설정
             contentView.widthAnchor.constraint(equalTo: mainScrollview.frameLayoutGuide.widthAnchor) // contentView의 너비를 scrollView의 frameLayoutGuide의 너비와 같도록 설정
         ])
 
         // inputUIView의 레이아웃 설정
         NSLayoutConstraint.activate([
             inputUIView.bottomAnchor.constraint(equalTo: view.bottomAnchor), // inputUIView의 bottom을 view의 bottom과 같도록 설정하여 고정시킵니다.
-            inputUIView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor), // inputUIView의 leading을 contentView의 leading과 같도록 설정
-            inputUIView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor), // inputUIView의 trailing을 contentView의 trailing과 같도록 설정
+            inputUIView.leadingAnchor.constraint(equalTo: view.leadingAnchor), // inputUIView의 leading을 contentView의 leading과 같도록 설정
+            inputUIView.trailingAnchor.constraint(equalTo: view.trailingAnchor), // inputUIView의 trailing을 contentView의 trailing과 같도록 설정
             inputUIView.heightAnchor.constraint(equalToConstant: 91) // inputUIView의 높이를 91로 고정합니다.
         ])
         // 제약 조건 설정
@@ -372,10 +396,10 @@ class PostViewController: UIViewController, UIScrollViewDelegate,UICollectionVie
             barView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             barView.heightAnchor.constraint(equalToConstant: 4),
             
-//            commenttableView.topAnchor.constraint(equalTo: barView.bottomAnchor),
-//            commenttableView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-//            commenttableView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-//            commenttableView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            commenttableView.topAnchor.constraint(equalTo: barView.bottomAnchor),
+            commenttableView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            commenttableView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            commenttableView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
             heartButton.topAnchor.constraint(equalTo: inputUIView.topAnchor,constant: 13),
             heartButton.leadingAnchor.constraint(equalTo: inputUIView.leadingAnchor,constant: 21),
@@ -393,7 +417,7 @@ class PostViewController: UIViewController, UIScrollViewDelegate,UICollectionVie
             sendButton.topAnchor.constraint(equalTo: inputUIView.topAnchor,constant: 18),
             sendButton.leadingAnchor.constraint(equalTo: inputTextField.trailingAnchor, constant: 5),
             sendButton.trailingAnchor.constraint(equalTo: inputUIView.trailingAnchor, constant: -9),
-            
+                
             
         ])
         NSLayoutConstraint.activate([
@@ -453,6 +477,8 @@ class PostViewController: UIViewController, UIScrollViewDelegate,UICollectionVie
     func fetchDataFromServer() {
         
         let url = "https://dev.homeat.site/v1/infoTalk/\(postId)"
+        print("Fetching data from URL: \(url)") // postid 확인을 위해 URL을 출력합니다.
+
         // Alamofire를 사용하여 서버에서 데이터를 가져옵니다
         AF.request(url, method: .get)
             .validate()
@@ -609,6 +635,38 @@ class PostViewController: UIViewController, UIScrollViewDelegate,UICollectionVie
             let declareVC = DeclareViewController()
             navigationController?.pushViewController(declareVC, animated: true)
         }
+    @objc internal override func keyboardWillShow(_ notification: Notification) {
+        guard let userInfo = notification.userInfo as NSDictionary?,
+            let keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
+                return
+        }
+        let finalHeight = keyboardFrame.size.height - self.view.safeAreaInsets.bottom
+
+        let animationDuration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as! TimeInterval
+
+        // Calculate the new frame for inputUIView
+        let newYPosition = self.view.frame.height - finalHeight - self.inputUIView.frame.height
+
+        // Animate the frame change
+        UIView.animate(withDuration: animationDuration) {
+            self.inputUIView.frame.origin.y = newYPosition
+        }
+    }
+
+
+    @objc private func keyboardWillHideNotification(_ notification: NSNotification) {
+        guard let animationDuration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? TimeInterval else {
+            return
+        }
+        
+        // Calculate the original y position for inputUIView
+        let originalYPosition = self.view.frame.height - self.inputUIView.frame.height - self.view.safeAreaInsets.bottom
+        
+        // Animate the frame change to original position
+        UIView.animate(withDuration: animationDuration) {
+            self.inputUIView.frame.origin.y = originalYPosition
+        }
+    }
     
     }
 extension PostViewController: UICollectionViewDelegate, UICollectionViewDataSource {
