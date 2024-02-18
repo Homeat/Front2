@@ -33,17 +33,6 @@ class RecipeTableViewCell: UITableViewCell, UITextFieldDelegate {
         return label
     }()
     
-    lazy var saveButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("저장", for: .normal)
-        button.setTitleColor(UIColor(r: 187, g: 187, b: 187), for: .normal)
-        button.titleLabel?.font = UIFont(name: "NotoSansKR-Medium", size: 16)
-        button.backgroundColor = UIColor(named: "gray2")
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(self, action: #selector(saveButtonTapped(_ :)), for: .touchUpInside)
-        return button
-    }()
-    
     lazy var removeButton: UIButton = {
         let button = UIButton()
         button.setTitle("삭제", for: .normal)
@@ -183,7 +172,6 @@ class RecipeTableViewCell: UITableViewCell, UITextFieldDelegate {
     func setUI() {
         contentView.addSubview(stepLabel)
         contentView.addSubview(removeButton)
-        contentView.addSubview(saveButton)
         contentView.addSubview(container)
         container.addArrangedSubview(photoAddButton)
         container.addArrangedSubview(secondPhotoAddButton)
@@ -203,10 +191,6 @@ class RecipeTableViewCell: UITableViewCell, UITextFieldDelegate {
             removeButton.topAnchor.constraint(equalTo: stepLabel.topAnchor),
             removeButton.heightAnchor.constraint(equalToConstant: 17),
             removeButton.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            
-            saveButton.trailingAnchor.constraint(equalTo: removeButton.leadingAnchor),
-            saveButton.heightAnchor.constraint(equalToConstant: 40),
-            saveButton.widthAnchor.constraint(equalToConstant: 40),
             
             container.topAnchor.constraint(equalTo: stepLabel.bottomAnchor, constant: 16),
             container.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
@@ -397,11 +381,7 @@ class RecipeTableViewCell: UITableViewCell, UITextFieldDelegate {
         delegate?.didTapRemoveButton(cell: self)
     }
     
-    @objc func saveButtonTapped(_ sender: UIButton){
-        let recipeStep = RecipeStep(stepNumber: 1, recipeText: recipeTextView.text, sourceText: sourceTextField.text ?? "", tipText: tipTextField.text ?? "")
-            delegate?.didSaveRecipeStep(recipeStep)
-        print("저장버튼탭")
-    }
+    var imageArray: [UIImage?] = []
 }
 //MARK: - 레시피 텍스트뷰 Extension
 extension RecipeTableViewCell: UITextViewDelegate {
@@ -433,13 +413,15 @@ extension RecipeTableViewCell: UIImagePickerControllerDelegate, UINavigationCont
         switch picker {
         case imagePickerController:
             photoAddButton.setImage(pickedImage, for: .normal)
+            imageArray.append(pickedImage)
             print("첫번째 사진추가")
         case secondImagePickerController:
             secondPhotoAddButton.setImage(pickedImage, for: .normal)
+            imageArray.append(pickedImage)
             print("두번째 사진추가")
         case thirdImagePickerController:
             thirdPhotoAddButton.setImage(pickedImage, for: .normal)
-
+            imageArray.append(pickedImage)
             print("세번째 사진추가")
         default:
             break

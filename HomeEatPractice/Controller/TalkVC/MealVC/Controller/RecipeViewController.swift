@@ -14,8 +14,7 @@ import PhotosUI
 class RecipeViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     // 레시피단계를 구조체에 배열로 저장
-    var data = [RecipeStep]()
-    var step = 0
+    var recipeSteps: [RecipeStep] = []
     
     lazy var recipeTableView: UITableView = {
         let tableView = UITableView()
@@ -55,20 +54,6 @@ class RecipeViewController: UIViewController, UIImagePickerControllerDelegate, U
         return view
     }()
     
-    // 스텝 추가 버튼
-    lazy var plusButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(named: "addIcon"), for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = UIColor(r: 54, g: 56, b: 57)
-        button.layer.cornerRadius = 10
-        button.clipsToBounds = true
-        button.layer.borderWidth = 2
-        button.layer.borderColor = UIColor(r: 150, g: 150, b: 150).cgColor
-        button.addTarget(self, action: #selector(plusButtonTapped), for: .touchUpInside)
-        return button
-    }()
-    
     // 레시피 추가하기 버튼
     lazy var recipePlusButton: UIButton = {
         let button = UIButton()
@@ -99,7 +84,6 @@ class RecipeViewController: UIViewController, UIImagePickerControllerDelegate, U
     func setUI() {
         recipeHeaderView.addSubview(recipeLabel)
         recipeHeaderView.addSubview(overBorderLine)
-        buttonFooterView.addSubview(plusButton)
         buttonFooterView.addSubview(recipePlusButton)
         recipeTableView.tableHeaderView = recipeHeaderView
         recipeTableView.tableFooterView = buttonFooterView
@@ -124,15 +108,9 @@ class RecipeViewController: UIViewController, UIImagePickerControllerDelegate, U
             overBorderLine.topAnchor.constraint(equalTo: recipeLabel.bottomAnchor, constant: 14),
             overBorderLine.heightAnchor.constraint(equalToConstant: 1),
             
-            //FooterView
-            plusButton.leadingAnchor.constraint(equalTo: buttonFooterView.leadingAnchor),
-            plusButton.trailingAnchor.constraint(equalTo: buttonFooterView.trailingAnchor),
-            plusButton.topAnchor.constraint(equalTo: buttonFooterView.topAnchor, constant: 25), // 원하는 너비
-            plusButton.heightAnchor.constraint(equalToConstant: 50), // 원하는 높이
-            
             recipePlusButton.leadingAnchor.constraint(equalTo: buttonFooterView.leadingAnchor),
             recipePlusButton.trailingAnchor.constraint(equalTo: buttonFooterView.trailingAnchor),
-            recipePlusButton.topAnchor.constraint(equalTo: plusButton.bottomAnchor, constant: 43), // 원하는 너비
+            recipePlusButton.topAnchor.constraint(equalTo: buttonFooterView.topAnchor, constant: 25), // 원하는 너비
             recipePlusButton.heightAnchor.constraint(equalToConstant: 57) // 원하는 높이
         ])
     }
@@ -212,18 +190,23 @@ class RecipeViewController: UIViewController, UIImagePickerControllerDelegate, U
     
     
     //MARK: - @objc 메서드
-    @objc func plusButtonTapped() {
-        let newRecipeStep = RecipeStep(stepNumber: data.count + 1, recipeText: "", sourceText: "", tipText: "")
-            data.append(newRecipeStep)
-            
-            // 테이블 뷰를 다시 로드하여 새로운 셀을 추가
-            recipeTableView.reloadData()
-    }
-
-    
     //레시피를 추가
     @objc func recipePlusButtonTapped() {
         print("레시피추가 버튼클릭")
+        var steps: [RecipeStep] = []
+            // 테이블 뷰의 모든 셀에서 데이터를 가져와 steps 배열에 저장
+            for i in 0..<recipeTableView.numberOfRows(inSection: 0) {
+                let indexPath = IndexPath(row: i, section: 0)
+                if let cell = recipeTableView.cellForRow(at: indexPath) as? RecipeTableViewCell {
+                    let recipeStep = RecipeStep(stepNumber: i + 1, recipeImages: cell.imageArray, recipeText: cell.recipeTextView.text ?? "", sourceText: cell.sourceTextField.text ?? "", tipText: cell.tipTextField.text ?? "")
+                    steps.append(recipeStep)
+                    print(i)
+                }
+            }
+            
+            // 저장된 레시피 스텝을 전역 변수에 저장하거나 원하는 작업을 수행
+            self.recipeSteps = steps
+        
         let nextVC = TalkViewController() // 이동할 뷰 컨트롤러 인스턴스 생성
         nextVC.navigationItem.hidesBackButton = true // 백 버튼 숨기기
         self.navigationController?.pushViewController(nextVC, animated: true)
@@ -249,28 +232,19 @@ extension RecipeViewController: UITableViewDelegate, UITableViewDataSource {
         
         // 셀의 delegate를 설정
         cell.delegate = self
-        let recipeStep = data[indexPath.row]
-        cell.recipeStep = recipeStep
-        cell.stepLabel.text = "Step\(indexPath.row + 1)"
-        cell.recipeTextView.text = data[indexPath.row].recipeText
-        cell.sourceTextField.text = data[indexPath.row].sourceText
-        cell.tipTextField.text = data[indexPath.row].tipText
-
-        
         return cell
     }
 }
 
 extension RecipeViewController: RecipeCellDelegate {
+    func didSaveRecipeStep(_ recipeStep: RecipeStep) {
+        
+    }
+    
     func didTapRemoveButton(cell: RecipeTableViewCell) {
-            guard let indexPath = recipeTableView.indexPath(for: cell) else { return }
-            recipeTableView.reloadData() // 변경된 데이터로 테이블 뷰를 다시 로드
+           
         }
     
-    func didSaveRecipeStep(_ recipeStep: RecipeStep) {
-            data.append(recipeStep)
-        recipeTableView.reloadData()
-        }
 }
 
 

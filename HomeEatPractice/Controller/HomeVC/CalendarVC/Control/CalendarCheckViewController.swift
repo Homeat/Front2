@@ -8,6 +8,8 @@
 import UIKit
 import Alamofire
 final class CalendarCheckViewController: UIViewController {
+    var todayJipbapPricePercent: CGFloat = 0.0 // 집밥 퍼센테이지
+    var todayOutPricePercent: CGFloat = 0.0 // 외식/배달 퍼센테이지
     private var selectedIndexPath: IndexPath?
     private var currentDate = Date() // 현재 날짜를 가져옴
     private lazy var scrollView = UIScrollView()
@@ -171,7 +173,7 @@ final class CalendarCheckViewController: UIViewController {
     override func viewDidLoad() {
         
         super.viewDidLoad()
-//        fetchData()
+        
         self.view.backgroundColor =  UIColor(named: "gray3")
         self.contentView.addSubview(self.guideImage1)
         self.contentView.addSubview(self.guideImage2)
@@ -196,7 +198,61 @@ final class CalendarCheckViewController: UIViewController {
         self.configure()
         configUI()
     }
-    // 데이터를 가져오는 함수
+    //달력 데이터 년/월 가져오는 함수
+    func fetchMonthData(year: String, month: String) {
+        let url = "https://dev.homeat.site/v1/home/calendar"
+        let parameters: [String: String] = [
+            "year": year,
+            "month": month
+        ]
+        
+        // Alamofire를 사용하여 서버에 GET 요청을 보냅니다.
+        AF.request(url, method: .get, parameters: parameters).responseJSON { [weak self] response in
+            switch response.result {
+            case .success(let value):
+                // 서버로부터 데이터가 성공적으로 받아졌을 때의 처리
+                if let json = value as? [String: Any], let data = json["data"] as? [[String: Any]] {
+                    // 데이터가 비어 있는지 확인
+                    guard !data.isEmpty else {
+                        print("No data available for the specified year and month.")
+                        return
+                    }
+                    
+                    // 각 날짜별 데이터를 순회하면서 처리
+                    for targetData in data {
+                        // 날짜 데이터를 가져옵니다.
+                        guard let date = targetData["date"] as? String else {
+                            print("Date data not found.")
+                            continue
+                        }
+                        
+                        // 날짜에서 연도, 월, 일을 추출합니다.
+                        let components = date.split(separator: "-")
+                        guard components.count == 3, let dataYear = components.first, let dataMonth = components.dropFirst().first, let dataDay = components.last else {
+                            print("Invalid date format: \(date)")
+                            continue
+                        }
+                        
+                        // 추출한 연도, 월, 일이 파라미터로 받은 연도와 월과 일치하는지 확인합니다.
+                        if String(dataYear) == year && String(dataMonth) == month {
+                            // 집밥 퍼센티지와 외식/배달 퍼센티지를 가져옵니다.
+                            if let jipbapPercent = targetData["todayJipbapPricePercent"] as? Double,
+                               let outPricePercent = targetData["todayOutPricePercent"] as? Double {
+                                // 배경색을 업데이트합니다.
+                                self?.updateCellBackground(jipbapPercentage: jipbapPercent, outPricePercentage: outPricePercent)
+                            }
+                        }
+                    }
+                }
+            case .failure(let error):
+                // 요청이 실패했을 때의 처리
+                print("Error: \(error)")
+            }
+        }
+    }
+
+    
+    // 셀 클릭시 년 /월/ 일 데이터를 가져오는 함수
     func fetchData(year: String, month: String, day: String) {
         let urlString = "https://dev.homeat.site/v1/home/calendar/daily"
         var loginToken = ""
@@ -311,7 +367,6 @@ final class CalendarCheckViewController: UIViewController {
             mealCoin.topAnchor.constraint(equalTo: mealLabel2.topAnchor),
             mealCoin.trailingAnchor.constraint(equalTo: collectionView.trailingAnchor, constant: -22),
             mealCoin.heightAnchor.constraint(equalToConstant: 13),
-            mealCoin.widthAnchor.constraint(equalToConstant: 73),
         ])
         NSLayoutConstraint.activate([
             deliveryIcon.bottomAnchor.constraint(equalTo: deliveryVerticalView.bottomAnchor),
@@ -530,6 +585,7 @@ extension CalendarCheckViewController: UICollectionViewDataSource, UICollectionV
             
             // 해당 날짜의 데이터를 서버에서 가져와 UI 업데이트
             fetchData(year: String(year), month: String(month), day: String(day))
+            fetchMonthData(year: String(year), month: String(month))
         }
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -611,7 +667,37 @@ extension CalendarCheckViewController {
 }
 
 extension CalendarCheckViewController {
+    // 셀의 배경색을 업데이트하는 함수
+    private func updateCellBackground(jipbapPercentage: Double, outPricePercentage: Double) {
+        // 퍼센티지에 따라 RGB 값을 계산합니다.
+        let jipbapColor = UIColor(red: CGFloat(jipbapPercentage), green: CGFloat(1.0 - jipbapPercentage), blue: 0, alpha: 1.0)
+        let outPriceColor = UIColor(red: CGFloat(outPricePercentage), green: CGFloat(1.0 - outPricePercentage), blue: 0, alpha: 1.0)
+        
+        // 2월 19일이 몇 번째 셀인지 확인합니다.
+        let index = 18 // 인덱스는 0부터 시작하므로, 19일은 18번째 셀입니다. (0부터 세는 것이 아닌 1부터 세는 경우는 인덱스는 18이 아닌 19입니다.)
+        
+        // collectionView의 cell을 가져와 배경색을 변경합니다.
+        if let cell = collectionView.cellForItem(at: IndexPath(item: index, section: 0)) {
+            // 집밥 퍼센티지에 따라 배경색을 변경합니다.
+            cell.backgroundColor = jipbapColor
+        }
+        // 외식/배달 퍼센티지에 따라 배경색을 변경합니다.
+        // (여기서는 집밥 퍼센티지에만 따라 배경색을 변경하도록 하였습니다. 필요에 따라 외식/배달 퍼센티지에도 적용할 수 있습니다.)
+    }
     
+    // 퍼센티지를 받아와서 셀의 배경색을 업데이트하는 함수
+    private func updateUIWithPercentage(_ percentage: Double) {
+        // 선택된 셀의 인덱스 경로가 있는지 확인하고, 있으면 해당 셀의 배경색을 업데이트합니다.
+        if let selectedIndexPath = selectedIndexPath {
+            // collectionView의 cell을 가져와 배경색을 변경합니다.
+            if let cell = collectionView.cellForItem(at: selectedIndexPath) {
+                // 퍼센티지에 따라 RGB 값을 계산합니다.
+                let color = UIColor(red: CGFloat(percentage), green: CGFloat(1.0 - percentage), blue: 0, alpha: 1.0)
+                // 셀의 배경색을 업데이트합니다.
+                cell.backgroundColor = color
+            }
+        }
+    }
     @objc private func didPreviousButtonTouched(_ sender: UIButton) {
         self.minusMonth()
     }
