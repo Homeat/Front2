@@ -8,7 +8,11 @@
 import Foundation
 import UIKit
 import Then
-class RegisterSelectViewController : UIViewController {
+class RegisterSelectViewController : UIViewController, viewCheck{
+
+    func viewCheck() {
+        self.navigationController?.pushViewController(RegisterViewController(), animated: true)
+    }
     
     private let registerContainer : UIStackView = {
         let stackView = UIStackView()
@@ -106,12 +110,19 @@ class RegisterSelectViewController : UIViewController {
 
         
         let buttonAction = UIAction{ _ in
-            self.present(TermsOfUseViewController(), animated: true, completion: nil)
+            //modal 사이즈 크기 커스텀
+            let nextVC = TermsOfUseViewController()
+            nextVC.delegate = self
+            if let sheet = nextVC.sheetPresentationController{
+                sheet.detents = [.custom{ _ in
+                return 600}]
+            }
+            self.present(nextVC, animated: true, completion: nil)
         }
         let button = UIButton(configuration: config, primaryAction: buttonAction)
         return button
     }()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         let _ = policyButton
@@ -203,4 +214,3 @@ func makeCustomButton(viewController : UIViewController, nextVC : UIViewControll
     
     return customButton
 }
-

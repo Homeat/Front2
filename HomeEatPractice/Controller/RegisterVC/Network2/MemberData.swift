@@ -57,4 +57,3 @@ struct UserData : Codable{
             case nickname
         }
 }
-

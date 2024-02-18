@@ -21,6 +21,7 @@ class RegisterDoneViewController : UIViewController {
         return stackView
     }()
     
+    
     private let label1 : UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false

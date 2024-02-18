@@ -80,9 +80,27 @@ class AddBirthInformViewController : CustomProgressViewController{
         
     }()
     
+    lazy var continueButton : UIButton = {
+        var config = UIButton.Configuration.plain()
+        var attributedTitle = AttributedString("계속하기")
+        attributedTitle.font = .systemFont(ofSize: 18, weight: .medium)
+        config.attributedTitle = attributedTitle
+        config.background.backgroundColor = UIColor(named: "searchfont")
+        config.baseForegroundColor = .black
+        config.cornerStyle = .small
+
+        let buttonAction = UIAction{ _ in
+            self.navigationController?.pushViewController(AddSexViewController(), animated: true)
+        }
+        let customButton = UIButton(configuration: config, primaryAction: buttonAction)
+        customButton.heightAnchor.constraint(equalToConstant: 57).isActive = true
+        
+        return customButton
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let _ = continueButton
         self.view.backgroundColor = UIColor(named: "gray2")
         updateProgressBar(progress: 1/6)
         
@@ -108,8 +126,8 @@ class AddBirthInformViewController : CustomProgressViewController{
         
         self.registerContainer.addArrangedSubview(inputContainer)
 
-        let continueButton = makeCustomButton(viewController: self, nextVC: AddSexViewController())
-
+        
+        continueButton.isEnabled = false
         self.registerContainer.addArrangedSubview(continueButton)
         
         registerContainer.setCustomSpacing(79, after: label1)
@@ -136,6 +154,17 @@ class AddBirthInformViewController : CustomProgressViewController{
         textField.resignFirstResponder()
         return true
     }
+    
+    func checkEnableButton() {
+            // 각 텍스트 필드의 글자수가 각각 4, 2, 2인 경우에만 버튼을 활성화
+            if yearTextField.text?.count == 4, monthTextField.text?.count == 2, dayTextField.text?.count == 2 {
+                continueButton.isEnabled = true
+                continueButton.configuration?.background.backgroundColor = UIColor(named: "green")
+            } else {
+                continueButton.isEnabled = false
+                continueButton.configuration?.background.backgroundColor = UIColor(named: "searchfont")
+            }
+        }
     
     
 }
@@ -177,7 +206,6 @@ extension AddBirthInformViewController: UITextFieldDelegate {
         if textField == dayTextField {
             guard textField.text!.count < 2 else { return false }
         }
-        
         return true
     }
     
@@ -187,19 +215,16 @@ extension AddBirthInformViewController: UITextFieldDelegate {
         // 입력 시 textField 를 강조하기 위한 테두리 설정
         textField.layer.borderWidth = 2
         textField.layer.borderColor = UIColor(named: "green")?.cgColor
+        
     }
     
-        func textFieldDidEndEditing(_ textField: UITextField) {
-            
-            //버튼 활성화 기능
-//            if yearTextField.hasText && monthTextField.hasText && dayTextField.hasText {
-//                NotificationCenter.default.post(name: .AddBirthInformViewController, object: false)
-//                    } else {
-//                        NotificationCenter.default.post(name: .frontCardtextFieldIsEmpty, object: true)
-//                    }
-            
-            //corner 색 없애기
-            textField.layer.borderWidth = 0
-        }
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        //corner 색 없애기
+        textField.layer.borderWidth = 0
+        checkEnableButton()
+    }
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        checkEnableButton()
+    }
     
 }
