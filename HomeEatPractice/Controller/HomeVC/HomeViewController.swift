@@ -20,14 +20,14 @@ class HomeViewController: UIViewController {
         logo.image = UIImage(named: "Home2")
         return logo
     }()
-    private let GoalLabel = UILabel().then {
+    var GoalLabel = UILabel().then {
         $0.text = "목표 70,000원"
         $0.textColor = .white
         $0.font = UIFont.systemFont(ofSize: 16, weight: .bold)
         $0.textAlignment = .center
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
-    private let IngLabel = UILabel().then {
+    var IngLabel = UILabel().then {
         $0.text = "43,800원"
         $0.textColor = UIColor.init(named: "green")
         $0.font = UIFont.systemFont(ofSize: 30, weight: .bold)
@@ -124,7 +124,7 @@ class HomeViewController: UIViewController {
         return label
     }()
     
-    private let infoLabel2: UILabel = {
+    var infoLabel2: UILabel = {
         let label = UILabel()
         let attributedString = NSMutableAttributedString(string: "저번주보다 8% 절약하고 있어요")
         let stringLength = attributedString.length
@@ -139,6 +139,32 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //유저 홈 데이터 받아오기
+        HomeAPI.getHomeData(){result in
+            switch result{
+            case .success:
+                print("data불러오기 성공")
+            case .failure(_):
+                print("data불러오기 실패")
+            }
+            
+        }
+        
+        if let savedData = UserDefaults.standard.data(forKey: "homeItemData") {
+            do {
+                let homeItem = try JSONDecoder().decode(HomeItem.self, from: savedData)
+                // HomeItem 객체의 속성에 접근하여 사용합니다.
+                GoalLabel.text = "\(homeItem.targetMoney)"
+                infoLabel2.text = "\(homeItem.lastWeekSavingPercent)"
+                IngLabel.text = "\(homeItem.usedMoney)"
+            } catch {
+                print("Error decoding HomeItem:", error)
+            }
+        } else {
+            print("No saved HomeItem data found.")
+        }
+        
+        
         //이름 재설정
         if let name = UserDefaults.standard.string(forKey: "userNickname") {
             infoLabel1.text = "\(name) 님 훌륭해요!"
@@ -151,14 +177,32 @@ class HomeViewController: UIViewController {
         
         setView()
         setConstraints()
-        setupPieChart() 
+        setupPieChart()
         self.payAddButton.addTarget(self, action: #selector(tabAddButton), for: .touchUpInside)
         self.payCheckButton.addTarget(self, action: #selector(tabCheckButton), for: .touchUpInside)    }
     
     
     //HomeView가 나타날 때 tabBar 다시 띄우기 및 저장버튼 삭제
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
+        //홈화면 업데이트
+        if let savedData = UserDefaults.standard.data(forKey: "homeItemData") {
+            do {
+                let homeItem = try JSONDecoder().decode(HomeItem.self, from: savedData)
+                // HomeItem 객체의 속성에 접근하여 사용합니다.
+                GoalLabel.text = "\(homeItem.targetMoney)"
+                infoLabel2.text = "\(homeItem.lastWeekSavingPercent)"
+                IngLabel.text = "\(homeItem.usedMoney)"
+            } catch {
+                print("Error decoding HomeItem:", error)
+            }
+        } else {
+            print("No saved HomeItem data found.")
+        }
+
+        
         tabBarController?.tabBar.isHidden = false
         tabBarController?.tabBar.isTranslucent = false
         
@@ -314,3 +358,4 @@ class HomeViewController: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
 }
+
