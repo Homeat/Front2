@@ -215,7 +215,7 @@ class AnalysisViewController: UIViewController {
     } ()
     lazy var label2: UILabel = {
         let label = UILabel()
-        label.text = "집밥은 50,000원을 덜 쓰고,\n외식과 배달은 120,000원을 더 썼어요"
+        label.text = "집밥은 50,000원을 덜 쓰고,"
         label.textColor = .white
         label.textAlignment = .center
         label.font = UIFont.boldSystemFont(ofSize: 18)
@@ -229,16 +229,28 @@ class AnalysisViewController: UIViewController {
         
         let range2 = (label.text as NSString?)?.range(of: "50,000원을 덜")
         attributedString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.init(named: "green"), range: range2 ?? NSRange())
-        // "외식과 배달"을 purple로 변경
-        let range3 = (label.text as NSString?)?.range(of: "외식과 배달")
-        attributedString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.init(named: "font6"), range: range3 ?? NSRange())
         
-        let range4 = (label.text as NSString?)?.range(of: "120,000원을 더")
-        attributedString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.init(named: "font6"), range: range4 ?? NSRange())
-        label.attributedText = attributedString
         
         return label
     }()
+    lazy var label3: UILabel = {
+        let label3 = UILabel()
+        label3.text = "외식과 배달은 120,000원을 더 썼어요"
+        label3.textColor = .white
+        label3.textAlignment = .center
+        label3.font = UIFont.boldSystemFont(ofSize: 18)
+        label3.translatesAutoresizingMaskIntoConstraints = false
+        label3.numberOfLines = 0
+        // "외식과 배달"을 purple로 변경
+        let attributedString3 = NSMutableAttributedString(string: label3.text ?? "")
+        let range3 = (label3.text as NSString?)?.range(of: "외식과 배달")
+        attributedString3.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.init(named: "font6"), range: range3 ?? NSRange())
+        
+        let range4 = (label3.text as NSString?)?.range(of: "120,000원을 더")
+        attributedString3.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.init(named: "font6"), range: range4 ?? NSRange())
+        label3.attributedText = attributedString3
+        return label3
+    } ()
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(named: "gray2")
@@ -359,7 +371,7 @@ class AnalysisViewController: UIViewController {
                 if let json = value as? [String: Any], let data = json["data"] as? [String: Any] {
                     // 데이터 파싱
                     if let ageRange = data["age_range"] as? String, //나이 범위
-                       let income = data["income"] as? Int,
+                       let income = data["income"] as? String,
                        let gender = data["gender"] as? String,
                        let nickname = data["nickname"] as? String,
                        let jipbapSave = data["jipbap_save"] as? Int,
@@ -382,7 +394,28 @@ class AnalysisViewController: UIViewController {
                        // ageButton의 title 업데이트
                         DispatchQueue.main.async {
                             self.ageButton.setTitle(ageRange, for: .normal)
+                            self.IncomeMoneyButton.setTitle(income, for: .normal)
                             
+                            self.label2.text = "집밥은 \(jipbapSave)원을 덜 쓰고,"
+                            let attributedString2 = NSMutableAttributedString(string: self.label2.text ?? "")
+                            // "집밥"을 green으로 변경
+                            let range1 = (self.label2.text as NSString?)?.range(of: "집밥")
+                            attributedString2.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.init(named: "green"), range: range1 ?? NSRange())
+                            
+                            let range2 = (self.label2.text as NSString?)?.range(of: "50,000원을 덜")
+                            attributedString2.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.init(named: "green"), range: range2 ?? NSRange())
+                            self.label2.attributedText = attributedString2
+                            // outSave를 이용하여 label3 업데이트
+                           self.label3.text = "외식과 배달은 \(outSave)원을 더 썼어요"
+                           
+                           // "외식과 배달"을 purple로 변경
+                           let attributedString3 = NSMutableAttributedString(string: self.label3.text ?? "")
+                           let range3 = (self.label3.text as NSString?)?.range(of: "외식과 배달")
+                           attributedString3.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.init(named: "font6"), range: range3 ?? NSRange())
+                           
+                           let range4 = (self.label3.text as NSString?)?.range(of: "\(outSave)원을 더")
+                           attributedString3.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.init(named: "font6"), range: range4 ?? NSRange())
+                           self.label3.attributedText = attributedString3
                         }
                     }
                 }
@@ -420,6 +453,7 @@ class AnalysisViewController: UIViewController {
         WeakView.addSubview(DeliveryWeekBarChartView)
         WeakView.addSubview(genderLabel)
         WeakView.addSubview(label2)
+        WeakView.addSubview(label3)
         WeakView.addSubview(NextIcon2)
         
     }
@@ -491,6 +525,10 @@ class AnalysisViewController: UIViewController {
             label.topAnchor.constraint(equalTo: YearMonthLabel.bottomAnchor, constant: 40),
             label.centerXAnchor.constraint(equalTo: MonthView.centerXAnchor)
         ])
+        NSLayoutConstraint.activate([
+            label3.topAnchor.constraint(equalTo: label2.bottomAnchor),
+            label3.centerXAnchor.constraint(equalTo: MonthView.centerXAnchor)
+        ])
 //        NSLayoutConstraint.activate([
 //            percentageCircleView.heightAnchor.constraint(equalToConstant: 23),
 //            percentageCircleView.widthAnchor.constraint(equalToConstant: 23),
@@ -542,7 +580,7 @@ class AnalysisViewController: UIViewController {
             WeakView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 19),
             WeakView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -18),
             
-            MealWeekBarChartView.topAnchor.constraint(equalTo: label2.bottomAnchor, constant: 33),
+            MealWeekBarChartView.topAnchor.constraint(equalTo: label2.bottomAnchor, constant: 40),
             MealWeekBarChartView.heightAnchor.constraint(equalToConstant: 125),
             MealWeekBarChartView.leadingAnchor.constraint(equalTo: WeakView.leadingAnchor,constant: 100),
             MealWeekBarChartView.trailingAnchor.constraint(equalTo: WeakView.trailingAnchor,constant: -100),
