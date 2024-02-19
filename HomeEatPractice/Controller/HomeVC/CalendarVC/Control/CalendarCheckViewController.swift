@@ -655,7 +655,7 @@ extension CalendarCheckViewController: UICollectionViewDataSource, UICollectionV
             if let cell = collectionView.cellForItem(at: indexPath) as? CalendarCollectionViewCell {
                 cell.backgroundColor = .white
                 cell.dayLabel.textColor = .black
-                cell.layer.cornerRadius = 10 // 필요에 따라 조정
+                cell.layer.cornerRadius = 20 // 필요에 따라 조정
                 cell.layer.masksToBounds = true
                 
                 // 선택된 날짜의 연도, 월, 일 구성 요소 가져오기
