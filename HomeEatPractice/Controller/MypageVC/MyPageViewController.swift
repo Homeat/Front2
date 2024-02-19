@@ -9,7 +9,6 @@ import Foundation
 import UIKit
 import Then
 import SnapKit
-import SDWebImage
 
 class MyPageViewController: UIViewController {
     //네비게이션 바 구분 선

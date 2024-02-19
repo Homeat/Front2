@@ -232,28 +232,21 @@ class AnalysisViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(named: "gray2")
-        let fullText = label.text ?? ""
-        let attributedString = NSMutableAttributedString(string: fullText)
-        let range = (fullText as NSString).range(of: "8%")
-        attributedString.addAttribute(.foregroundColor, value: UIColor.init(named: "green"), range: range )
-        
-        label.attributedText = attributedString
         let currentDate = Date()
         let calendar = Calendar.current
         let year = calendar.component(.year, from: currentDate)
         let month = String(format: "%02d", calendar.component(.month, from: currentDate))
-        fetchDataFromServer(year: String(year), month: String(month))
         addSubviews()
         configUI()
-        setupPieChart()
-        setupBarChart()
         setupMealWeekBarChart()
         setupDeliveryWeekBarChart()
         updateYearMonthLabel()
         updateWeakMonthLabel()
+        fetchDataFromServer(year: String(year), month: String(month))
+        print(String(year))
+        print(String(month))
         
     }
-    
     func fetchDataFromServer(year: String, month: String) {
         let url = "https://dev.homeat.site/v1/homeatReport/ofMonth"
         var loginToken = ""
@@ -268,15 +261,15 @@ class AnalysisViewController: UIViewController {
             "Authorization": "Bearer \(loginToken)",
         ]
         let parameters: [String: String] = [
-            "year": year,
-            "month": month
+            "input_year": year,
+            "input_month": month
         ]
 
         AF.request(url, method: .get, parameters: parameters, headers: headers).responseJSON { [weak self]
-                response in
-                switch response.result {
+            response in
+            switch response.result {
             case .success(let value):
-                // 각 날짜별 데이터를 순회하면서 처리
+                // 서버로부터 데이터 성공적으로 받음
                 if let json = value as? [String: Any], let data = json["data"] as? [String: Any] {
                     // 응답 데이터에서 필요한 정보를 추출하여 처리
                     if let jipbapPrice = data["month_jipbap_price"] as? Int,
@@ -292,7 +285,27 @@ class AnalysisViewController: UIViewController {
                         print("절약 비율: \(savePercent)")
                         self?.percentageLabel.text = "\(jipbapRatio) %"
                         self?.percentageLabel2.text = "\(outRatio) %"
+                        self?.setupPieChart(jipbapRatio: jipbapRatio, outRatio: outRatio)
+                        self?.setupBarChart(jipbapPrice: jipbapPrice, outPrice: outPrice)
                         
+                        if let savePercentage = Double(savePercent) {
+                            var text = ""
+                            if savePercentage >= 0 {
+                                text = String(format: "저번달 보다 %.0f%% 절약했어요", savePercentage)
+                            } else {
+                                text = String(format: "저번달 보다 %.0f%%  추가지출 했어요", abs(savePercentage))
+                            }
+                            
+                            // NSMutableAttributedString으로 문자열을 생성
+                            let attributedText = NSMutableAttributedString(string: text)
+                            
+                            // 텍스트에서 %.0f%%를 찾아서 색상을 변경
+                            let range = (text as NSString).range(of: String(format: "%.0f%%", abs(savePercentage)))
+                            attributedText.addAttribute(.foregroundColor, value: UIColor(named: "green"), range: range)
+                            
+                            // Label에 적용
+                            self?.label.attributedText = attributedText
+                        }
                     }
                 }
             case .failure(let error):
@@ -315,10 +328,10 @@ class AnalysisViewController: UIViewController {
         MonthView.addSubview(label)
         MonthView.addSubview(pieChartView)
         MonthView.addSubview(barChartView)
-        MonthView.addSubview(percentageCircleView)
-        percentageCircleView.addSubview(percentageLabel)
-        MonthView.addSubview(percentageCircleView2)
-        percentageCircleView2.addSubview(percentageLabel2)
+//        MonthView.addSubview(percentageCircleView)
+//        percentageCircleView.addSubview(percentageLabel)
+//        MonthView.addSubview(percentageCircleView2)
+//        percentageCircleView2.addSubview(percentageLabel2)
         contentView.addSubview(ageButton)
         contentView.addSubview(IncomeMoneyButton)
         contentView.addSubview(WeakView)
@@ -395,30 +408,30 @@ class AnalysisViewController: UIViewController {
         ])
         NSLayoutConstraint.activate([
             label.heightAnchor.constraint(equalToConstant: 30),
-            label.topAnchor.constraint(equalTo: YearMonthLabel.bottomAnchor, constant: 49),
+            label.topAnchor.constraint(equalTo: YearMonthLabel.bottomAnchor, constant: 40),
             label.centerXAnchor.constraint(equalTo: MonthView.centerXAnchor)
         ])
-        NSLayoutConstraint.activate([
-            percentageCircleView.heightAnchor.constraint(equalToConstant: 23),
-            percentageCircleView.widthAnchor.constraint(equalToConstant: 23),
-            percentageCircleView.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 77),
-            percentageCircleView.leadingAnchor.constraint(equalTo: MonthView.leadingAnchor,constant: 62)
-        ])
-        NSLayoutConstraint.activate([
-            percentageLabel.heightAnchor.constraint(equalToConstant: 14),
-            percentageLabel.centerYAnchor.constraint(equalTo: percentageCircleView.centerYAnchor),
-            percentageLabel.centerXAnchor.constraint(equalTo: percentageCircleView.centerXAnchor)
-        ])
-        NSLayoutConstraint.activate([
-            percentageCircleView2.heightAnchor.constraint(equalToConstant: 28),
-            percentageCircleView2.widthAnchor.constraint(equalToConstant: 28),
-            percentageCircleView2.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 87),
-            percentageCircleView2.leadingAnchor.constraint(equalTo: MonthView.leadingAnchor,constant: 116)
-        ])
-        NSLayoutConstraint.activate([
-            percentageLabel2.centerYAnchor.constraint(equalTo: percentageCircleView2.centerYAnchor),
-            percentageLabel2.centerXAnchor.constraint(equalTo: percentageCircleView2.centerXAnchor)
-        ])
+//        NSLayoutConstraint.activate([
+//            percentageCircleView.heightAnchor.constraint(equalToConstant: 23),
+//            percentageCircleView.widthAnchor.constraint(equalToConstant: 23),
+//            percentageCircleView.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 77),
+//            percentageCircleView.leadingAnchor.constraint(equalTo: MonthView.leadingAnchor,constant: 62)
+//        ])
+//        NSLayoutConstraint.activate([
+//            percentageLabel.heightAnchor.constraint(equalToConstant: 14),
+//            percentageLabel.centerYAnchor.constraint(equalTo: percentageCircleView.centerYAnchor),
+//            percentageLabel.centerXAnchor.constraint(equalTo: percentageCircleView.centerXAnchor)
+//        ])
+//        NSLayoutConstraint.activate([
+//            percentageCircleView2.heightAnchor.constraint(equalToConstant: 28),
+//            percentageCircleView2.widthAnchor.constraint(equalToConstant: 28),
+//            percentageCircleView2.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 87),
+//            percentageCircleView2.leadingAnchor.constraint(equalTo: MonthView.leadingAnchor,constant: 116)
+//        ])
+//        NSLayoutConstraint.activate([
+//            percentageLabel2.centerYAnchor.constraint(equalTo: percentageCircleView2.centerYAnchor),
+//            percentageLabel2.centerXAnchor.constraint(equalTo: percentageCircleView2.centerXAnchor)
+//        ])
 
         NSLayoutConstraint.activate([
             pieChartView.topAnchor.constraint(equalTo: label.bottomAnchor,constant: 28),
@@ -426,10 +439,10 @@ class AnalysisViewController: UIViewController {
             pieChartView.heightAnchor.constraint(equalToConstant: 145.5),
             pieChartView.widthAnchor.constraint(equalToConstant: 147.6),
                     
-            barChartView.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 50),
+            barChartView.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 10),
             barChartView.leadingAnchor.constraint(equalTo: pieChartView.trailingAnchor, constant: 20),
             barChartView.trailingAnchor.constraint(equalTo: MonthView.trailingAnchor, constant: -45.7),
-            barChartView.bottomAnchor.constraint(equalTo: MonthView.bottomAnchor,constant: -62) // 적절
+            barChartView.bottomAnchor.constraint(equalTo: MonthView.bottomAnchor,constant: -30) // 적절
         ])
         NSLayoutConstraint.activate([
             ageButton.topAnchor.constraint(equalTo: MonthView.bottomAnchor,constant: 46),
@@ -486,28 +499,29 @@ class AnalysisViewController: UIViewController {
         
     }
     //MARK: - 파이차트 셋업
-    func setupPieChart() {
-        
+    func setupPieChart(jipbapRatio: Double, outRatio: Double) {
         var entries = [ChartDataEntry]()
-        //배달/외식
-        entries.append(PieChartDataEntry(value: Double(75)))
-        //집밥
-        entries.append(PieChartDataEntry(value: Double(35)))
+        
+        // 배달/외식
+        entries.append(PieChartDataEntry(value: outRatio))
+        // 집밥
+        entries.append(PieChartDataEntry(value: jipbapRatio))
 
         let dataSet = PieChartDataSet(entries: entries)
         
-
         if let customGreenColor = UIColor(named: "font6"),
            let otherColor = UIColor(named: "green") {
             let nsCustomGreenColor = NSUIColor(cgColor: customGreenColor.cgColor)
+            let nsWhiteColor = NSUIColor.black
             let nsOtherColor = NSUIColor(cgColor: otherColor.cgColor)
             dataSet.colors = [nsCustomGreenColor, nsOtherColor]
+            dataSet.valueColors = [nsWhiteColor, nsWhiteColor] // 텍스트 색상 설정
         }
-        dataSet.valueTextColor = .white // 레이블 텍스트 색상 설정
-        dataSet.valueFont = UIFont.systemFont(ofSize: 12.0) // 레이블 텍스트 폰트 설정
+        dataSet.valueTextColor = .black // 레이블 텍스트 색상 설정
+        dataSet.valueFont = UIFont.systemFont(ofSize: 11.0) // 레이블 텍스트 폰트 설정
         dataSet.valueLineColor = .black // 레이블 텍스트의 라인 색상 설정
         dataSet.valueLinePart1OffsetPercentage = 0.8
-        dataSet.drawValuesEnabled = false
+        dataSet.drawValuesEnabled = true // 레이블 표시 설정
         dataSet.drawIconsEnabled = false
 
         let data = PieChartData(dataSet: dataSet)
@@ -516,8 +530,10 @@ class AnalysisViewController: UIViewController {
 
         pieChartView.data = data
         pieChartView.legend.enabled = false
-
+        
+        // Label의 배경색 설정
     }
+
     func updateWeakMonthLabel() {
         let calendar = Calendar.current
         let weekOfMonth = calendar.component(.weekOfMonth, from: currentDate)
@@ -544,13 +560,13 @@ class AnalysisViewController: UIViewController {
         
         WeakMonthLabel.text = "\(formattedDate) \(weekLabel)"
     }
-    func setupBarChart() {
+    func setupBarChart(jipbapPrice: Int, outPrice: Int) {
         var names = ["집밥", "배달/외식"]
         
         var barEntries = [BarChartDataEntry]()
         
-        barEntries.append(BarChartDataEntry(x: 0, y: Double(35), icon: UIImage(named: "Statistics3")))
-        barEntries.append(BarChartDataEntry(x: 1, y: Double(75), icon: UIImage(named: "Statistics1")))
+        barEntries.append(BarChartDataEntry(x: 0, y: Double(jipbapPrice), icon: UIImage(named: "Statistics3")))
+           barEntries.append(BarChartDataEntry(x: 1, y: Double(outPrice), icon: UIImage(named: "Statistics1")))
         let barDataSet = BarChartDataSet(entries: barEntries)
         if let customGreenColor = UIColor(named: "green"),
            let otherColor = UIColor(named: "font6") {
