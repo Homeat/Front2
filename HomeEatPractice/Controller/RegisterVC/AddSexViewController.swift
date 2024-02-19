@@ -160,9 +160,10 @@ class AddSexViewController : CustomProgressViewController {
             
             //sever에 성별 정보 보낼 부분
             if self.maleButton.isSelected{
-                print("남")
+                UserDefaults.standard.setValue("MALE", forKey: "regiSex")
+                print("MALE")
             }else if self.femaleButton.isSelected{
-                print("여")
+                UserDefaults.standard.setValue("FEMALE", forKey: "regiSex")
             }
             
         }

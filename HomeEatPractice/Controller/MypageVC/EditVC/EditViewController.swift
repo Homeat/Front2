@@ -49,25 +49,7 @@ class EditViewController: UIViewController {
         $0.backgroundColor = .white
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
-    //아이디
-    private let ProfileID = UILabel().then {
-        $0.text = "아이디"
-        $0.textColor = .white
-        $0.textAlignment = .center
-        $0.font = UIFont.boldSystemFont(ofSize: 16)
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
-    private let IDLabel = UILabel().then {
-        $0.text = "yejin_woo"
-        $0.textColor = .white
-        $0.textAlignment = .center
-        $0.font = UIFont.boldSystemFont(ofSize: 16)
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
-    private let UnderlineBar2 = UIView().then {
-        $0.backgroundColor = .white
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
+
     //이메일 주소
     private let ProfileEmailAdress = UILabel().then {
         $0.text = "이메일 주소"
@@ -145,6 +127,20 @@ class EditViewController: UIViewController {
             EmailAdressLabel.text = "설정되지 않았습니다."
             
         }
+        
+        if let savedData = UserDefaults.standard.data(forKey: "userInfo") {
+            do {
+                let item = try JSONDecoder().decode(Userdata.self, from: savedData)
+                MonthMoneyLabel.text = "\(item.income) 원"
+                
+            } catch {
+                print("Error decoding HomeItem:", error)
+            }
+        } else {
+            print("No saved HomeItem data found.")
+        }
+        
+        
         view.backgroundColor = UIColor(named: "gray2")
         tabBarController?.tabBar.isHidden = true
         tabBarController?.tabBar.isTranslucent = true
@@ -195,9 +191,6 @@ class EditViewController: UIViewController {
         view.addSubview(ProfileNickname)
         view.addSubview(NicknameLabel)
         view.addSubview(UnderlineBar)
-        view.addSubview(ProfileID)
-        view.addSubview(IDLabel)
-        view.addSubview(UnderlineBar2)
         view.addSubview(ProfileEmailAdress)
         view.addSubview(EmailAdressLabel)
         view.addSubview(arrowBtn)
@@ -241,38 +234,22 @@ class EditViewController: UIViewController {
             UnderlineBar.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 20),
             UnderlineBar.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -19),
         ])
-        NSLayoutConstraint.activate([
-            ProfileID.widthAnchor.constraint(equalToConstant: 45),
-            ProfileID.heightAnchor.constraint(equalToConstant: 17),
-            ProfileID.topAnchor.constraint(equalTo: UnderlineBar.bottomAnchor, constant: 23),
-            ProfileID.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 25)
-        ])
-        NSLayoutConstraint.activate([
-            IDLabel.heightAnchor.constraint(equalToConstant: 17),
-            IDLabel.topAnchor.constraint(equalTo: UnderlineBar.bottomAnchor, constant: 19),
-            IDLabel.leadingAnchor.constraint(equalTo: ProfileID.trailingAnchor,constant: 80)
-        ])
-        NSLayoutConstraint.activate([
-            UnderlineBar2.heightAnchor.constraint(equalToConstant: 1),
-            UnderlineBar2.topAnchor.constraint(equalTo: ProfileID.bottomAnchor, constant: 19),
-            UnderlineBar2.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 20),
-            UnderlineBar2.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -19),
-        ])
+
         NSLayoutConstraint.activate([
             ProfileEmailAdress.widthAnchor.constraint(equalToConstant: 78),
             ProfileEmailAdress.heightAnchor.constraint(equalToConstant: 17),
-            ProfileEmailAdress.topAnchor.constraint(equalTo: UnderlineBar2.bottomAnchor, constant: 23),
+            ProfileEmailAdress.topAnchor.constraint(equalTo: UnderlineBar.bottomAnchor, constant: 23),
             ProfileEmailAdress.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 25)
         ])
         NSLayoutConstraint.activate([
             EmailAdressLabel.heightAnchor.constraint(equalToConstant: 17),
-            EmailAdressLabel.topAnchor.constraint(equalTo: UnderlineBar2.bottomAnchor, constant: 19),
-            EmailAdressLabel.leadingAnchor.constraint(equalTo: IDLabel.leadingAnchor)
+            EmailAdressLabel.topAnchor.constraint(equalTo: UnderlineBar.bottomAnchor, constant: 19),
+            EmailAdressLabel.leadingAnchor.constraint(equalTo: NicknameLabel.leadingAnchor)
         ])
         NSLayoutConstraint.activate([
             arrowBtn.widthAnchor.constraint(equalToConstant: 11.3),
             arrowBtn.heightAnchor.constraint(equalToConstant: 11.3),
-            arrowBtn.topAnchor.constraint(equalTo: UnderlineBar2.bottomAnchor, constant: 25.3),
+            arrowBtn.topAnchor.constraint(equalTo: UnderlineBar.bottomAnchor, constant: 25.3),
             arrowBtn.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -27)
         ])
         NSLayoutConstraint.activate([
@@ -290,7 +267,7 @@ class EditViewController: UIViewController {
         NSLayoutConstraint.activate([
             MonthMoneyLabel.heightAnchor.constraint(equalToConstant: 17),
             MonthMoneyLabel.topAnchor.constraint(equalTo: UnderlineBar3.bottomAnchor, constant: 19),
-            MonthMoneyLabel.leadingAnchor.constraint(equalTo: IDLabel.leadingAnchor)
+            MonthMoneyLabel.leadingAnchor.constraint(equalTo: NicknameLabel.leadingAnchor)
         ])
         NSLayoutConstraint.activate([
             arrowBtn2.widthAnchor.constraint(equalToConstant: 11.3),

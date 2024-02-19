@@ -126,12 +126,7 @@ class HomeViewController: UIViewController {
     
     var infoLabel2: UILabel = {
         let label = UILabel()
-        let attributedString = NSMutableAttributedString(string: "저번주보다 8% 절약하고 있어요")
-        let stringLength = attributedString.length
-        attributedString.addAttributes([.foregroundColor : UIColor.white, .font : UIFont.systemFont(ofSize: 18, weight: .bold)], range: NSRange(location: 0, length: 7))
-        attributedString.addAttributes([.foregroundColor : UIColor(r: 7, g: 231, b: 149), .font : UIFont.systemFont(ofSize: 18, weight: .bold)], range: NSRange(location: 6, length: 3))
-        attributedString.addAttributes([.foregroundColor : UIColor.white, .font : UIFont.systemFont(ofSize: 18, weight: .bold)], range: NSRange(location: 9, length: stringLength - 9))
-        label.attributedText = attributedString
+        label.text = ""
         label.numberOfLines = 1
         label.textAlignment = .left
         return label
@@ -140,39 +135,10 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         //유저 홈 데이터 받아오기
-        HomeAPI.getHomeData(){result in
-            switch result{
-            case .success:
-                print("data불러오기 성공")
-            case .failure(_):
-                print("data불러오기 실패")
-            }
-            
-        }
         
-        if let savedData = UserDefaults.standard.data(forKey: "homeItemData") {
-            do {
-                let homeItem = try JSONDecoder().decode(HomeItem.self, from: savedData)
-                // HomeItem 객체의 속성에 접근하여 사용합니다.
-                GoalLabel.text = "\(homeItem.targetMoney)"
-                infoLabel2.text = "\(homeItem.lastWeekSavingPercent)"
-                IngLabel.text = "\(homeItem.usedMoney)"
-            } catch {
-                print("Error decoding HomeItem:", error)
-            }
-        } else {
-            print("No saved HomeItem data found.")
-        }
-        
-        
+        homeUpdate()
         //이름 재설정
-        if let name = UserDefaults.standard.string(forKey: "userNickname") {
-            infoLabel1.text = "\(name) 님 훌륭해요!"
-        } else {
-            // UserDefaults에서 값이 없는 경우에 대한 처리
-            infoLabel1.text = "닉네임이 설정되지 않았습니다."
-        }
-    
+        self.view.layoutIfNeeded()
         view.backgroundColor = UIColor(named: "gray2")
         
         setView()
@@ -186,27 +152,57 @@ class HomeViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
+        homeUpdate()
+        self.view.layoutIfNeeded()
+        tabBarController?.tabBar.isHidden = false
+        tabBarController?.tabBar.isTranslucent = false
+        
+        self.navigationItem.setRightBarButton(nil, animated: false)
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         //홈화면 업데이트
+        homeUpdate()
+        self.view.layoutIfNeeded()
+    }
+    
+    func homeUpdate(){
+        
         if let savedData = UserDefaults.standard.data(forKey: "homeItemData") {
             do {
                 let homeItem = try JSONDecoder().decode(HomeItem.self, from: savedData)
                 // HomeItem 객체의 속성에 접근하여 사용합니다.
                 GoalLabel.text = "\(homeItem.targetMoney)"
-                infoLabel2.text = "\(homeItem.lastWeekSavingPercent)"
-                IngLabel.text = "\(homeItem.usedMoney)"
+                
+                let percent = (homeItem.beforeSavingPercent)
+                
+                let attributedString = NSMutableAttributedString(string: "저번주보다 \(percent)% 절약하고 있어요")
+                //색 바꿔줘야함 퍼센트
+                if percent < 0{
+                    attributedString.addAttributes([.foregroundColor : UIColor(r: 255, g: 109, b: 109), .font : UIFont.systemFont(ofSize: 18, weight: .bold)], range: NSRange(location: 6, length: 3))
+                }else{
+                    attributedString.addAttributes([.foregroundColor : UIColor(r: 7, g: 231, b: 149), .font : UIFont.systemFont(ofSize: 18, weight: .bold)], range: NSRange(location: 6, length: 3))
+                }
+                let stringLength = attributedString.length
+                attributedString.addAttributes([.foregroundColor : UIColor.white, .font : UIFont.systemFont(ofSize: 18, weight: .bold)], range: NSRange(location: 0, length: 7))
+                attributedString.addAttributes([.foregroundColor : UIColor.white, .font : UIFont.systemFont(ofSize: 18, weight: .bold)], range: NSRange(location: 9, length: stringLength - 9))
+                infoLabel2.attributedText = attributedString
+                
+                if (homeItem.remainingMoney) < 0{
+                    IngLabel.textColor = UIColor(r: 255, g: 109, b: 109)
+                }else{
+                    IngLabel.textColor = UIColor(named: "green")
+                }
+                IngLabel.text = "\(homeItem.remainingMoney)"
+                
+                
+                infoLabel1.text = "\(homeItem.nickname)"
             } catch {
                 print("Error decoding HomeItem:", error)
             }
         } else {
             print("No saved HomeItem data found.")
         }
-
-        
-        tabBarController?.tabBar.isHidden = false
-        tabBarController?.tabBar.isTranslucent = false
-        
-        self.navigationItem.setRightBarButton(nil, animated: false)
     }
     
     func setView() {
@@ -358,4 +354,3 @@ class HomeViewController: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
 }
-

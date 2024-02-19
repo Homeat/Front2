@@ -19,6 +19,12 @@ struct ExpenseResponse : Codable {
     let message: String
     let data: String
 }
+struct ExpenseImageResponse : Codable {
+    let isSuccess: Bool
+    let code: String
+    let message: String
+    let data: Int
+}
 
 struct HomeResponse: Codable {
     let isSuccess: Bool
@@ -30,8 +36,11 @@ struct HomeResponse: Codable {
 struct HomeItem: Codable {
     let nickname: String
     let targetMoney: Int
-    let lastWeekSavingPercent: Int
-    let usedMoney: Int
+    let beforeSavingPercent: Int
+    let remainingMoney: Int
     let badgeCount: Int
-    let usedPercent: Int
+    let remainingPercent: Int
+    let beforeWeek : Int
+    let message : String
 }
+

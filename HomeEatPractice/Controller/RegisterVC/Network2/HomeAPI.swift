@@ -42,6 +42,7 @@ class HomeAPI {
                 }
             case .failure(let error):
                 // 네트워크 요청 실패 처리
+                print(error)
                 completion(.failure(error))
             }
         }
@@ -75,14 +76,13 @@ class HomeAPI {
                 }
             }, to: url, method: .post, headers: headers)
         .validate()
-        .responseDecodable(of: ExpenseResponse.self) { response in
+        .responseDecodable(of: ExpenseImageResponse.self) { response in
             switch response.result {
             case .success(let data):
                 print("api 호출 성공")
                 // 성공적으로 디코딩된 데이터를 처리합니다.
                 if data.isSuccess{
                     print("이미지 업로드 성공")
-//                    postExpense(money: <#T##Int#>, type: <#T##String#>, memo: <#T##String#>, completion: <#T##(Result<String, Error>) -> Void#>)
                     print(data.data)
                     completion(.success(()))
                 }else{
@@ -120,7 +120,7 @@ class HomeAPI {
         AF.request(url, headers: headers).responseDecodable(of: HomeResponse.self){ response in
             switch response.result{
             case . success(let homeResponse) :
-                
+                print(homeResponse)
                 //homeItem부분을 userdefaults에 저장
                 if let homeItem = homeResponse.data {
                     do {

@@ -15,15 +15,15 @@ class MemberAPI {
 //    static func saveMemberInfo(email : String, password : String, nickname : String,  completion: @escaping (Result<Void, Error>) -> Void) {
 //        let endpoint = "v1/members/join"
 //        let url = baseURL + endpoint
-//
+//        
 //        let registerInfo = RegisterData(email: email, password: password, nickname: nickname)
 //        //post요청 생성
-//
+//        
 //        AF.request(url, method: .post, parameters: registerInfo, encoder: JSONParameterEncoder.default)
 //            .response { response in
 //                //api호출에 대한 응답처리
 //                switch response.result {
-//
+//                    
 //                case .success:
 //                    completion(.success(()))
 //                case .failure(let error):
@@ -89,7 +89,7 @@ class MemberAPI {
         }
     }
     
-    static func getUserInfo(jwtToken: String, completion: @escaping (Result<UserData, Error>) -> Void) {
+    static func getUserInfo(jwtToken: String, completion: @escaping (Result<String, Error>) -> Void) {
         let endpoint = "v1/members/mypage"
         let url = baseURL + endpoint
         
@@ -97,22 +97,28 @@ class MemberAPI {
             "Authorization": "Bearer \(jwtToken)"
         ]
         
-        AF.request(url, headers: headers).responseData{ response in
+        AF.request(url, headers: headers).responseDecodable(of: MypageResponse.self){ response in
             switch response.result{
-            case .success(let data):
-                do {
-                    let decoder = JSONDecoder()
-                    let mypageResponse = try decoder.decode(MypageResponse.self, from: data)
-                    if let userData = mypageResponse.data {
-                        completion(.success(userData))
-                    } else {
-                        let error = NSError(domain: "UserDataError", code: -1, userInfo: [NSLocalizedDescriptionKey: "응답에서 사용자 데이터를 찾을 수 없습니다."])
-                        completion(.failure(error))
+            case . success(let mypageResponse) :
+                print("호출 성공")
+                print(mypageResponse)
+                //homeItem부분을 userdefaults에 저장
+                if let userItem = mypageResponse.data {
+                    do {
+                        let encodedData = try JSONEncoder().encode(userItem)
+                        UserDefaults.standard.set(encodedData, forKey: "userInfo")
+                        UserDefaults.standard.set(userItem.nickname, forKey: "userNickname")
+                        UserDefaults.standard.set(userItem.email, forKey: "userEmail")
+                        UserDefaults.standard.synchronize()
+                    } catch {
+                        print("Error encoding HomeItem:", error)
                     }
-                } catch {
-                    completion(.failure(error))
+                } else {
+                    print("No HomeItem found in HomeResponse.")
                 }
+                completion(.success(""))
             case .failure(let error):
+                print("호출 실패")
                 completion(.failure(error))
             }
         }

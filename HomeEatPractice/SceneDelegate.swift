@@ -23,6 +23,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         // 윈도우의 크기 설정
         window = UIWindow(frame: UIScreen.main.bounds)
+        
         let mainTC = MainTabBarController()
         let navigationController = UINavigationController(rootViewController: RegisterSelectViewController())
         
@@ -41,16 +42,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 window?.rootViewController = navigationController
                 
             } else {
-                window?.rootViewController = mainTC
                 print("토큰이 아직 유효합니다.")
+                window?.rootViewController = mainTC
+                
             }
         } else {
-            window?.rootViewController = navigationController
             print("잘못된 날짜 형식입니다.")
+            window?.rootViewController = navigationController
+            
         }
-
-        
-        
         // 설정한 윈도우를 보이게끔 설정
         window?.makeKeyAndVisible()
         

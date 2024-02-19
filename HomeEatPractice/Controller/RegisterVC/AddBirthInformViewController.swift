@@ -9,7 +9,8 @@ import Foundation
 import UIKit
 
 class AddBirthInformViewController : CustomProgressViewController{
-
+    var birthInfo : String?
+    
     private let registerContainer : UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -90,6 +91,20 @@ class AddBirthInformViewController : CustomProgressViewController{
         config.cornerStyle = .small
 
         let buttonAction = UIAction{ _ in
+            
+            if let year = self.yearTextField.text,
+               let month = self.monthTextField.text,
+               let day = self.dayTextField.text {
+                // 각각의 값이 옵셔널이 아닌 경우에만 실행됩니다.
+                self.birthInfo = "\(year)-\(month)-\(day)"
+                UserDefaults.standard.setValue(self.birthInfo, forKey: "regiBirth")
+                print(self.birthInfo)
+            } else {
+                // 텍스트 필드의 값 중에 하나라도 옵셔널인 경우
+                print("텍스트 필드의 값 중에 옵셔널이 포함되어 있습니다.")
+            }
+            
+            
             self.navigationController?.pushViewController(AddSexViewController(), animated: true)
         }
         let customButton = UIButton(configuration: config, primaryAction: buttonAction)

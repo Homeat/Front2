@@ -47,14 +47,14 @@ struct MypageResponse : Codable{
     let isSuccess: Bool
     let code: String
     let message: String
-    let data: UserData?
+    let data: Userdata?
 }
 
-struct UserData : Codable{
+struct Userdata : Codable{
     let email : String
     let nickname : String
-    enum CodingKeys: String, CodingKey {
-            case email
-            case nickname
-        }
+    let profileImgUrl : URL?
+    let gender : String
+    let birth : String
+    let income : Int
 }

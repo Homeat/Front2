@@ -418,7 +418,7 @@ class PayAddViewController : UIViewController, UITextFieldDelegate{
         HomeAPI.postExpense(money: expenseData , type: hashTag, memo: memoString) { result in
             switch result {
             case .success:
-                print("API 호출 성공")
+                print("payAdd API 호출 성공")
                 
                 HomeAPI.getHomeData(){result in
                     switch result{
@@ -430,7 +430,7 @@ class PayAddViewController : UIViewController, UITextFieldDelegate{
                     
                 }
             case .failure(_):
-                print("API 호출 실패")
+                print("payAdd API 호출 실패")
             }
             
             self.navigationController?.popViewController(animated: true)

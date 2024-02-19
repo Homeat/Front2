@@ -91,10 +91,30 @@ class AddIncomeViewController : CustomProgressViewController{
         return button
     }()
     
+    lazy var continueButton : UIButton = {
+        var config = UIButton.Configuration.plain()
+        var attributedTitle = AttributedString("계속하기")
+        attributedTitle.font = .systemFont(ofSize: 18, weight: .medium)
+        config.attributedTitle = attributedTitle
+        config.background.backgroundColor = UIColor(named: "searchfont")
+        config.baseForegroundColor = .black
+        config.cornerStyle = .small
+
+        let buttonAction = UIAction{ _ in
+            UserDefaults.standard.setValue(Int(self.searchTextField.text ?? ""), forKey: "regiIncome")
+            
+            self.navigationController?.pushViewController(AddBudgetViewController(), animated: true)
+        }
+        let customButton = UIButton(configuration: config, primaryAction: buttonAction)
+        customButton.heightAnchor.constraint(equalToConstant: 57).isActive = true
+        
+        return customButton
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "gray2")
+        let _ = continueButton
         updateProgressBar(progress: 4/6)
         searchTextField.delegate = self
         
@@ -117,7 +137,7 @@ class AddIncomeViewController : CustomProgressViewController{
         self.registerContainer.addArrangedSubview(SearchView)
 //        locationTextField.inputAccessoryView = searchButton
         
-        let continueButton = makeCustomButton(viewController: self, nextVC: AddBudgetViewController())
+
         self.registerContainer.addArrangedSubview(continueButton)
         registerContainer.setCustomSpacing(41, after: label2)
         registerContainer.setCustomSpacing(5, after: label3)

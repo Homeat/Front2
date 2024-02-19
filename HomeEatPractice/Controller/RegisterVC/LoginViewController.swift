@@ -115,41 +115,58 @@ class LoginViewController : UIViewController, UITextFieldDelegate {
                     return
                 }
 
+                // postLoginInfo 해보고 안되면 이전으로 돌리기 로그인뷰 부분, memberdata, memberAPI, homeViewController까지 다 바꿔야함
                 MemberAPI.postLoginInfo(email: email, password: password) { result in
                     switch result {
                     case .success:
-                        print("API 호출 성공")
+                        print("로그인 API 호출 성공")
                         
                         //유저 데이터 받아와서 저장
                         let jwtToken = UserDefaults.standard.string(forKey: "loginToken")
-
-                        MemberAPI.getUserInfo(jwtToken: jwtToken ?? " ") { result in
-                            switch result {
-                            case .success(let userData):
-                                // 받아온 데이터를 저장
-                                UserDefaults.standard.set(userData.email, forKey: "userEmail")
-                                UserDefaults.standard.set(userData.nickname, forKey: "userNickname")
-                            case .failure(let error):
-                                // 에러가 발생한 경우
-                                print("요청 실패:", error)
+                        
+                        
+                        HomeAPI.getHomeData(){result in
+                            switch result{
+                            case .success:
+                                print("homeData 요청 성공")
+                            case .failure(_):
+                                print("homeData 요청 실패")
                             }
                         }
                         
-                        // 애니메이션을 설정합니다.
-                        let transition = CATransition()
-                        transition.duration = 0.3
-                        transition.type = CATransitionType.push
-                        transition.subtype = CATransitionSubtype.fromRight
-                        transition.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
                         
-                        // 애니메이션을 적용하고 루트 뷰 컨트롤러를 변경합니다.
-                        if let window = UIApplication.shared.keyWindow {
-                            window.layer.add(transition, forKey: kCATransition)
-                            window.rootViewController = newRootViewController
+                        MemberAPI.getUserInfo(jwtToken: jwtToken ?? " ") { result in
+                            switch result {
+                            case .success:
+                                // 받아온 데이터를 저장
+                                print("요청 성공")
+                            case .failure:
+                                // 에러가 발생한 경우
+                                print("요청 실패")
+                            }
+                            
+                            
                         }
                         
+                        
+
+                        
+//                        // 애니메이션을 설정합니다.
+//                        let transition = CATransition()
+//                        transition.duration = 0.3
+//                        transition.type = CATransitionType.push
+//                        transition.subtype = CATransitionSubtype.fromRight
+//                        transition.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
+//                        
+//                        // 애니메이션을 적용하고 루트 뷰 컨트롤러를 변경합니다.
+//                        if let window = UIApplication.shared.keyWindow {
+//                            window.layer.add(transition, forKey: kCATransition)
+//                            window.rootViewController = newRootViewController
+//                        }
+                        self.navigationController?.pushViewController(MainTabBarController(), animated: true)
+                        
                     case .failure(let error):
-                        print("API 호출 실패: \(error.localizedDescription)")
+                        print("로그인 API 호출 실패: \(error.localizedDescription)")
                         // 실패 시 처리할 내용 추가
                     }
                 }

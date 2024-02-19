@@ -90,10 +90,46 @@ class AddBudgetViewController : CustomProgressViewController{
         return button
     }()
     
+    lazy var continueButton : UIButton = {
+        var config = UIButton.Configuration.plain()
+        var attributedTitle = AttributedString("계속하기")
+        attributedTitle.font = .systemFont(ofSize: 18, weight: .medium)
+        config.attributedTitle = attributedTitle
+        config.background.backgroundColor = UIColor(named: "searchfont")
+        config.baseForegroundColor = .black
+        config.cornerStyle = .small
+
+        let buttonAction = UIAction{ _ in
+            UserDefaults.standard.setValue(Int(self.searchTextField.text ?? ""), forKey: "regiBudget")
+            let birth = UserDefaults.standard.value(forKey: "regiBirth") ?? ""
+            let gender = UserDefaults.standard.value(forKey: "regiSex")  ?? ""
+            let income = UserDefaults.standard.value(forKey: "regiIncome")  ?? 0
+            let goalPrice = UserDefaults.standard.value(forKey: "regiBudget")  ?? 0
+            print(birth)
+            print(gender)
+            print(income)
+            print(goalPrice)
+            RegisterAPI.addExtraData(gender: gender as! String, birth: birth as! String, income: income as! Int, goalPrice: goalPrice as! Int){result in
+                switch result{
+                case .success:
+                    print("추가 정보 저장 성공")
+                case .failure(_):
+                    print("추가 정보 저장 실패")
+                }
+            }
+            
+            self.navigationController?.pushViewController(LoginViewController(), animated: true)
+        }
+        let customButton = UIButton(configuration: config, primaryAction: buttonAction)
+        customButton.heightAnchor.constraint(equalToConstant: 57).isActive = true
+        
+        return customButton
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "gray2")
+        let _ = continueButton
         updateProgressBar(progress: 5/6)
         searchTextField.delegate = self
         
@@ -114,7 +150,6 @@ class AddBudgetViewController : CustomProgressViewController{
         self.registerContainer.addArrangedSubview(label3)
         self.registerContainer.addArrangedSubview(SearchView)
         
-        let continueButton = makeCustomButton(viewController: self, nextVC: LoginViewController())
         self.registerContainer.addArrangedSubview(continueButton)
         registerContainer.setCustomSpacing(41, after: label2)
         registerContainer.setCustomSpacing(5, after: label3)

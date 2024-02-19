@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 import Then
 import SnapKit
+import SDWebImage
 
 class MyPageViewController: UIViewController {
     //네비게이션 바 구분 선
@@ -40,23 +41,7 @@ class MyPageViewController: UIViewController {
         $0.font = UIFont.boldSystemFont(ofSize: 24)
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
-    //프로필 아이디 뷰
-    lazy var profileIdView : UIView = {
-        let view = UIView()
-        view.backgroundColor = .white
-        view.layer.cornerRadius = 8
-        view.layer.masksToBounds = true
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    } ()
-    //프로필 아이디 label
-    private let profileIdLabel = UILabel().then {
-        $0.text = "@yejin_woo"
-        $0.textColor = .black
-        $0.textAlignment = .center
-        $0.font = UIFont.boldSystemFont(ofSize: 15)
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
+
     //회원 정보 수정 버튼
     private let profileEditBtn = UIButton().then {
         $0.setTitle("회원 정보 수정", for: .normal)
@@ -131,6 +116,15 @@ class MyPageViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //userData불러와서 설정
+        if let name = UserDefaults.standard.string(forKey: "userNickname") {
+            profileName.text = "\(name) 님"
+        } else {
+            // UserDefaults에서 값이 없는 경우에 대한 처리
+            profileName.text = "설정되지 않았습니다."
+        }
+        
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
         self.title = "마이페이지"
@@ -147,8 +141,6 @@ class MyPageViewController: UIViewController {
         view.addSubview(circleView)
         circleView.addSubview(profileImageView)
         view.addSubview(profileName)
-        view.addSubview(profileIdView)
-        profileIdView.addSubview(profileIdLabel)
         view.addSubview(profileEditBtn)
         view.addSubview(settingPassword)
         view.addSubview(arrowBtn3)
@@ -179,18 +171,11 @@ class MyPageViewController: UIViewController {
            profileImageView.heightAnchor.constraint(equalToConstant: 52.7),
 
            
-           profileName.topAnchor.constraint(equalTo: circleView.topAnchor,constant: 8),
+           profileName.centerYAnchor.constraint(equalTo: circleView.centerYAnchor),
            profileName.leadingAnchor.constraint(equalTo: circleView.trailingAnchor,constant: 18)
            
         ])
         NSLayoutConstraint.activate([
-            profileIdView.topAnchor.constraint(equalTo: profileName.bottomAnchor, constant: 14),
-            profileIdView.leadingAnchor.constraint(equalTo: circleView.trailingAnchor, constant: 15),
-            profileIdView.widthAnchor.constraint(equalToConstant: 102),
-            profileIdView.heightAnchor.constraint(equalToConstant: 29),
-            
-            profileIdLabel.centerXAnchor.constraint(equalTo: profileIdView.centerXAnchor),
-            profileIdLabel.centerYAnchor.constraint(equalTo: profileIdView.centerYAnchor),
             
             profileEditBtn.heightAnchor.constraint(equalToConstant: 51),
             profileEditBtn.topAnchor.constraint(equalTo: circleView.bottomAnchor,constant: 15),
@@ -273,6 +258,8 @@ class MyPageViewController: UIViewController {
     }
     
     @objc func tapLogoutButton(_ sender: Any) {
+        //토큰 저장값 초기화
+        UserDefaults.standard.set(" ", forKey: "loginToken")
         self.navigationController?.pushViewController(RegisterSelectViewController(), animated: true)
         let navigationController = UINavigationController(rootViewController: RegisterSelectViewController())
 
@@ -282,7 +269,6 @@ class MyPageViewController: UIViewController {
             transition.type = CATransitionType.push
             transition.subtype = CATransitionSubtype.fromRight
             transition.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
-
             // 애니메이션을 적용하고 루트 뷰 컨트롤러를 변경합니다.
             if let window = UIApplication.shared.keyWindow {
                 window.layer.add(transition, forKey: kCATransition)

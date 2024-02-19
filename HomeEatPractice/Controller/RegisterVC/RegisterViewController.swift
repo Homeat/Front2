@@ -10,6 +10,8 @@ import UIKit
 
 class RegisterViewController : UIViewController ,UITextFieldDelegate{
     
+    var verifyCode : String?
+    
     private let registerContainer : UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -158,7 +160,22 @@ class RegisterViewController : UIViewController ,UITextFieldDelegate{
         config.baseForegroundColor = .black
         
         let buttonAction = UIAction { _ in
-        
+            print(self.emailTextField.text)
+            RegisterAPI.verification(email: self.emailTextField.text ?? ""){result in
+                switch result{
+                case .success :
+                    print("check")
+                    if let verifyCode = UserDefaults.standard.value(forKey: "verifyCode") as? String {
+                        self.verifyCode = verifyCode
+                        print(self.verifyCode)
+                    } else {
+                        // "certifyCode"에 저장된 값이 String이 아닌 경우, 또는 값이 없는 경우
+                    }
+                case .failure(_):
+                    print("check fail")
+                }
+                
+            }
          }
         
         let button = UIButton(configuration: config, primaryAction: buttonAction )
@@ -188,10 +205,10 @@ class RegisterViewController : UIViewController ,UITextFieldDelegate{
             MemberAPI.saveMemberInfo(email: email, password: password, nickname: nickname) { result in
                 switch result {
                 case .success:
-                    print("API 호출 성공")
+                    print("가입 API 호출 성공")
                     // 성공 시 처리할 내용 추가
                 case .failure(let error):
-                    print("API 호출 실패: \(error.localizedDescription)")
+                    print("가입 API 호출 실패: \(error.localizedDescription)")
                     // 실패 시 처리할 내용 추가
                 }
             }
@@ -263,16 +280,7 @@ class RegisterViewController : UIViewController ,UITextFieldDelegate{
         self.registerContainer.addArrangedSubview(notiLabel5)
         
         self.registerContainer.addArrangedSubview(continueButton)
-        //        registerContainer.setCustomSpacing(21, after: emailTextField)
-        //        registerContainer.setCustomSpacing(21, after: emailCheckTextField)
-        //        registerContainer.setCustomSpacing(21, after: pwTextField)
-        //        registerContainer.setCustomSpacing(21, after: pwCheckTextField)
-        //        registerContainer.setCustomSpacing(38, after: nickNameTextField)
-        
-        
-        
-        
-        
+  
         
         NSLayoutConstraint.activate([
             self.registerContainer.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 127),
@@ -308,7 +316,7 @@ class RegisterViewController : UIViewController ,UITextFieldDelegate{
         }
         //인증번호 조건 설정 필요
         else if sender == emailCheckTextField {
-            if (sender.text ?? "").count >= 5 || emailCheckTextField.text == ""{
+            if (sender.text ?? "") == verifyCode || emailCheckTextField.text == ""{
                 notiLabel2.text = " "
             }
             else{
