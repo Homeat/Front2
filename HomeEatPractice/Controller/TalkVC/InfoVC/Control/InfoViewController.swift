@@ -90,6 +90,7 @@ class InfoViewController: UIViewController {
         super.viewDidLoad()
         fetchDataFromServer()
         configure()
+        updateLocation()
         addSubView()
         configUI()
         tableView.reloadData()
@@ -233,6 +234,12 @@ class InfoViewController: UIViewController {
 //        self.posts.append(myItem)
 //    }
 
+    func updateLocation() {
+        let userLocation = UserDefaults.standard.string(forKey: "userAddress")
+        locationButton.setTitle(userLocation, for: .normal)
+
+    }
+    
     func addSubView() {
         view.addSubview(SearchView)
         SearchView.addSubview(searchTextField)

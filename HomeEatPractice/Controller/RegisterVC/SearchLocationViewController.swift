@@ -9,8 +9,9 @@ import Foundation
 import UIKit
 import SnapKit
 
-class SearchLocationViewController : UIViewController, UITextFieldDelegate {
-    
+class SearchLocationViewController : UIViewController, UITextFieldDelegate, UIScrollViewDelegate {
+    var searchData : String = ""
+
     let scrollView : UIScrollView = UIScrollView()
     let contentView : UIView! = UIView()
     
@@ -32,12 +33,39 @@ class SearchLocationViewController : UIViewController, UITextFieldDelegate {
         
     }()
     // 검색 이미지
-    private let searchImageView = UIImageView().then {
-        $0.image = UIImage(named: "Login1")
-        $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.contentMode = .scaleAspectFit
+    private lazy var searchImageView : UIButton = {
+//        $0.image = UIImage(named: "Login1")
+//        $0.translatesAutoresizingMaskIntoConstraints = false
+//        $0.contentMode = .scaleAspectFit
+        
+        var config = UIButton.Configuration.plain()
+        config.image = UIImage(named: "Login1")
+        config.background.backgroundColor = UIColor(named: "gray4")
+        config.cornerStyle = .small
+    
+
+        let buttonAction = UIAction{ _ in
+            print("버튼 클릭")
+            let latitude = UserDefaults.standard.double(forKey: "latitude")
+            let logitude = UserDefaults.standard.double(forKey: "logitude")
+            let keyword = self.searchData
+            RegisterAPI.locationNearRequest(latitude: latitude, logitude: logitude, page: 0, keyword: self.searchData){result in
+                switch result{
+                case .success:
+                    print(keyword)
+                    print("검색 위치 설정 성공")
+                    self.updateLocation()
+                case .failure(_):
+                    print(keyword)
+                    print("검색 위치 설정 실패")
+                }
+            }
+        }
+        let customButton = UIButton(configuration: config, primaryAction: buttonAction)
+        customButton.translatesAutoresizingMaskIntoConstraints = false
+        return customButton
        
-    }
+    }()
     
     private lazy var currentLocationButton : UIButton = {
         var config = UIButton.Configuration.plain()
@@ -54,7 +82,20 @@ class SearchLocationViewController : UIViewController, UITextFieldDelegate {
     
 
         let buttonAction = UIAction{ _ in
-            self.navigationController?.pushViewController(MapViewController(), animated: true)
+            let latitude = UserDefaults.standard.double(forKey: "latitude")
+            let logitude = UserDefaults.standard.double(forKey: "logitude")
+            let keyword = self.searchData
+            RegisterAPI.locationRequest(latitude: latitude, logitude: logitude, page: 0){result in
+                switch result{
+                case .success:
+                    print("현재 위치 설정 성공")
+                    self.updateLocation()
+                case .failure(_):
+                    print(keyword)
+                    print("현재 위치 설정 실패")
+                }
+            }
+            self.updateLocation()
         }
         let customButton = UIButton(configuration: config, primaryAction: buttonAction)
         customButton.translatesAutoresizingMaskIntoConstraints = false
@@ -113,12 +154,72 @@ class SearchLocationViewController : UIViewController, UITextFieldDelegate {
         return true
     }
     
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        searchData = searchTextField.text ?? ""
+        print(searchTextField.text)
+    }
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        searchData = searchTextField.text ?? ""
+        print(searchTextField.text)
+        return true
+    }
     
+    
+    func updateLocation(){
+        
+        for subview in townContainer.arrangedSubviews {
+            townContainer.removeArrangedSubview(subview)
+            subview.removeFromSuperview()
+        }
+        
+        if let jsonData = UserDefaults.standard.data(forKey: "locationData") {
+            do {
+                let decodedData = try JSONDecoder().decode(LocationResponse.self, from: jsonData)
+                // 디코딩된 데이터를 사용하여 필요한 작업 수행
+                let label1 = makeLabel(text: "근처 동네")
+                townContainer.addArrangedSubview(label1)
+                print(CGFloat(decodedData.data.totalColumnCount/decodedData.data.totlaPageNum))
+                let townContainerHeight = CGFloat(decodedData.data.totalColumnCount/decodedData.data.totlaPageNum) * 70
+                contentView.heightAnchor.constraint(equalToConstant: townContainerHeight).isActive = true
+                for neighborhood in decodedData.data.neighborhoods{
+                    var config = UIButton.Configuration.plain()
+                    var attributedTitle = AttributedString(neighborhood.fullNm)
+                    attributedTitle.font = .systemFont(ofSize: 13, weight: .bold)
+                    config.attributedTitle = attributedTitle
+                    config.background.backgroundColor = UIColor(named: "gray2")
+                    config.baseForegroundColor = UIColor(named: "searchfont")
+                    
+                    let buttonAction = UIAction{ _ in
+                        UserDefaults.standard.setValue(neighborhood.emdNm, forKey: "selectedLocation")
+                        UserDefaults.standard.setValue(neighborhood.addressId, forKey: "regiaddressId")
+                        
+                        print(UserDefaults.standard.value(forKey: "selectedLocation"))
+                        self.navigationController?.pushViewController(MapViewController(), animated: true)
+                    }
+                    let customButton = UIButton(configuration: config, primaryAction: buttonAction)
+                    customButton.contentHorizontalAlignment = .left
+                    townContainer.addArrangedSubview(customButton)
+                    
+                }
+                
+            } catch {
+                print("Error decoding data: \(error)")
+            }
+        }
+        
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "gray2")
         let _ = registerButton
+        let _ = searchImageView
         searchTextField.delegate = self
+        scrollView.delegate = self
+        // UserDefaults에서 데이터를 가져와서 디코딩하여 객체로 변환
+        updateLocation()
+       
+
+        
         
         //스크롤뷰 관련 설정
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -146,30 +247,6 @@ class SearchLocationViewController : UIViewController, UITextFieldDelegate {
         self.SearchView.addSubview(searchImageView)
         
         self.contentView.addSubview(townContainer)
-        let label1 = makeLabel(text: "근처 동네")
-        let label2 = makeLabel(text: "근처 동네")
-        let label3 = makeLabel(text: "근처 동네")
-        let label4 = makeLabel(text: "근처 동네")
-        let label5 = makeLabel(text: "근처 동네")
-        let label6 = makeLabel(text: "근처 동네")
-        let label7 = makeLabel(text: "근처 동네")
-        let label8 = makeLabel(text: "근처 동네")
-        let label9 = makeLabel(text: "근처 동네")
-        let label10 = makeLabel(text: "근처 동네")
-        let label11 = makeLabel(text: "근처 동네")
-        
-        
-        townContainer.addArrangedSubview(label1)
-        townContainer.addArrangedSubview(label2)
-        townContainer.addArrangedSubview(label3)
-        townContainer.addArrangedSubview(label4)
-        townContainer.addArrangedSubview(label5)
-        townContainer.addArrangedSubview(label6)
-        townContainer.addArrangedSubview(label7)
-        townContainer.addArrangedSubview(label8)
-        townContainer.addArrangedSubview(label9)
-        townContainer.addArrangedSubview(label10)
-        townContainer.addArrangedSubview(label11)
         
         
         NSLayoutConstraint.activate([
@@ -219,6 +296,16 @@ class SearchLocationViewController : UIViewController, UITextFieldDelegate {
         ])
     }
     
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        // 스크롤뷰의 현재 위치를 확인하여 바운드 여부를 판단
+//        if scrollView.contentOffset.y >= 0 && scrollView.contentOffset.y <= (scrollView.contentSize.height - scrollView.frame.size.height) {
+//            print("bound")
+//        }
+        let bottomEdge = scrollView.contentOffset.y + scrollView.frame.size.height
+        if bottomEdge >= scrollView.contentSize.height {
+            print("bound")
+        }
+    }
     
     private func makeLabel(text: String) -> UILabel {
         let label = UILabel()
@@ -231,3 +318,4 @@ class SearchLocationViewController : UIViewController, UITextFieldDelegate {
 }
 
 
+ 

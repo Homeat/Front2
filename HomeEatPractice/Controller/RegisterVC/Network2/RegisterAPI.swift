@@ -46,7 +46,7 @@ class RegisterAPI{
         }
     }
     
-    static func addExtraData(gender : String, birth : String, income : Int, goalPrice : Int, completion: @escaping (Result<String, Error>) -> Void) {
+    static func addExtraData(gender : String, birth : String, income : Int, goalPrice : Int, adderessId : Int, completion: @escaping (Result<String, Error>) -> Void) {
         let endpoint = "v1/members/mypage"
         let url = baseURL + endpoint
         var loginToken = ""
@@ -64,7 +64,7 @@ class RegisterAPI{
         ]
         
         
-        let extraInfo = extraRequest(gender: gender, birth: birth, income: income, goalPrice: goalPrice)
+        let extraInfo = extraRequest(gender: gender, birth: birth, income: income, goalPrice: goalPrice, adderessId: adderessId)
         //post요청 생성
         AF.request(url, method: .post, parameters: extraInfo, encoder: JSONParameterEncoder.default, headers: headers).responseDecodable(of: extraResponse.self){ response in
             // 네트워크 요청에 대한 응답 처리
@@ -92,5 +92,84 @@ class RegisterAPI{
         
     }
     
+    
+    static func locationRequest(latitude : Double, logitude : Double, page : Int, completion: @escaping (Result<String, Error>) -> Void) {
+        let endpoint = "v1/address/neighborhood?latitude=\(logitude)&logitude=\(latitude)&page=\(page)"
+        let url = baseURL + endpoint
+        print(url)
+        
+        let locationInfo = LocationRequest(latitude: latitude, logitude: logitude, page: page)
+        //post요청 생성
+        AF.request(url, method: .get).responseDecodable(of: LocationResponse.self) { response in
+            //api호출에 대한 응답처리
+            switch response.result {
+            case .success(let locationResponse):
+                print("주변 동네 api 연결 성공")
+                if locationResponse.isSuccess{
+                    print("동네 데이터 받아오기 성공")
+                    print(locationResponse)
+                    let locationData = locationResponse
+
+                    // 데이터를 UserDefaults에 저장
+                    do {
+                        let jsonData = try JSONEncoder().encode(locationData)
+                        UserDefaults.standard.set(jsonData, forKey: "locationData")
+                    } catch {
+                        print("Error encoding data: \(error)")
+                    }
+                    completion(.success(""))
+                    
+                }else{
+                    print("동네 데이터 받아오기 실패")
+                }
+            
+                
+
+            case .failure(let error):
+                print("주변 동네 api 연결 실패")
+                print(error)
+                completion(.failure(error))
+            }
+        }
+    }
+    
+    
+    static func locationNearRequest(latitude : Double, logitude : Double, page : Int, keyword : String, completion: @escaping (Result<String, Error>) -> Void) {
+        let endpoint = "v1/address/neighboorhood/keyword?latitude=\(logitude)&logitude=\(latitude)&keyword=\(keyword)&page=\(page)"
+        let url = baseURL + endpoint
+        print(url)
+        //post요청 생성
+        AF.request(url, method: .get).responseDecodable(of: LocationResponse.self) { response in
+            //api호출에 대한 응답처리
+            switch response.result {
+            case .success(let locationResponse):
+                print("주변 동네 api 연결 성공")
+                if locationResponse.isSuccess{
+                    print("동네 데이터 받아오기 성공")
+                    print(locationResponse)
+                    let locationData = locationResponse
+
+                    // 데이터를 UserDefaults에 저장
+                    do {
+                        let jsonData = try JSONEncoder().encode(locationData)
+                        UserDefaults.standard.set(jsonData, forKey: "locationData")
+                    } catch {
+                        print("Error encoding data: \(error)")
+                    }
+                    completion(.success(""))
+                    
+                }else{
+                    print("동네 데이터 받아오기 실패")
+                }
+            
+                
+
+            case .failure(let error):
+                print("주변 동네 api 연결 실패")
+                print(error)
+                completion(.failure(error))
+            }
+        }
+    }
 }
 

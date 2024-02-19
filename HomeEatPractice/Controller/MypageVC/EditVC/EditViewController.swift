@@ -131,7 +131,7 @@ class EditViewController: UIViewController {
         if let savedData = UserDefaults.standard.data(forKey: "userInfo") {
             do {
                 let item = try JSONDecoder().decode(Userdata.self, from: savedData)
-                MonthMoneyLabel.text = "\(item.income) 원"
+                MonthMoneyLabel.text = "\(addCommas(to : item.income))원"
                 
             } catch {
                 print("Error decoding HomeItem:", error)

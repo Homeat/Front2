@@ -127,6 +127,8 @@ class HomeViewController: UIViewController {
     var infoLabel2: UILabel = {
         let label = UILabel()
         label.text = ""
+        label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+        label.textColor = .white
         label.numberOfLines = 1
         label.textAlignment = .left
         return label
@@ -143,7 +145,7 @@ class HomeViewController: UIViewController {
         
         setView()
         setConstraints()
-        setupPieChart()
+        setupPieChart(remainingPercent: 0)
         self.payAddButton.addTarget(self, action: #selector(tabAddButton), for: .touchUpInside)
         self.payCheckButton.addTarget(self, action: #selector(tabCheckButton), for: .touchUpInside)    }
     
@@ -172,31 +174,47 @@ class HomeViewController: UIViewController {
             do {
                 let homeItem = try JSONDecoder().decode(HomeItem.self, from: savedData)
                 // HomeItem 객체의 속성에 접근하여 사용합니다.
-                GoalLabel.text = "\(homeItem.targetMoney)"
+               
+                GoalLabel.text = "목표 \(addCommas(to: homeItem.targetMoney))원"
                 
                 let percent = (homeItem.beforeSavingPercent)
-                
-                let attributedString = NSMutableAttributedString(string: "저번주보다 \(percent)% 절약하고 있어요")
+                let remainingPercent = (homeItem.remainingPercent)
+                setupPieChart(remainingPercent: remainingPercent)
+                var attributedString = NSMutableAttributedString(string: "저번주보다 \(percent)% 절약하고 있어요")
+
+                let stringLength = attributedString.length
                 //색 바꿔줘야함 퍼센트
                 if percent < 0{
+                    attributedString = NSMutableAttributedString(string: "저번주보다 \(percent)% 더 쓰고 있어요")
                     attributedString.addAttributes([.foregroundColor : UIColor(r: 255, g: 109, b: 109), .font : UIFont.systemFont(ofSize: 18, weight: .bold)], range: NSRange(location: 6, length: 3))
-                }else{
+                    attributedString.addAttributes([.foregroundColor : UIColor.white, .font : UIFont.systemFont(ofSize: 18, weight: .bold)], range: NSRange(location: 0, length: 7))
+                    attributedString.addAttributes([.foregroundColor : UIColor.white, .font : UIFont.systemFont(ofSize: 18, weight: .bold)], range: NSRange(location: 9, length: stringLength - 9))
+                    infoLabel2.attributedText = attributedString
+                }else if percent > 0{
+                    attributedString = NSMutableAttributedString(string: "저번주보다 \(percent)% 절약하고 있어요")
                     attributedString.addAttributes([.foregroundColor : UIColor(r: 7, g: 231, b: 149), .font : UIFont.systemFont(ofSize: 18, weight: .bold)], range: NSRange(location: 6, length: 3))
-                }
-                let stringLength = attributedString.length
-                attributedString.addAttributes([.foregroundColor : UIColor.white, .font : UIFont.systemFont(ofSize: 18, weight: .bold)], range: NSRange(location: 0, length: 7))
-                attributedString.addAttributes([.foregroundColor : UIColor.white, .font : UIFont.systemFont(ofSize: 18, weight: .bold)], range: NSRange(location: 9, length: stringLength - 9))
-                infoLabel2.attributedText = attributedString
-                
-                if (homeItem.remainingMoney) < 0{
-                    IngLabel.textColor = UIColor(r: 255, g: 109, b: 109)
+                    attributedString.addAttributes([.foregroundColor : UIColor.white, .font : UIFont.systemFont(ofSize: 18, weight: .bold)], range: NSRange(location: 0, length: 7))
+                    attributedString.addAttributes([.foregroundColor : UIColor.white, .font : UIFont.systemFont(ofSize: 18, weight: .bold)], range: NSRange(location: 9, length: stringLength - 9))
+                    infoLabel2.attributedText = attributedString
                 }else{
-                    IngLabel.textColor = UIColor(named: "green")
+                    infoLabel2.text = "비교할 과거 데이터가 없어요"
+//                    attributedString.addAttributes([.font : UIFont.systemFont(ofSize: 18, weight: .bold)], range: NSRange(location: 0, length: stringLength))
                 }
-                IngLabel.text = "\(homeItem.remainingMoney)"
                 
                 
-                infoLabel1.text = "\(homeItem.nickname)"
+                
+                if (homeItem.remainingMoney) >= 0{
+                    IngLabel.textColor = UIColor(named: "green")
+                    infoLabel1.text = "\(homeItem.nickname)님 훌륭해요!"
+                }else{
+                    IngLabel.textColor = UIColor(r: 255, g: 109, b: 109)
+                    
+                    infoLabel1.text = "\(homeItem.nickname)님 절약이 필요해요!"
+                }
+                IngLabel.text = "\(addCommas(to: homeItem.remainingMoney))원"
+                
+                
+                
             } catch {
                 print("Error decoding HomeItem:", error)
             }
@@ -204,6 +222,7 @@ class HomeViewController: UIViewController {
             print("No saved HomeItem data found.")
         }
     }
+
     
     func setView() {
         self.view.addSubview(self.buttonContainer)
@@ -230,11 +249,12 @@ class HomeViewController: UIViewController {
         
     }
     //차트 엔트리 값 설정
-    func setupPieChart() {
+    func setupPieChart(remainingPercent : Int) {
         
         var entries = [ChartDataEntry]()
-        entries.append(PieChartDataEntry(value: 45))
-        entries.append(PieChartDataEntry(value: 50))
+        
+        entries.append(PieChartDataEntry(value: Double(remainingPercent)))
+        entries.append(PieChartDataEntry(value: Double(100-remainingPercent)))
 
         let dataSet = PieChartDataSet(entries: entries)
         
@@ -353,4 +373,11 @@ class HomeViewController: UIViewController {
     @objc func backCheckButton(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
     }
+}
+
+
+func addCommas(to number: Int) -> String {
+    let numberFormatter = NumberFormatter()
+    numberFormatter.numberStyle = .decimal
+    return numberFormatter.string(from: NSNumber(value: number)) ?? "\(number)"
 }

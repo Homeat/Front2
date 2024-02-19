@@ -14,7 +14,7 @@ import CoreLocation
 
 class AddLocationInfromViewController : CustomProgressViewController, UITextFieldDelegate, CLLocationManagerDelegate {
     var latitude : Double?
-    var longtitude : Double?
+    var logitude : Double?
     
     
     var locationManager = CLLocationManager()
@@ -86,9 +86,28 @@ class AddLocationInfromViewController : CustomProgressViewController, UITextFiel
         config.baseForegroundColor = UIColor(named: "searchfont")
 
         let buttonAction = UIAction{ _ in
-            print(self.longtitude)
             print(self.latitude)
+            print(self.logitude)
+            
+            UserDefaults.standard.setValue(self.latitude, forKey: "latitude")
+            UserDefaults.standard.setValue(self.logitude, forKey: "logitude")
             self.locationManager.stopUpdatingLocation()
+            
+            if let latitude = self.latitude, let logitude = self.logitude {
+                RegisterAPI.locationRequest(latitude: latitude, logitude: logitude, page: 0) { result in
+                    switch result {
+                    case .success:
+                        print("locationData 요청 성공")
+                    case .failure(_):
+                        print("locationData 요청 실패")
+                    }
+                }
+            } else {
+                print("Latitude 또는 Longitude 값이 없습니다.")
+            }
+
+            
+            
             self.navigationController?.pushViewController(SearchLocationViewController(), animated: true)
         }
         let customButton = UIButton(configuration: config, primaryAction: buttonAction)
@@ -130,7 +149,7 @@ class AddLocationInfromViewController : CustomProgressViewController, UITextFiel
             print("위도 : \(location.coordinate.latitude)")
             print("경도 : \(location.coordinate.longitude)")
             latitude = location.coordinate.latitude
-            longtitude = location.coordinate.longitude
+            logitude = location.coordinate.longitude
         }
     }
         
