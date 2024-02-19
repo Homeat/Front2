@@ -27,22 +27,6 @@ final class CalendarCollectionViewCell: UICollectionViewCell {
     override func prepareForReuse() {
         self.dayLabel.text = nil
     }
-//    override func draw(_ rect: CGRect) {
-//        super.draw(rect)
-//        let totalWidth = rect.width // 전체 셀의 너비
-//        let jipbapWidth = totalWidth * jipbapPercentage // 집밥 영역의 너비
-//        let outWidth = totalWidth * outPercentage // 외식/배달 영역의 너비
-//        
-//        // 집밥 영역 그리기
-//        let jipbapRect = CGRect(x: rect.origin.x, y: rect.origin.y, width: jipbapWidth, height: rect.height)
-//        UIColor.green.setFill()
-//        UIRectFill(jipbapRect)
-//        
-//        // 외식/배달 영역 그리기
-//        let outRect = CGRect(x: jipbapRect.maxX, y: rect.origin.y, width: outWidth, height: rect.height)
-//        UIColor.purple.setFill()
-//        UIRectFill(outRect)
-//    }
     func update(day: String) {
         self.dayLabel.text = day
     }

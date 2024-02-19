@@ -7,6 +7,7 @@
 
 import UIKit
 import Alamofire
+import Then
 final class CalendarCheckViewController: UIViewController {
     var todayJipbapPricePercent: CGFloat = 0.0 // 집밥 퍼센테이지
     var todayOutPricePercent: CGFloat = 0.0 // 외식/배달 퍼센테이지
@@ -53,7 +54,7 @@ final class CalendarCheckViewController: UIViewController {
     private let circleView = UIImageView().then {
            let circleSize: CGFloat = 16
            $0.frame.size = CGSize(width: circleSize, height: circleSize)
-           $0.backgroundColor = UIColor(named: "gray2")
+           $0.backgroundColor = UIColor(named: "gray1")?.withAlphaComponent(0.5)
            $0.layer.cornerRadius = circleSize / 2
            $0.clipsToBounds = true
            $0.translatesAutoresizingMaskIntoConstraints = false
@@ -61,7 +62,7 @@ final class CalendarCheckViewController: UIViewController {
        private let circleView2 = UIImageView().then {
            let circleSize: CGFloat = 16
            $0.frame.size = CGSize(width: circleSize, height: circleSize)
-           $0.backgroundColor = UIColor(named: "gray2")
+           $0.backgroundColor = UIColor(named: "gray1")?.withAlphaComponent(0.5)
            $0.layer.cornerRadius = circleSize / 2
            $0.clipsToBounds = true
            $0.translatesAutoresizingMaskIntoConstraints = false
@@ -180,7 +181,16 @@ final class CalendarCheckViewController: UIViewController {
         let month = String(format: "%02d", calendar.component(.month, from: currentDate))
 
         
-        fetchMonthData(year: String(year), month: month)
+        // DispatchGroup 생성
+          let dispatchGroup = DispatchGroup()
+          
+          // DispatchGroup에 fetchMonthData 함수 호출 추가
+          dispatchGroup.enter()
+          fetchMonthData(year: String(year), month: month) {
+              // fetchMonthData 호출 완료 시 DispatchGroup에서 나옴
+              dispatchGroup.leave()
+          }
+
 
         self.view.backgroundColor =  UIColor(named: "gray3")
         self.contentView.addSubview(self.guideImage1)
@@ -207,7 +217,8 @@ final class CalendarCheckViewController: UIViewController {
         configUI()
     }
     //달력 데이터 년/월 가져오는 함수
-    func fetchMonthData(year: String, month: String) {
+    // fetchMonthData 함수 정의부분에서 completion 클로저를 추가합니다.
+    func fetchMonthData(year: String, month: String, completion: @escaping () -> Void) {
         let url = "https://dev.homeat.site/v1/home/calendar"
         var loginToken = ""
         if let token = UserDefaults.standard.string(forKey: "loginToken") {
@@ -247,7 +258,7 @@ final class CalendarCheckViewController: UIViewController {
                         // 날짜에서 연도, 월, 일을 추출합니다.
                         let components = date.split(separator: "-")
                         print(components)
-    
+
                         guard components.count == 3, let dataYear = components.first, let dataMonth = components.dropFirst().first, let dataDay = components.last else {
                             print("Invalid date format: \(date)")
                             continue
@@ -271,16 +282,35 @@ final class CalendarCheckViewController: UIViewController {
                         }
                     }
                 }
+                // fetchData 함수 호출 완료 후 completion 클로저를 실행합니다.
+                completion()
             case .failure(let error):
                 // 요청이 실패했을 때의 처리
                 print("Error: \(error)")
+                // fetchData 함수 호출 완료 후 completion 클로저를 실행합니다.
+                completion()
             }
         }
     }
 
     
     // 셀 클릭시 년 /월/ 일 데이터를 가져오는 함수
-    func fetchData(year: String, month: String, day: String) {
+    func fetchData(year: String, month: String, day: String, completion: @escaping () -> Void) {
+        // DispatchGroup 생성
+        let dispatchGroup = DispatchGroup()
+        
+        // DispatchGroup에 진입
+        dispatchGroup.enter()
+        
+        // fetchMonthData 함수 호출
+        fetchMonthData(year: year, month: month) {
+            // fetchMonthData 호출 완료 시에 배경색 업데이트
+            
+            // fetchData 함수 호출 완료 시 DispatchGroup에서 나옴
+            dispatchGroup.leave()
+        }
+        
+        // 나머지 fetchData 함수의 구현 내용은 그대로 유지됩니다.
         let urlString = "https://dev.homeat.site/v1/home/calendar/daily"
         var loginToken = ""
         if let token = UserDefaults.standard.string(forKey: "loginToken") {
@@ -316,12 +346,24 @@ final class CalendarCheckViewController: UIViewController {
                         self.remainMoneyCoin.text = "\(remainingGoal) 원"
                     }
                 }
+                // fetchData 함수 호출 완료 시 DispatchGroup에서 나옴
+              //  dispatchGroup.leave()
             case .failure(let error):
                 // 데이터 요청 실패 시 에러 처리
                 print("Error: \(error)")
+                // fetchData 함수 호출 완료 시 DispatchGroup에서 나옴
+                dispatchGroup.leave()
             }
         }
+        
+        // DispatchGroup의 모든 작업이 완료되면 알림
+        dispatchGroup.notify(queue: .main) {
+            // fetchData 및 셀 업데이트가 완료되면 수행할 추가 작업 수행
+            // DispatchGroup의 모든 작업이 완료된 후에 실행됩니다.
+            completion()
+        }
     }
+
     private func updateDayLabel() {
             let formatter = DateFormatter()
             formatter.dateFormat = "MM월 dd일 EEEE" // 월/일/요일 형식으로 포맷 지정
@@ -374,7 +416,7 @@ final class CalendarCheckViewController: UIViewController {
             DayLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 19),
         ])
         NSLayoutConstraint.activate([
-            mealIcon.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 40),
+            mealIcon.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 42),
             mealIcon.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 26),
             mealIcon.heightAnchor.constraint(equalToConstant: 12),
             mealIcon.widthAnchor.constraint(equalToConstant: 13),
@@ -490,12 +532,17 @@ final class CalendarCheckViewController: UIViewController {
     }
     
     private func configurePreviousButton() {
+        self.contentView.addSubview(circleView)
         self.contentView.addSubview(self.previousButton)
         self.previousButton.tintColor = .label
         self.previousButton.setImage(UIImage.init(named: "Statistics7"), for: .normal)
         self.previousButton.addTarget(self, action: #selector(self.didPreviousButtonTouched), for: .touchUpInside)
         self.previousButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
+            circleView.topAnchor.constraint(equalTo: previousButton.topAnchor,constant: 8),
+            circleView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 23),
+            circleView.heightAnchor.constraint(equalToConstant: 15.1),
+            circleView.widthAnchor.constraint(equalToConstant: 15.1),
             self.previousButton.widthAnchor.constraint(equalToConstant: 44),
             self.previousButton.heightAnchor.constraint(equalToConstant: 44),
             self.previousButton.trailingAnchor.constraint(equalTo: self.titleLabel.leadingAnchor, constant: -5),
@@ -504,12 +551,18 @@ final class CalendarCheckViewController: UIViewController {
     }
     
     private func configureNextButton() {
+        self.contentView.addSubview(circleView2)
         self.contentView.addSubview(self.nextButton)
+        
         self.nextButton.tintColor = .label
         self.nextButton.setImage(UIImage.init(named: "Statistics6"), for: .normal)
         self.nextButton.addTarget(self, action: #selector(self.didNextButtonTouched), for: .touchUpInside)
         self.nextButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
+            circleView2.topAnchor.constraint(equalTo: circleView.topAnchor),
+            circleView2.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -23),
+            circleView2.heightAnchor.constraint(equalToConstant: 15.1),
+            circleView2.widthAnchor.constraint(equalToConstant: 15.1),
             self.nextButton.widthAnchor.constraint(equalToConstant: 44),
             self.nextButton.heightAnchor.constraint(equalToConstant: 44),
             self.nextButton.leadingAnchor.constraint(equalTo: self.titleLabel.trailingAnchor, constant: 5),
@@ -575,49 +628,59 @@ extension CalendarCheckViewController: UICollectionViewDataSource, UICollectionV
             return 5
         }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        // 선택된 날짜 계산
-        let selectedDate = calendar.date(byAdding: .day, value: indexPath.item - startDayOfTheWeek(), to: calendar.startOfDay(for: calendarDate))!
-
-        // 현재 월의 날짜가 아닌 경우, 선택된 셀을 무시하고 함수 종료
-        if !calendar.isDate(selectedDate, equalTo: calendarDate, toGranularity: .month) {
-            return
-        }
-
-        // 선택된 셀의 인덱스를 업데이트
-        selectedIndexPath = indexPath
+        // DispatchGroup 생성
+        let dispatchGroup = DispatchGroup()
         
-        // 모든 셀의 배경색을 원래의 색으로 변경
+        // DispatchGroup에 진입
+        dispatchGroup.enter()
+        
+        // 셀 배경색 업데이트
         for visibleCell in collectionView.visibleCells {
             if let cell = visibleCell as? CalendarCollectionViewCell {
                 cell.backgroundColor = UIColor(named: "gray3")
                 cell.dayLabel.textColor = .white
-                
             }
         }
         
-        // 선택된 셀의 배경색과 텍스트 색상을 변경
-        if let cell = collectionView.cellForItem(at: indexPath) as? CalendarCollectionViewCell {
-            cell.backgroundColor = .white
-            cell.dayLabel.textColor = .black
-            cell.layer.cornerRadius = 10 // Adjust the value as needed
-            cell.layer.masksToBounds = true
-            // 선택된 날짜의 요일을 가져와서 날짜 레이블을 업데이트
-            let formatter = DateFormatter()
-            formatter.dateFormat = "MM월 dd일 EEEE"
-            let formattedDate = formatter.string(from: selectedDate)
-            DayLabel.text = formattedDate
-            
-            // 선택된 날짜의 year, month, day 추출
-            let year = calendar.component(.year, from: selectedDate)
-            let month = String(format: "%02d", calendar.component(.month, from: selectedDate))
+        // 선택된 날짜 가져오기
+        let selectedDate = calendar.date(byAdding: .day, value: indexPath.item - startDayOfTheWeek(), to: calendar.startOfDay(for: calendarDate))!
 
-            let day = calendar.component(.day, from: selectedDate)
-            print(String(year))
-            print(String(month))
-            fetchData(year: String(year), month: String(month), day: String(day)) //서버요청
-            
+        // 선택된 날짜가 현재 월에 있는지 확인
+        if !calendar.isDate(selectedDate, equalTo: calendarDate, toGranularity: .month) {
+            dispatchGroup.leave()
+            return
+        }
+
+        // 선택된 셀의 모습 업데이트
+            if let cell = collectionView.cellForItem(at: indexPath) as? CalendarCollectionViewCell {
+                cell.backgroundColor = .white
+                cell.dayLabel.textColor = .black
+                cell.layer.cornerRadius = 10 // 필요에 따라 조정
+                cell.layer.masksToBounds = true
+                
+                // 선택된 날짜의 연도, 월, 일 구성 요소 가져오기
+                let year = calendar.component(.year, from: selectedDate)
+                let month = String(format: "%02d", calendar.component(.month, from: selectedDate))
+                let day = calendar.component(.day, from: selectedDate)
+                
+                // DispatchGroup에 fetchMonthData 함수 호출 추가
+                
+                // fetchData 호출
+                fetchData(year: String(year), month: String(month), day: String(day)) {
+                        
+                        // fetchData가 완료되면 DispatchGroup에서 나옴
+                        dispatchGroup.leave()
+                    
+                }
+            }
+        
+        // DispatchGroup의 모든 작업이 완료되면 알림
+        dispatchGroup.notify(queue: .main) {
+            // fetchData 및 셀 업데이트가 완료되면 수행할 추가 작업 수행
+            // DispatchGroup의 모든 작업이 완료된 후에 실행됩니다.
         }
     }
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CalendarCollectionViewCell.identifier, for: indexPath) as? CalendarCollectionViewCell else { return UICollectionViewCell() }
         cell.update(day: self.days[indexPath.item])
@@ -698,35 +761,70 @@ extension CalendarCheckViewController {
 
 extension CalendarCheckViewController {
     // 셀의 배경색을 업데이트하는 함수
-        private func updateCellBackground(jipbapPercentage: Double, outPricePercentage: Double, forDate date: String) {
-            print("Date: \(date)")
-            let components = date.split(separator: "-")
-            guard let day = components.last else {
-                    print("Failed to extract day from date: \(date)")
-                    return
+    private func updateCellBackground(jipbapPercentage: Double, outPricePercentage: Double, forDate date: String) {
+        print("Date: \(date)")
+        let components = date.split(separator: "-")
+        guard let day = components.last else {
+            print("Failed to extract day from date: \(date)")
+            return
+        }
+        print("Day: \(day)")
+        let dayString = String(day)
+        
+        // 집밥 퍼센티지와 외식/배달 퍼센티지에 따라서 배경색을 조정합니다.
+        let jipbapColor: UIColor
+        let outPriceColor: UIColor
+        
+        if jipbapPercentage >= outPricePercentage {
+            // 집밥 퍼센티지가 외식/배달 퍼센티지보다 높은 경우
+            jipbapColor = UIColor(named: "green") ?? .green
+            outPriceColor = UIColor(named: "font6") ?? .black
+        } else {
+            // 외식/배달 퍼센티지가 집밥 퍼센티지보다 높은 경우
+            jipbapColor = UIColor(named: "font6") ?? .black
+            outPriceColor = UIColor(named: "green") ?? .green
+        }
+        
+        // 날짜에 해당하는 셀을 찾아 배경색을 변경합니다.
+        for (index, cellDate) in days.enumerated() {
+            if cellDate == dayString {
+                if let cell = collectionView.cellForItem(at: IndexPath(item: index, section: 0)) {
+                    // 두 개의 색을 사용하여 셀의 배경을 적용합니다.
+                    let totalHeight = cell.frame.height
+                    let jipbapHeight = totalHeight * CGFloat(outPricePercentage / 100.0)
+                    let outPriceHeight = totalHeight * CGFloat(jipbapPercentage / 100.0)
+                    
+                    // jipbapColor와 outPriceColor를 사용하여 각각의 높이에 해당하는 영역에 색상을 적용합니다.
+                    let jipbapView = UIView(frame: CGRect(x: 0, y: 0, width: cell.frame.width, height: jipbapHeight))
+                    jipbapView.backgroundColor = jipbapColor
+                    let outPriceView = UIView(frame: CGRect(x: 0, y: jipbapHeight, width: cell.frame.width, height: outPriceHeight))
+                    outPriceView.backgroundColor = outPriceColor
+                    cell.layer.cornerRadius = 10
+                    cell.layer.masksToBounds = true
+                    // 기존에 존재하는 서브뷰를 모두 제거합니다.
+                    cell.subviews.forEach { $0.removeFromSuperview() }
+                    
+                    // jipbapView와 outPriceView를 셀에 추가합니다.
+                    cell.addSubview(jipbapView)
+                    cell.addSubview(outPriceView)
+                    // 그 다음 Label을 추가합니다.
+                    self.addDayLabel(to: cell as! CalendarCollectionViewCell)
+                }
+                break
             }
-            print("Day: \(day)")
-            let dayString = String(day)
-            // Get the UIColor named "green"
-              guard let jipbapColor = UIColor(named: "green") else {
-                  print("Failed to retrieve the named color 'green'.")
-                  return
-              }
-            let textColor = UIColor.black
-              // 날짜에 해당하는 셀을 찾아 배경색을 변경합니다.
-              for (index, cellDate) in days.enumerated() {
-                  if cellDate == dayString {
-                      if let cell = collectionView.cellForItem(at: IndexPath(item: index, section: 0)) {
-                          // 집밥 퍼센티지에 따라 배경색을 변경합니다.
-                          cell.backgroundColor = jipbapColor
-                          cell.layer.cornerRadius = 10 // Adjust the value as needed
-                          cell.layer.masksToBounds = true
-                          
+        }
+    }
 
-                      }
-                      break
-                  }
-              }
+    // 셀에 날짜 Label을 추가하는 함수
+        private func addDayLabel(to cell: CalendarCollectionViewCell) {
+            cell.addSubview(cell.dayLabel)
+            cell.dayLabel.textColor = UIColor.black
+            cell.dayLabel.font = .boldSystemFont(ofSize: 18)
+            cell.dayLabel.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                cell.dayLabel.topAnchor.constraint(equalTo: cell.topAnchor,constant: 10),
+                cell.dayLabel.centerXAnchor.constraint(equalTo: cell.centerXAnchor)
+            ])
         }
     
     // 퍼센티지를 받아와서 셀의 배경색을 업데이트하는 함수
