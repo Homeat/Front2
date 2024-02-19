@@ -221,15 +221,6 @@ class AnalysisViewController: UIViewController {
         label.font = UIFont.boldSystemFont(ofSize: 18)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0 // 여러 줄 텍스트 허용
-        // NSMutableAttributedString을 사용하여 텍스트의 일부를 서로 다른 색상으로 변경
-        let attributedString = NSMutableAttributedString(string: label.text ?? "")
-        // "집밥"을 green으로 변경
-        let range1 = (label.text as NSString?)?.range(of: "집밥")
-        attributedString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.init(named: "green"), range: range1 ?? NSRange())
-        
-        let range2 = (label.text as NSString?)?.range(of: "50,000원을 덜")
-        attributedString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.init(named: "green"), range: range2 ?? NSRange())
-        
         
         return label
     }()
@@ -262,8 +253,6 @@ class AnalysisViewController: UIViewController {
         
         addSubviews()
         configUI()
-        setupMealWeekBarChart()
-        setupDeliveryWeekBarChart()
         updateYearMonthLabel()
         updateWeakMonthLabel()
         fetchDataFromServer(year: String(year), month: String(month))
@@ -395,27 +384,45 @@ class AnalysisViewController: UIViewController {
                         DispatchQueue.main.async {
                             self.ageButton.setTitle(ageRange, for: .normal)
                             self.IncomeMoneyButton.setTitle(income, for: .normal)
+                            self.genderLabel.text = "소득이 비슷한 또래 \(gender) 대비"
                             
-                            self.label2.text = "집밥은 \(jipbapSave)원을 덜 쓰고,"
+                            if jipbapSave < 0 {
+                                // 음수인 경우 "더" 사용
+                                self.label2.text = "집밥은 \(abs(jipbapSave))원을 더 쓰고,"
+                            } else {
+                                // 양수인 경우 "덜" 사용
+                                self.label2.text = "집밥은 \(jipbapSave)원을 덜 쓰고,"
+                            }
+                            
                             let attributedString2 = NSMutableAttributedString(string: self.label2.text ?? "")
                             // "집밥"을 green으로 변경
                             let range1 = (self.label2.text as NSString?)?.range(of: "집밥")
                             attributedString2.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.init(named: "green"), range: range1 ?? NSRange())
                             
-                            let range2 = (self.label2.text as NSString?)?.range(of: "50,000원을 덜")
+                            let range2 = (self.label2.text as NSString?)?.range(of: "\(jipbapSave)원을 덜")
                             attributedString2.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.init(named: "green"), range: range2 ?? NSRange())
                             self.label2.attributedText = attributedString2
+                            
                             // outSave를 이용하여 label3 업데이트
-                           self.label3.text = "외식과 배달은 \(outSave)원을 더 썼어요"
-                           
-                           // "외식과 배달"을 purple로 변경
-                           let attributedString3 = NSMutableAttributedString(string: self.label3.text ?? "")
-                           let range3 = (self.label3.text as NSString?)?.range(of: "외식과 배달")
-                           attributedString3.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.init(named: "font6"), range: range3 ?? NSRange())
-                           
-                           let range4 = (self.label3.text as NSString?)?.range(of: "\(outSave)원을 더")
-                           attributedString3.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.init(named: "font6"), range: range4 ?? NSRange())
-                           self.label3.attributedText = attributedString3
+                            if outSave < 0 {
+                                // 음수인 경우 "덜" 사용
+                                self.label3.text = "외식과 배달은 \(abs(outSave))원을 덜 썼어요"
+                            } else {
+                                // 양수인 경우 "더" 사용
+                                self.label3.text = "외식과 배달은 \(outSave)원을 더 썼어요"
+                            }
+                            
+                            // "외식과 배달"을 purple로 변경
+                            let attributedString3 = NSMutableAttributedString(string: self.label3.text ?? "")
+                            let range3 = (self.label3.text as NSString?)?.range(of: "외식과 배달")
+                            attributedString3.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.init(named: "font6"), range: range3 ?? NSRange())
+                            
+                            let range4 = (self.label3.text as NSString?)?.range(of: "\(outSave)원을 더")
+                            attributedString3.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.init(named: "font6"), range: range4 ?? NSRange())
+                            self.label3.attributedText = attributedString3
+                            
+                            self.setupMealWeekBarChart(jipbapAverage: jipbapAverage, weekJipbapPrice: weekJipbapPrice) //집밥 평균과 현재 나의 주 소비 바 차트 불러오기
+                            self.setupDeliveryWeekBarChart(outAverage: outAverage, weekOutPrice: weekOutPrice)
                         }
                     }
                 }
@@ -725,7 +732,7 @@ class AnalysisViewController: UIViewController {
         barChartView.notifyDataSetChanged()
         barChartView.legend.enabled = false
         }
-    func setupMealWeekBarChart() {
+    func setupMealWeekBarChart(jipbapAverage: Int,weekJipbapPrice: Int) {
         if let name = UserDefaults.standard.string(forKey: "userNickname") {
             let nameWithSuffix = "\(name) 님" // 닉네임 뒤에 "님"을 붙임
             
@@ -733,8 +740,8 @@ class AnalysisViewController: UIViewController {
             
             var barEntries = [BarChartDataEntry]()
             
-            barEntries.append(BarChartDataEntry(x: 0, y: Double(35)))
-            barEntries.append(BarChartDataEntry(x: 1, y: Double(75)))
+            barEntries.append(BarChartDataEntry(x: 0, y: Double(jipbapAverage)))
+            barEntries.append(BarChartDataEntry(x: 1, y: Double(weekJipbapPrice)))
             let barDataSet = BarChartDataSet(entries: barEntries)
             if let customGreenColor = UIColor(named: "font5"),
                let otherColor = UIColor(named: "green") {
@@ -777,7 +784,7 @@ class AnalysisViewController: UIViewController {
     }
 
     
-    func setupDeliveryWeekBarChart() {
+    func setupDeliveryWeekBarChart(outAverage: Int,weekOutPrice: Int) {
         if let name = UserDefaults.standard.string(forKey: "userNickname") {
             let nameWithSuffix = "\(name) 님" // 닉네임 뒤에 "님"을 붙임
             var names = ["외식/배달 평균", nameWithSuffix]

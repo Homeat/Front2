@@ -187,6 +187,7 @@ class PostViewController: UIViewController, UIScrollViewDelegate,UICollectionVie
     private let heartButton = UIButton().then {
         $0.setImage(UIImage(named: "Talk14"), for: .normal)
         $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.addTarget(self, action: #selector(heartButtonTapped), for: .touchUpInside)
     }
     private let sendButton = UIButton().then {
         $0.setImage(UIImage(named: "Talk15"), for: .normal)
@@ -541,6 +542,9 @@ class PostViewController: UIViewController, UIScrollViewDelegate,UICollectionVie
         if let member = post?.member {
                profileName.text = member.nickname // 닉네임 업데이트
            }
+        if let loveCount = post?.love {
+                heartCountLabel.text = "\(loveCount)" // 하트 개수 업데이트
+            }
         if let dateString = post?.createdAt {
             // ISO8601DateFormatter를 사용하여 문자열 형태의 날짜를 날짜 객체로 변환합니다.
             if let isoDate = ISO8601DateFormatter().date(from: dateString) {
@@ -685,8 +689,13 @@ class PostViewController: UIViewController, UIScrollViewDelegate,UICollectionVie
             self.inputUIView.frame.origin.y = newYPosition
         }
     }
-
-
+    @objc func heartButtonTapped() {
+        // 버튼을 눌렀을 때의 동작 구현
+        heartButton.setImage(UIImage(named: "Talk16"), for: .normal) // talk16 이미지로 변경
+        
+        // Love 값을 증가시킴
+        updateUI()
+    }
     @objc private func keyboardWillHideNotification(_ notification: NSNotification) {
         guard let animationDuration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? TimeInterval else {
             return
