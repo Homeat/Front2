@@ -29,6 +29,7 @@ class HomeAPI {
             switch response.result {
             case .success(let expenseResponse):
                 if expenseResponse.isSuccess {
+                    print(expenseResponse)
                     // 성공적으로 응답을 받았을 때 처리할 내용
                     completion(.success(""))
                 } else {
@@ -83,6 +84,7 @@ class HomeAPI {
                 // 성공적으로 디코딩된 데이터를 처리합니다.
                 if data.isSuccess{
                     print("이미지 업로드 성공")
+                    UserDefaults.standard.setValue(data.data, forKey: "ocrPrice")
                     print(data.data)
                     completion(.success(()))
                 }else{

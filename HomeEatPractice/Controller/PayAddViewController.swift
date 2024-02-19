@@ -297,7 +297,7 @@ class PayAddViewController : UIViewController, UITextFieldDelegate{
     // MARK: - 탭바제거
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+    
         // 커스텀 탭바를 숨깁니다.
         if let tabBarController = self.tabBarController as? MainTabBarController {
             tabBarController.customTabBar.isHidden = true
@@ -404,6 +404,28 @@ class PayAddViewController : UIViewController, UITextFieldDelegate{
                 switch uploadResult {
                 case .success:
                     print("이미지 업로드 성공")
+                    let ocrPrice = UserDefaults.standard.value(forKey: "ocrPrice")
+                    
+                    HomeAPI.postExpense(money: ocrPrice as! Int , type: self.hashTag, memo: self.memoString) { result in
+                        switch result {
+                        case .success:
+                            print("(ocr)payAdd API 호출 성공")
+                            
+                            HomeAPI.getHomeData(){result in
+                                switch result{
+                                case .success:
+                                    print("data불러오기 성공")
+                                case .failure(_):
+                                    print("data불러오기 실패")
+                                }
+                                
+                            }
+                        case .failure(_):
+                            print("(ocr)payAdd API 호출 실패")
+                        }
+                        
+                        self.navigationController?.popViewController(animated: true)
+                    }
                     
                 case .failure(let error):
                     print("이미지 업로드 실패: \(error.localizedDescription)")
@@ -413,28 +435,29 @@ class PayAddViewController : UIViewController, UITextFieldDelegate{
         } else {
             print("선택된 이미지가 없습니다.")
             // 선택된 이미지가 없을 때 처리할 내용 추가
+            HomeAPI.postExpense(money: expenseData , type: hashTag, memo: memoString) { result in
+                switch result {
+                case .success:
+                    print("payAdd API 호출 성공")
+                    
+                    HomeAPI.getHomeData(){result in
+                        switch result{
+                        case .success:
+                            print("data불러오기 성공")
+                        case .failure(_):
+                            print("data불러오기 실패")
+                        }
+                        
+                    }
+                case .failure(_):
+                    print("payAdd API 호출 실패")
+                }
+                
+                self.navigationController?.popViewController(animated: true)
+            }
         }
         
-        HomeAPI.postExpense(money: expenseData , type: hashTag, memo: memoString) { result in
-            switch result {
-            case .success:
-                print("payAdd API 호출 성공")
-                
-                HomeAPI.getHomeData(){result in
-                    switch result{
-                    case .success:
-                        print("data불러오기 성공")
-                    case .failure(_):
-                        print("data불러오기 실패")
-                    }
-                    
-                }
-            case .failure(_):
-                print("payAdd API 호출 실패")
-            }
-            
-            self.navigationController?.popViewController(animated: true)
-        }
+
         
     }
     @objc func buttonTapped(){

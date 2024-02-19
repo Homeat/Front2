@@ -57,4 +57,11 @@ struct Userdata : Codable{
     let gender : String
     let birth : String
     let income : Int
+    let address : AddressData
+}
+
+struct AddressData: Codable {
+    let addressId: Int
+    let fullNm: String
+    let emdNm: String
 }

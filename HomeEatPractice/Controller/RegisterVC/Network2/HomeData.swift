@@ -38,7 +38,7 @@ struct HomeItem: Codable {
     let targetMoney: Int
     let beforeSavingPercent: Int
     let remainingMoney: Int
-    let badgeCount: Int
+    let badgeImgUrl: String
     let remainingPercent: Int
     let beforeWeek : Int
     let message : String

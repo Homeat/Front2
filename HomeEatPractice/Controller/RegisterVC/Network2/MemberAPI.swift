@@ -109,6 +109,7 @@ class MemberAPI {
                         UserDefaults.standard.set(encodedData, forKey: "userInfo")
                         UserDefaults.standard.set(userItem.nickname, forKey: "userNickname")
                         UserDefaults.standard.set(userItem.email, forKey: "userEmail")
+                        UserDefaults.standard.set(userItem.address.fullNm, forKey: "userAddress")
                         UserDefaults.standard.synchronize()
                     } catch {
                         print("Error encoding HomeItem:", error)

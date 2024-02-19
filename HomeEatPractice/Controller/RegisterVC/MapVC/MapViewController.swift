@@ -32,9 +32,18 @@ class MapViewController: UIViewController, MKMapViewDelegate , CLLocationManager
     
     private lazy var addTownButton1 : UIButton = {
         var config = UIButton.Configuration.plain()
-        config.image = UIImage(named: "addIcon")
+        config.image = UIImage(named: "closeIcon")
+        var attributedTitle = AttributedString("전달 실패")
+        attributedTitle.font = .systemFont(ofSize: 16, weight: .bold)
+        config.attributedTitle = attributedTitle
+        config.imagePlacement = .trailing
+        config.titleAlignment = .leading
+        config.imagePadding = 60
         config.background.backgroundColor = UIColor(named: "gray4")
-        config.cornerStyle = .small
+        config.cornerStyle = .medium
+        config.baseForegroundColor = .white
+        config.background.strokeColor = UIColor(named: "green")
+        config.background.strokeWidth = 2
     
 
         let buttonAction = UIAction{ _ in
@@ -45,20 +54,20 @@ class MapViewController: UIViewController, MKMapViewDelegate , CLLocationManager
         return customButton
     }()
     
-    private lazy var addTownButton2 : UIButton = {
-        var config = UIButton.Configuration.plain()
-        config.image = UIImage(named: "addIcon")
-        config.background.backgroundColor = UIColor(named: "gray4")
-        config.cornerStyle = .small
-    
-
-        let buttonAction = UIAction{ _ in
-            self.navigationController?.pushViewController(MapViewController(), animated: true)
-        }
-        let customButton = UIButton(configuration: config, primaryAction: buttonAction)
-        customButton.translatesAutoresizingMaskIntoConstraints = false
-        return customButton
-    }()
+//    private lazy var addTownButton2 : UIButton = {
+//        var config = UIButton.Configuration.plain()
+//        config.image = UIImage(named: "addIcon")
+//        config.background.backgroundColor = UIColor(named: "gray4")
+//        config.cornerStyle = .small
+//    
+//
+//        let buttonAction = UIAction{ _ in
+//            self.navigationController?.pushViewController(MapViewController(), animated: true)
+//        }
+//        let customButton = UIButton(configuration: config, primaryAction: buttonAction)
+//        customButton.translatesAutoresizingMaskIntoConstraints = false
+//        return customButton
+//    }()
     
     private lazy var registerButton : UIButton = {
         var config = UIButton.Configuration.plain()
@@ -95,7 +104,7 @@ class MapViewController: UIViewController, MKMapViewDelegate , CLLocationManager
         
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "gray2")
-        
+        updateLocation()
         //navigationBar 바꾸는 부분
         let backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil) // title 부분 수정
         backBarButtonItem.tintColor = .white
@@ -116,7 +125,6 @@ class MapViewController: UIViewController, MKMapViewDelegate , CLLocationManager
         
         
         view.addSubview(addTownButton1)
-        view.addSubview(addTownButton2)
         view.addSubview(label1)
         view.addSubview(registerButton)
         
@@ -131,11 +139,6 @@ class MapViewController: UIViewController, MKMapViewDelegate , CLLocationManager
             addTownButton1.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -207),
             addTownButton1.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -240),
             
-            addTownButton2.topAnchor.constraint(equalTo: label1.bottomAnchor, constant: 5),
-            addTownButton2.leadingAnchor.constraint(equalTo: addTownButton1.trailingAnchor, constant: 21),
-            addTownButton2.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            addTownButton2.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -240),
-            
             registerButton.topAnchor.constraint(equalTo: addTownButton1.bottomAnchor, constant: 115),
             registerButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             registerButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
@@ -143,6 +146,11 @@ class MapViewController: UIViewController, MKMapViewDelegate , CLLocationManager
             
             
         ])
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        updateLocation()
     }
 
     private func addPin() {
@@ -152,7 +160,10 @@ class MapViewController: UIViewController, MKMapViewDelegate , CLLocationManager
     }
     
 
-    
+    func updateLocation(){
+        let location = UserDefaults.standard.string(forKey: "selectedLocation")
+        addTownButton1.configuration?.title = location
+    }
     //권한 설정을 위한 코드들
     
     func checkCurrentLocationAuthorization(authorizationStatus: CLAuthorizationStatus) {

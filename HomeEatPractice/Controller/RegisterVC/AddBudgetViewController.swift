@@ -105,11 +105,13 @@ class AddBudgetViewController : CustomProgressViewController{
             let gender = UserDefaults.standard.value(forKey: "regiSex")  ?? ""
             let income = UserDefaults.standard.value(forKey: "regiIncome")  ?? 0
             let goalPrice = UserDefaults.standard.value(forKey: "regiBudget")  ?? 0
+            let addressId = UserDefaults.standard.value(forKey: "regiaddressId")  ?? 0
             print(birth)
             print(gender)
             print(income)
             print(goalPrice)
-            RegisterAPI.addExtraData(gender: gender as! String, birth: birth as! String, income: income as! Int, goalPrice: goalPrice as! Int){result in
+            print(addressId)
+            RegisterAPI.addExtraData(gender: gender as! String, birth: birth as! String, income: income as! Int, goalPrice: goalPrice as! Int, adderessId: addressId as! Int){result in
                 switch result{
                 case .success:
                     print("추가 정보 저장 성공")
