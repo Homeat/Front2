@@ -478,9 +478,17 @@ class PostViewController: UIViewController, UIScrollViewDelegate,UICollectionVie
         
         let url = "https://dev.homeat.site/v1/infoTalk/\(postId)"
         print("Fetching data from URL: \(url)") // postid 확인을 위해 URL을 출력합니다.
+        var loginToken = ""
+        if let token = UserDefaults.standard.string(forKey: "loginToken") {
+            loginToken = token
+        } else {
+            print("토큰이 없습니다.")
+        }
 
-        // Alamofire를 사용하여 서버에서 데이터를 가져옵니다
-        AF.request(url, method: .get)
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(loginToken)",
+        ]
+        AF.request(url, method: .get, headers: headers)
             .validate()
             .responseDecodable(of: MyItem.self) { response in
                 switch response.result {
@@ -490,9 +498,21 @@ class PostViewController: UIViewController, UIScrollViewDelegate,UICollectionVie
                     self.updateUI()
                     
                     print("Successfully fetched data from server:")
+                    print("ID: \(data.id)")
                     print("Title: \(data.title)")
+                    print("CreatedAt: \(data.createdAt)")
+                    print("UpdatedAt: \(data.updatedAt)")
                     print("Content: \(data.content)")
-                    print("Date: \(data.createdAt)")
+                    print("Love: \(data.love)")
+                    print("View: \(data.view)")
+                    print("CommentNumber: \(data.commentNumber)")
+                    print("SetLove: \(data.setLove)")
+                    print("Save: \(data.save)")
+                    print("InfoPictures: \(data.infoPictures)")
+                    print("InfoHashTags: \(data.infoHashTags ?? [])")
+                    print("InfoTalkComments: \(data.infoTalkComments ?? [])")
+                    print("Member: \(data.member)")
+                    
                 case .failure(let error):
                     print("Error fetching data from server: \(error)")
                 }
@@ -518,6 +538,9 @@ class PostViewController: UIViewController, UIScrollViewDelegate,UICollectionVie
         if let content = post?.content {
             postContentLabel.text = content
         }
+        if let member = post?.member {
+               profileName.text = member.nickname // 닉네임 업데이트
+           }
         if let dateString = post?.createdAt {
             // ISO8601DateFormatter를 사용하여 문자열 형태의 날짜를 날짜 객체로 변환합니다.
             if let isoDate = ISO8601DateFormatter().date(from: dateString) {
@@ -533,27 +556,33 @@ class PostViewController: UIViewController, UIScrollViewDelegate,UICollectionVie
         }
     }
         // MARK: - API 호출하여 이미지 가져오기
-        func fetchImagesForPost() {
-            // 게시물의 ID를 이용하여 서버에 이미지를 요청하는 API를 호출합니다.
-            let urlString = "https://dev.homeat.site/v1/infoTalk/\(postId)"
-            guard let url = URL(string: urlString) else { return }
+    func fetchImagesForPost() {
+        // 게시물의 ID를 이용하여 서버에 이미지를 요청하는 API를 호출합니다.
+        let urlString = "https://dev.homeat.site/v1/infoTalk/\(postId)"
+        guard let url = URL(string: urlString) else { return }
+        
+        var loginToken = ""
+        if let token = UserDefaults.standard.string(forKey: "loginToken") {
+            loginToken = token
+        } else {
+            print("토큰이 없습니다.")
+            return
+        }
+        
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(loginToken)",
+        ]
+        
+        AF.request(url, headers: headers).responseData { [weak self] response in
+            guard let self = self else { return }
             
-            URLSession.shared.dataTask(with: url) { [weak self] (data, response, error) in
-                guard let self = self else { return }
-                if let error = error {
-                    print("Error fetching images: \(error.localizedDescription)")
-                    return
-                }
-                
-                guard let data = data else {
-                    print("No data received")
-                    return
-                }
-                
+            switch response.result {
+            case .success(let data):
                 // JSON 데이터 파싱하여 이미지 URL을 가져옵니다.
                 do {
                     let postData = try JSONDecoder().decode(MyItem.self, from: data)
                     let imageUrls = postData.infoPictures.map { $0.url }
+                   
                     print("Image URLs: \(imageUrls)") // 이미지 URL 출력
                     // 이미지 URL을 이용하여 이미지 데이터를 비동기적으로 가져옵니다.
                     self.fetchImages(from: imageUrls)
@@ -561,8 +590,12 @@ class PostViewController: UIViewController, UIScrollViewDelegate,UICollectionVie
                 } catch {
                     print("Error decoding JSON: \(error.localizedDescription)")
                 }
-            }.resume()
+                
+            case .failure(let error):
+                print("Error fetching images: \(error.localizedDescription)")
+            }
         }
+    }
     // 이미지를 가져오는 메서드
        func fetchImages(from urls: [String]) {
            for imageUrl in urls {

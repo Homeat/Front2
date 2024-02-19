@@ -365,11 +365,12 @@ final class CalendarCheckViewController: UIViewController {
     }
 
     private func updateDayLabel() {
-            let formatter = DateFormatter()
-            formatter.dateFormat = "MM월 dd일 EEEE" // 월/일/요일 형식으로 포맷 지정
-            let formattedDate = formatter.string(from: currentDate)
-            DayLabel.text = formattedDate
-            DayLabel.translatesAutoresizingMaskIntoConstraints = false
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "ko_KR") // 한국 로케일 설정
+        formatter.dateFormat = "MM월 dd일 EEEE" // 월/일/요일 형식으로 포맷 지정
+        let formattedDate = formatter.string(from: currentDate)
+        DayLabel.text = formattedDate
+        DayLabel.translatesAutoresizingMaskIntoConstraints = false
     }
     //네비게이션 바 설정
     func navigationcontrol() {

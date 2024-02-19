@@ -203,9 +203,19 @@ class AnalysisViewController: UIViewController {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.backgroundColor = UIColor(named: "searchtf")
     }
+    lazy var genderLabel : UILabel = {
+        let genderLabel = UILabel()
+        genderLabel.text = "소득이 비슷한 또래 여성 대비"
+        genderLabel.textColor = .white
+        genderLabel.textAlignment = .center
+        genderLabel.font = UIFont.boldSystemFont(ofSize: 18)
+        genderLabel.translatesAutoresizingMaskIntoConstraints = false
+        genderLabel.numberOfLines = 0
+        return genderLabel
+    } ()
     lazy var label2: UILabel = {
         let label = UILabel()
-        label.text = "소득이 비슷한 또래 여성 대비\n집밥은 50,000원을 덜 쓰고,\n외식과 배달은 120,000원을 더 썼어요"
+        label.text = "집밥은 50,000원을 덜 쓰고,\n외식과 배달은 120,000원을 더 썼어요"
         label.textColor = .white
         label.textAlignment = .center
         label.font = UIFont.boldSystemFont(ofSize: 18)
@@ -236,6 +246,8 @@ class AnalysisViewController: UIViewController {
         let calendar = Calendar.current
         let year = calendar.component(.year, from: currentDate)
         let month = String(format: "%02d", calendar.component(.month, from: currentDate))
+        let day = calendar.component(.day,from: currentDate)
+        
         addSubviews()
         configUI()
         setupMealWeekBarChart()
@@ -243,6 +255,7 @@ class AnalysisViewController: UIViewController {
         updateYearMonthLabel()
         updateWeakMonthLabel()
         fetchDataFromServer(year: String(year), month: String(month))
+        fetchAverageDataFromServer(year: String(year), month: String(month),day: String(day))
         print(String(year))
         print(String(month))
         
@@ -314,6 +327,72 @@ class AnalysisViewController: UIViewController {
             }
         }
     }
+    
+    //하단 뷰 서버에서 데이터 받아오기
+    func fetchAverageDataFromServer(year: String,month: String,day: String) {
+        let url = "https://dev.homeat.site/v1/homeatReport/ofWeek"
+        var loginToken = ""
+        if let token = UserDefaults.standard.string(forKey: "loginToken") {
+            loginToken = token
+        } else {
+            print("토큰이 없습니다.")
+            return // 토큰이 없으면 요청을 보낼 수 없으므로 함수 종료
+        }
+
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(loginToken)",
+        ]
+        let parameters: [String: String] = [
+            "input_year": year,
+            "input_month": month,
+            "input_day": day,
+        ]
+        // Alamofire를 사용하여 서버에 요청을 보냄
+        AF.request(url, method: .get, parameters: parameters, headers: headers).responseJSON { response in
+            // 요청에 대한 응답 처리
+            switch response.result {
+            case .success(let value):
+                // 성공적으로 데이터를 받아온 경우
+                print("Success: \(value)")
+                
+                // 데이터 처리
+                if let json = value as? [String: Any], let data = json["data"] as? [String: Any] {
+                    // 데이터 파싱
+                    if let ageRange = data["age_range"] as? String, //나이 범위
+                       let income = data["income"] as? Int,
+                       let gender = data["gender"] as? String,
+                       let nickname = data["nickname"] as? String,
+                       let jipbapSave = data["jipbap_save"] as? Int,
+                       let outSave = data["out_save"] as? Int,
+                       let jipbapAverage = data["jipbap_average"] as? Int,
+                       let weekJipbapPrice = data["week_jipbap_price"] as? Int,
+                       let outAverage = data["out_average"] as? Int,
+                       let weekOutPrice = data["week_out_price"] as? Int {
+                        // 데이터 사용 예시
+                        print("Age Range: \(ageRange)")
+                        print("Income: \(income)")
+                        print("Gender: \(gender)")
+                        print("Nickname: \(nickname)")
+                        print("Jipbap Save: \(jipbapSave)")
+                        print("Out Save: \(outSave)")
+                        print("Jipbap Average: \(jipbapAverage)")
+                        print("Week Jipbap Price: \(weekJipbapPrice)")
+                        print("Out Average: \(outAverage)")
+                        print("Week Out Price: \(weekOutPrice)")
+                       // ageButton의 title 업데이트
+                        DispatchQueue.main.async {
+                            self.ageButton.setTitle(ageRange, for: .normal)
+                            
+                        }
+                    }
+                }
+            case .failure(let error):
+                // 요청이 실패한 경우
+                print("Error: \(error)")
+                // 에러 처리 로직 추가
+            }
+        }
+    }
     func addSubviews() {
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
@@ -339,6 +418,7 @@ class AnalysisViewController: UIViewController {
         WeakView.addSubview(WeakMonthLabel)
         WeakView.addSubview(MealWeekBarChartView)
         WeakView.addSubview(DeliveryWeekBarChartView)
+        WeakView.addSubview(genderLabel)
         WeakView.addSubview(label2)
         WeakView.addSubview(NextIcon2)
         
@@ -474,8 +554,11 @@ class AnalysisViewController: UIViewController {
             
         ])
         NSLayoutConstraint.activate([
-            label2.heightAnchor.constraint(equalToConstant: 100),
-            label2.topAnchor.constraint(equalTo: WeakMonthLabel.bottomAnchor, constant: 38),
+            genderLabel.topAnchor.constraint(equalTo: WeakMonthLabel.bottomAnchor, constant:30),
+            genderLabel.centerXAnchor.constraint(equalTo: WeakView.centerXAnchor)
+        ])
+        NSLayoutConstraint.activate([
+            label2.topAnchor.constraint(equalTo: genderLabel.bottomAnchor),
             label2.centerXAnchor.constraint(equalTo: WeakView.centerXAnchor)
         ])
         NSLayoutConstraint.activate([
@@ -605,93 +688,105 @@ class AnalysisViewController: UIViewController {
         barChartView.legend.enabled = false
         }
     func setupMealWeekBarChart() {
-        var names = ["집밥 평균", "예진 님"]
-        
-        var barEntries = [BarChartDataEntry]()
-        
-        barEntries.append(BarChartDataEntry(x: 0, y: Double(35)))
-        barEntries.append(BarChartDataEntry(x: 1, y: Double(75)))
-        let barDataSet = BarChartDataSet(entries: barEntries)
-        if let customGreenColor = UIColor(named: "font5"),
-           let otherColor = UIColor(named: "green") {
-            let nsCustomGreenColor = NSUIColor(cgColor: customGreenColor.cgColor)
-            let nsOtherColor = NSUIColor(cgColor: otherColor.cgColor)
-            barDataSet.colors = [nsCustomGreenColor, nsOtherColor]
+        if let name = UserDefaults.standard.string(forKey: "userNickname") {
+            let nameWithSuffix = "\(name) 님" // 닉네임 뒤에 "님"을 붙임
+            
+            var names = ["집밥 평균", nameWithSuffix]
+            
+            var barEntries = [BarChartDataEntry]()
+            
+            barEntries.append(BarChartDataEntry(x: 0, y: Double(35)))
+            barEntries.append(BarChartDataEntry(x: 1, y: Double(75)))
+            let barDataSet = BarChartDataSet(entries: barEntries)
+            if let customGreenColor = UIColor(named: "font5"),
+               let otherColor = UIColor(named: "green") {
+                let nsCustomGreenColor = NSUIColor(cgColor: customGreenColor.cgColor)
+                let nsOtherColor = NSUIColor(cgColor: otherColor.cgColor)
+                barDataSet.colors = [nsCustomGreenColor, nsOtherColor]
+            }
+            MealWeekBarChartView.xAxis.labelFont = UIFont.systemFont(ofSize: 12) // 레이블 폰트 크기를 축소
+            MealWeekBarChartView.drawGridBackgroundEnabled = false
+            let barData = BarChartData(dataSet: barDataSet)
+            MealWeekBarChartView.xAxis.labelCount = names.count // 레이블 갯수 설정
+            MealWeekBarChartView.xAxis.spaceMin = 0.5 // 최소 간격 설정
+            MealWeekBarChartView.xAxis.spaceMax = 0.5 // 최대 간격 설정
+
+            // 바 차트 아래에 레이블 추가
+            MealWeekBarChartView.xAxis.valueFormatter = IndexAxisValueFormatter(values: names)
+            MealWeekBarChartView.xAxis.labelPosition = .bottom
+            MealWeekBarChartView.xAxis.labelTextColor = .white
+            let xAxis = MealWeekBarChartView.xAxis
+            xAxis.drawGridLinesEnabled = false
+            xAxis.drawLabelsEnabled = true // 레이블 표시를 가능하게 설정
+            xAxis.drawAxisLineEnabled = false
+
+            MealWeekBarChartView.leftAxis.drawLabelsEnabled = false // leftYAxis 레이블 숨김
+            MealWeekBarChartView.leftAxis.enabled = false
+            MealWeekBarChartView.rightAxis.enabled = false // rightYAxis 숨김
+
+            MealWeekBarChartView.leftAxis.gridColor = UIColor.clear
+            MealWeekBarChartView.rightAxis.gridColor = UIColor.clear
+
+            barDataSet.drawValuesEnabled = false
+            barDataSet.drawIconsEnabled = true // 아이콘 표시 활성화
+            barData.barWidth = 0.7 // 막대의 너비를 0.5로 설정하여 줄임
+            MealWeekBarChartView.data = barData
+            MealWeekBarChartView.notifyDataSetChanged()
+            MealWeekBarChartView.legend.enabled = false
+        } else {
+            print("사용자 닉네임이 없습니다.")
         }
-        MealWeekBarChartView.xAxis.labelFont = UIFont.systemFont(ofSize: 12) // 레이블 폰트 크기를 축소
-        MealWeekBarChartView.drawGridBackgroundEnabled = false
-        let barData = BarChartData(dataSet: barDataSet)
-        MealWeekBarChartView.xAxis.labelCount = names.count // 레이블 갯수 설정
-        MealWeekBarChartView.xAxis.spaceMin = 0.5 // 최소 간격 설정
-        MealWeekBarChartView.xAxis.spaceMax = 0.5 // 최대 간격 설정
+    }
 
-        // 바 차트 아래에 레이블 추가
-        MealWeekBarChartView.xAxis.valueFormatter = IndexAxisValueFormatter(values: names)
-        MealWeekBarChartView.xAxis.labelPosition = .bottom
-        MealWeekBarChartView.xAxis.labelTextColor = .white
-        let xAxis = MealWeekBarChartView.xAxis
-        xAxis.drawGridLinesEnabled = false
-        xAxis.drawLabelsEnabled = true // 레이블 표시를 가능하게 설정
-        xAxis.drawAxisLineEnabled = false
-
-        MealWeekBarChartView.leftAxis.drawLabelsEnabled = false // leftYAxis 레이블 숨김
-        MealWeekBarChartView.leftAxis.enabled = false
-        MealWeekBarChartView.rightAxis.enabled = false // rightYAxis 숨김
-
-        MealWeekBarChartView.leftAxis.gridColor = UIColor.clear
-        MealWeekBarChartView.rightAxis.gridColor = UIColor.clear
-
-        barDataSet.drawValuesEnabled = false
-        barDataSet.drawIconsEnabled = true // 아이콘 표시 활성화
-        barData.barWidth = 0.7 // 막대의 너비를 0.5로 설정하여 줄임
-        MealWeekBarChartView.data = barData
-        MealWeekBarChartView.notifyDataSetChanged()
-        MealWeekBarChartView.legend.enabled = false
-        }
     
     func setupDeliveryWeekBarChart() {
-        var names = ["외식/배달 평균", "예진 님"]
-        
-        var barEntries = [BarChartDataEntry]()
-        
-        barEntries.append(BarChartDataEntry(x: 0, y: Double(35)))
-        barEntries.append(BarChartDataEntry(x: 1, y: Double(75)))
-        let barDataSet = BarChartDataSet(entries: barEntries)
-        if let customGreenColor = UIColor(named: "font5"),
-           let otherColor = UIColor(named: "font6") {
-            let nsCustomGreenColor = NSUIColor(cgColor: customGreenColor.cgColor)
-            let nsOtherColor = NSUIColor(cgColor: otherColor.cgColor)
-            barDataSet.colors = [nsCustomGreenColor, nsOtherColor]
+        if let name = UserDefaults.standard.string(forKey: "userNickname") {
+            let nameWithSuffix = "\(name) 님" // 닉네임 뒤에 "님"을 붙임
+            var names = ["외식/배달 평균", nameWithSuffix]
+            
+            var barEntries = [BarChartDataEntry]()
+            
+            barEntries.append(BarChartDataEntry(x: 0, y: Double(35)))
+            barEntries.append(BarChartDataEntry(x: 1, y: Double(75)))
+            let barDataSet = BarChartDataSet(entries: barEntries)
+            if let customGreenColor = UIColor(named: "font5"),
+               let otherColor = UIColor(named: "font6") {
+                let nsCustomGreenColor = NSUIColor(cgColor: customGreenColor.cgColor)
+                let nsOtherColor = NSUIColor(cgColor: otherColor.cgColor)
+                barDataSet.colors = [nsCustomGreenColor, nsOtherColor]
+            }
+            DeliveryWeekBarChartView.xAxis.labelFont = UIFont.systemFont(ofSize: 12) // 레이블 폰트 크기를 축소
+            DeliveryWeekBarChartView.drawGridBackgroundEnabled = false
+            let barData = BarChartData(dataSet: barDataSet)
+            DeliveryWeekBarChartView.xAxis.labelCount = names.count // 레이블 갯수 설정
+            DeliveryWeekBarChartView.xAxis.spaceMin = 0.5 // 최소 간격 설정
+            DeliveryWeekBarChartView.xAxis.spaceMax = 0.5 // 최대 간격 설정
+            
+            // 바 차트 아래에 레이블 추가
+            DeliveryWeekBarChartView.xAxis.valueFormatter = IndexAxisValueFormatter(values: names)
+            DeliveryWeekBarChartView.xAxis.labelPosition = .bottom
+            DeliveryWeekBarChartView.xAxis.labelTextColor = .white
+            let xAxis = DeliveryWeekBarChartView.xAxis
+            xAxis.drawGridLinesEnabled = false
+            xAxis.drawLabelsEnabled = true // 레이블 표시를 가능하게 설정
+            xAxis.drawAxisLineEnabled = false
+            
+            DeliveryWeekBarChartView.leftAxis.drawLabelsEnabled = false // leftYAxis 레이블 숨김
+            DeliveryWeekBarChartView.leftAxis.enabled = false
+            DeliveryWeekBarChartView.rightAxis.enabled = false // rightYAxis 숨김
+            
+            DeliveryWeekBarChartView.leftAxis.gridColor = UIColor.clear
+            DeliveryWeekBarChartView.rightAxis.gridColor = UIColor.clear
+            
+            barDataSet.drawValuesEnabled = false
+            barDataSet.drawIconsEnabled = true // 아이콘 표시 활성화
+            barData.barWidth = 0.7 // 막대의 너비를 0.5로 설정하여 줄임
+            DeliveryWeekBarChartView.data = barData
+            DeliveryWeekBarChartView.notifyDataSetChanged()
+            DeliveryWeekBarChartView.legend.enabled = false
+        }else {
+            print("사용자 닉네임이 없습니다.")
         }
-        DeliveryWeekBarChartView.xAxis.labelFont = UIFont.systemFont(ofSize: 12) // 레이블 폰트 크기를 축소
-        DeliveryWeekBarChartView.drawGridBackgroundEnabled = false
-        let barData = BarChartData(dataSet: barDataSet)
-        DeliveryWeekBarChartView.xAxis.labelCount = names.count // 레이블 갯수 설정
-        DeliveryWeekBarChartView.xAxis.spaceMin = 0.5 // 최소 간격 설정
-        DeliveryWeekBarChartView.xAxis.spaceMax = 0.5 // 최대 간격 설정
-
-        // 바 차트 아래에 레이블 추가
-        DeliveryWeekBarChartView.xAxis.valueFormatter = IndexAxisValueFormatter(values: names)
-        DeliveryWeekBarChartView.xAxis.labelPosition = .bottom
-        DeliveryWeekBarChartView.xAxis.labelTextColor = .white
-        let xAxis = DeliveryWeekBarChartView.xAxis
-        xAxis.drawGridLinesEnabled = false
-        xAxis.drawLabelsEnabled = true // 레이블 표시를 가능하게 설정
-        xAxis.drawAxisLineEnabled = false
-
-        DeliveryWeekBarChartView.leftAxis.drawLabelsEnabled = false // leftYAxis 레이블 숨김
-        DeliveryWeekBarChartView.leftAxis.enabled = false
-        DeliveryWeekBarChartView.rightAxis.enabled = false // rightYAxis 숨김
-
-        DeliveryWeekBarChartView.leftAxis.gridColor = UIColor.clear
-        DeliveryWeekBarChartView.rightAxis.gridColor = UIColor.clear
-
-        barDataSet.drawValuesEnabled = false
-        barDataSet.drawIconsEnabled = true // 아이콘 표시 활성화
-        barData.barWidth = 0.7 // 막대의 너비를 0.5로 설정하여 줄임
-        DeliveryWeekBarChartView.data = barData
-        DeliveryWeekBarChartView.notifyDataSetChanged()
-        DeliveryWeekBarChartView.legend.enabled = false
         }
     // BackIcon을 눌렀을 때 호출되는 함수
     @objc private func backIconTapped() {

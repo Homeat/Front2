@@ -111,6 +111,16 @@ class InfoViewController: UIViewController {
         let url = "https://dev.homeat.site/v1/infoTalk/posts/latest"
         var parameters: [String: Any] = [:] // 파라미터 변수를 var로 변경
         // 처음 호출일 경우에만 Int.max로 설정
+        var loginToken = ""
+        if let token = UserDefaults.standard.string(forKey: "loginToken") {
+            loginToken = token
+        } else {
+            print("토큰이 없습니다.")
+        }
+
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(loginToken)",
+        ]
         if self.posts.isEmpty {
             parameters["lastInfoTalkId"] = Int.max //99999999
         } else {
@@ -119,7 +129,7 @@ class InfoViewController: UIViewController {
         parameters["size"] = pageSize // 한 번에 가져올 아이템 수 설정
         parameters["object"] = ["search": ""]
         print(parameters) // parameters 값 출력
-        AF.request(url, method: .get, parameters: parameters)
+        AF.request(url, method: .get, parameters: parameters,headers: headers)
             .validate()
             .responseJSON { response in
                 switch response.result {
@@ -181,22 +191,10 @@ class InfoViewController: UIViewController {
        else {
            return nil
        }
-//        var member: Member?
-//            if let memberDict = json["member"] as? [String: Any],
-//               let memberId = memberDict["id"] as? Int,
-//               let email = memberDict["email"] as? String,
-//               let password = memberDict["password"] as? String,
-//               let nickname = memberDict["nickname"] as? String,
-//               let createdAtMember = memberDict["createdAt"] as? String,
-//               let updatedAtMember = memberDict["updatedAt"] as? String,
-//               let loginType = memberDict["loginType"] as? String,
-//               let status = memberDict["status"] as? String {
-//                   // Member 객체 생성
-//                   member = Member(createdAt: createdAtMember, updatedAt: updatedAtMember, id: memberId, email: email, password: password, nickname: nickname, profileImgUrl: nil, loginType: loginType, status: status)
-//            }
 
         let infoPictures: [InfoPicture] = [InfoPicture(createdAt: "", updatedAt: "", id: infoTalkId, url: url)]
-        
+        let member = Member(createdAt: "", updatedAt: "", id: infoTalkId, email: "", password: "", nickname: "", profileImgUrl: "", loginType: "", status: "")
+
         let formattedCreatedAt = formatDateString(createdAt)
         let formattedUpdatedAt = formatDateString(updatedAt)
         
@@ -212,7 +210,9 @@ class InfoViewController: UIViewController {
                           save: "", // save 필드가 없으므로 빈 문자열로 설정
                           infoPictures: infoPictures,
                           infoHashTags: [], // infoHashTags 필드가 없으므로 빈 배열로 설정
-                          infoTalkComments: []
+                          infoTalkComments: [],
+                            member: member
+
                             ) // infoTalkComments 필드가 없으므로 빈 배열로 설정
     }
     
