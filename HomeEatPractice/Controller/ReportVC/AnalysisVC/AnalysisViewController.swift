@@ -9,6 +9,7 @@ import UIKit
 import Then
 import Charts
 import SnapKit
+import Alamofire
 
 class AnalysisViewController: UIViewController {
     private var currentDate = Date() // 현재 날짜를 가져옴
@@ -236,8 +237,12 @@ class AnalysisViewController: UIViewController {
         let range = (fullText as NSString).range(of: "8%")
         attributedString.addAttribute(.foregroundColor, value: UIColor.init(named: "green"), range: range )
         
-        
         label.attributedText = attributedString
+        let currentDate = Date()
+        let calendar = Calendar.current
+        let year = calendar.component(.year, from: currentDate)
+        let month = String(format: "%02d", calendar.component(.month, from: currentDate))
+        fetchDataFromServer(year: String(year), month: String(month))
         addSubviews()
         configUI()
         setupPieChart()
@@ -247,6 +252,54 @@ class AnalysisViewController: UIViewController {
         updateYearMonthLabel()
         updateWeakMonthLabel()
         
+    }
+    
+    func fetchDataFromServer(year: String, month: String) {
+        let url = "https://dev.homeat.site/v1/homeatReport/ofMonth"
+        var loginToken = ""
+        if let token = UserDefaults.standard.string(forKey: "loginToken") {
+            loginToken = token
+        } else {
+            print("토큰이 없습니다.")
+            return // 토큰이 없으면 요청을 보낼 수 없으므로 함수 종료
+        }
+
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(loginToken)",
+        ]
+        let parameters: [String: String] = [
+            "year": year,
+            "month": month
+        ]
+
+        AF.request(url, method: .get, parameters: parameters, headers: headers).responseJSON { [weak self]
+                response in
+                switch response.result {
+            case .success(let value):
+                // 각 날짜별 데이터를 순회하면서 처리
+                if let json = value as? [String: Any], let data = json["data"] as? [String: Any] {
+                    // 응답 데이터에서 필요한 정보를 추출하여 처리
+                    if let jipbapPrice = data["month_jipbap_price"] as? Int,
+                       let outPrice = data["month_out_price"] as? Int,
+                       let jipbapRatio = data["jipbap_ratio"] as? Double,
+                       let outRatio = data["out_ratio"] as? Double,
+                       let savePercent = data["save_percent"] as? String {
+                        // 데이터 처리 로직 추가
+                        print("집밥 가격: \(jipbapPrice)")
+                        print("외식/배달 가격: \(outPrice)")
+                        print("집밥 비율: \(jipbapRatio)")
+                        print("외식/배달 비율: \(outRatio)")
+                        print("절약 비율: \(savePercent)")
+                        self?.percentageLabel.text = "\(jipbapRatio) %"
+                        self?.percentageLabel2.text = "\(outRatio) %"
+                        
+                    }
+                }
+            case .failure(let error):
+                print("Error: \(error)")
+                // 요청이 실패한 경우에 대한 처리
+            }
+        }
     }
     func addSubviews() {
         view.addSubview(scrollView)

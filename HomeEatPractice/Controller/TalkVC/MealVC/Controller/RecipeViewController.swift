@@ -200,8 +200,9 @@ class RecipeViewController: UIViewController, UIImagePickerControllerDelegate, U
                 if let cell = recipeTableView.cellForRow(at: indexPath) as? RecipeTableViewCell {
                     let recipeStep = RecipeStep(stepNumber: i + 1, recipeImages: cell.imageArray, recipeText: cell.recipeTextView.text ?? "", sourceText: cell.sourceTextField.text ?? "", tipText: cell.tipTextField.text ?? "")
                     steps.append(recipeStep)
-                    print(i)
+                    
                 }
+                print(i)
             }
             
             // 저장된 레시피 스텝을 전역 변수에 저장하거나 원하는 작업을 수행
@@ -232,6 +233,7 @@ extension RecipeViewController: UITableViewDelegate, UITableViewDataSource {
         
         // 셀의 delegate를 설정
         cell.delegate = self
+        cell.prepareForReuse()
         return cell
     }
 }
