@@ -62,6 +62,7 @@ class InfoViewController: UIViewController {
         let spacing: CGFloat = 3.6
         $0.imageEdgeInsets = UIEdgeInsets(top: 0, left: -spacing, bottom: 0, right: spacing)
         $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.addTarget(self, action:#selector(locationButtonClicked(_:)) , for: .touchUpInside)
     }
     //테이블 뷰
     private let tableView =  UITableView().then {
@@ -88,15 +89,21 @@ class InfoViewController: UIViewController {
  //정보토크
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        updateLocation()
         fetchDataFromServer()
         configure()
-        updateLocation()
         addSubView()
         configUI()
         tableView.reloadData()
         
 
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        updateLocation()
     }
     // 스크롤이 발생할 때 호출되는 메서드
         func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -112,16 +119,6 @@ class InfoViewController: UIViewController {
         let url = "https://dev.homeat.site/v1/infoTalk/posts/latest"
         var parameters: [String: Any] = [:] // 파라미터 변수를 var로 변경
         // 처음 호출일 경우에만 Int.max로 설정
-        var loginToken = ""
-        if let token = UserDefaults.standard.string(forKey: "loginToken") {
-            loginToken = token
-        } else {
-            print("토큰이 없습니다.")
-        }
-
-        let headers: HTTPHeaders = [
-            "Authorization": "Bearer \(loginToken)",
-        ]
         if self.posts.isEmpty {
             parameters["lastInfoTalkId"] = Int.max //99999999
         } else {
@@ -130,7 +127,7 @@ class InfoViewController: UIViewController {
         parameters["size"] = pageSize // 한 번에 가져올 아이템 수 설정
         parameters["object"] = ["search": ""]
         print(parameters) // parameters 값 출력
-        AF.request(url, method: .get, parameters: parameters,headers: headers)
+        AF.request(url, method: .get, parameters: parameters)
             .validate()
             .responseJSON { response in
                 switch response.result {
@@ -152,9 +149,7 @@ class InfoViewController: UIViewController {
                                 var newPosts: [MyItem] = []
                                 for json in jsonArray {
                                     if let myItem = self.parseMyItemFromJSON(json) {
-                                        if !self.posts.contains(where: { $0.id == myItem.id }) {
-                                            newPosts.append(myItem)
-                                        }
+                                        newPosts.append(myItem)
                                         print("MyItem created successfully with infoTalkId: \(myItem.id)")
 
                                     }else {
@@ -180,42 +175,43 @@ class InfoViewController: UIViewController {
     }
 
     func parseMyItemFromJSON(_ json: [String: Any]) -> MyItem? {
-        guard let infoTalkId = json["infoTalkId"] as? Int,
-             let title = json["title"] as? String,
-             let createdAt = json["createdAt"] as? String,
-             let updatedAt = json["updatedAt"] as? String,
-             let content = json["content"] as? String,
-            let url = json["url"] as? String, // 이미지 URL 추가
-              let love = json["love"] as? Int,
-              let view = json["view"] as? Int,
-             let commentNumber = json["commentNumber"] as? Int
-       else {
-           return nil
-       }
+            guard let infoTalkId = json["infoTalkId"] as? Int,
+                 let title = json["title"] as? String,
+                 let createdAt = json["createdAt"] as? String,
+                 let updatedAt = json["updatedAt"] as? String,
+                 let content = json["content"] as? String,
+                let url = json["url"] as? String, // 이미지 URL 추가
+                  let love = json["love"] as? Int,
+                  let view = json["view"] as? Int,
+                 let commentNumber = json["commentNumber"] as? Int
+           else {
+               return nil
+           }
 
-        let infoPictures: [InfoPicture] = [InfoPicture(createdAt: "", updatedAt: "", id: infoTalkId, url: url)]
-        let member = Member(createdAt: "", updatedAt: "", id: infoTalkId, email: "", password: "", nickname: "", profileImgUrl: "", loginType: "", status: "")
+            let infoPictures: [InfoPicture] = [InfoPicture(createdAt: "", updatedAt: "", id: infoTalkId, url: url)]
+            let member = Member(createdAt: "", updatedAt: "", id: infoTalkId, email: "", password: "", nickname: "", profileImgUrl: "", loginType: "", status: "")
 
-        let formattedCreatedAt = formatDateString(createdAt)
-        let formattedUpdatedAt = formatDateString(updatedAt)
+            let formattedCreatedAt = formatDateString(createdAt)
+            let formattedUpdatedAt = formatDateString(updatedAt)
+            
+            return MyItem(id: infoTalkId,
+                              title: title,
+                              createdAt: formattedCreatedAt,
+                              updatedAt: formattedUpdatedAt,
+                              content: content,
+                              love: love, // JSON 데이터에는 love 필드가 없으므로 기본값으로 설정
+                              view: view, // 조회수 필드가 없으므로 기본값으로 설정
+                              commentNumber: commentNumber,
+                              setLove: false, // setLove 필드가 없으므로 기본값으로 설정
+                              save: "", // save 필드가 없으므로 빈 문자열로 설정
+                              infoPictures: infoPictures,
+                              infoHashTags: [], // infoHashTags 필드가 없으므로 빈 배열로 설정
+                              infoTalkComments: [],
+                                member: member
+
+                                ) // infoTalkComments 필드가 없으므로 빈 배열로 설정
+        }
         
-        return MyItem(id: infoTalkId,
-                          title: title,
-                          createdAt: formattedCreatedAt,
-                          updatedAt: formattedUpdatedAt,
-                          content: content,
-                          love: love, // JSON 데이터에는 love 필드가 없으므로 기본값으로 설정
-                          view: view, // 조회수 필드가 없으므로 기본값으로 설정
-                          commentNumber: commentNumber,
-                          setLove: false, // setLove 필드가 없으므로 기본값으로 설정
-                          save: "", // save 필드가 없으므로 빈 문자열로 설정
-                          infoPictures: infoPictures,
-                          infoHashTags: [], // infoHashTags 필드가 없으므로 빈 배열로 설정
-                          infoTalkComments: [],
-                            member: member
-
-                            ) // infoTalkComments 필드가 없으므로 빈 배열로 설정
-    }
     
     func formatDateString(_ dateString: String) -> String {
         let formatter = DateFormatter()
@@ -234,12 +230,6 @@ class InfoViewController: UIViewController {
 //        self.posts.append(myItem)
 //    }
 
-    func updateLocation() {
-        let userLocation = UserDefaults.standard.string(forKey: "userAddress")
-        locationButton.setTitle(userLocation, for: .normal)
-
-    }
-    
     func addSubView() {
         view.addSubview(SearchView)
         SearchView.addSubview(searchTextField)
@@ -294,6 +284,12 @@ class InfoViewController: UIViewController {
         
         
     }
+    func updateLocation() {
+        let userLocation = UserDefaults.standard.string(forKey: "userAddress")
+        locationButton.setTitle(userLocation, for: .normal)
+
+    }
+    
     func configure() {
         self.tableView.dataSource = self
         self.tableView.delegate = self
@@ -361,6 +357,13 @@ extension InfoViewController {
     //글쓰기 버튼
     @objc private func floatingButtonAction(_ sender: UIButton) {
         let nextVC = InfoWritingViewController()
+        tabBarController?.tabBar.isHidden = true //하단 탭바 안보이게 전환
+        navigationController?.pushViewController(nextVC, animated: true)
+        
+    }
+    
+    @objc private func locationButtonClicked(_ sender: UIButton) {
+        let nextVC = ReLocationViewController()
         tabBarController?.tabBar.isHidden = true //하단 탭바 안보이게 전환
         navigationController?.pushViewController(nextVC, animated: true)
         

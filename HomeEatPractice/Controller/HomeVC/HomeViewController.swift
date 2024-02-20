@@ -183,22 +183,27 @@ class HomeViewController: UIViewController {
                 var attributedString = NSMutableAttributedString(string: "저번주보다 \(percent)% 절약하고 있어요")
 
                 let stringLength = attributedString.length
+                let string = "저번주보다 \(percent)% 더 쓰고 있어요"
+                let string2 = "저번주보다 \(percent)% 절약하고 있어요"
                 //색 바꿔줘야함 퍼센트
                 if percent < 0{
-                    attributedString = NSMutableAttributedString(string: "저번주보다 \(percent)% 더 쓰고 있어요")
-                    attributedString.addAttributes([.foregroundColor : UIColor(r: 255, g: 109, b: 109), .font : UIFont.systemFont(ofSize: 18, weight: .bold)], range: NSRange(location: 6, length: 3))
-                    attributedString.addAttributes([.foregroundColor : UIColor.white, .font : UIFont.systemFont(ofSize: 18, weight: .bold)], range: NSRange(location: 0, length: 7))
-                    attributedString.addAttributes([.foregroundColor : UIColor.white, .font : UIFont.systemFont(ofSize: 18, weight: .bold)], range: NSRange(location: 9, length: stringLength - 9))
+                    attributedString = NSMutableAttributedString(string: string)
+                    if let range = string.range(of: "\(percent)%") {
+                        let nsRange = NSRange(range, in: string)
+                        attributedString.addAttribute(.foregroundColor, value: UIColor(r: 255, g: 109, b: 109), range: nsRange)
+                        characterImg.image = UIImage(named: "Home5")
+
+                    }
                     infoLabel2.attributedText = attributedString
                 }else if percent > 0{
-                    attributedString = NSMutableAttributedString(string: "저번주보다 \(percent)% 절약하고 있어요")
-                    attributedString.addAttributes([.foregroundColor : UIColor(r: 7, g: 231, b: 149), .font : UIFont.systemFont(ofSize: 18, weight: .bold)], range: NSRange(location: 6, length: 3))
-                    attributedString.addAttributes([.foregroundColor : UIColor.white, .font : UIFont.systemFont(ofSize: 18, weight: .bold)], range: NSRange(location: 0, length: 7))
-                    attributedString.addAttributes([.foregroundColor : UIColor.white, .font : UIFont.systemFont(ofSize: 18, weight: .bold)], range: NSRange(location: 9, length: stringLength - 9))
+                    attributedString = NSMutableAttributedString(string: string2)
+                    if let range = string.range(of: "\(percent)%") {
+                        let nsRange = NSRange(range, in: string)
+                        attributedString.addAttribute(.foregroundColor, value: UIColor(r: 7, g: 231, b: 149), range: nsRange)
+                    }
                     infoLabel2.attributedText = attributedString
                 }else{
                     infoLabel2.text = "비교할 과거 데이터가 없어요"
-//                    attributedString.addAttributes([.font : UIFont.systemFont(ofSize: 18, weight: .bold)], range: NSRange(location: 0, length: stringLength))
                 }
                 
                 
