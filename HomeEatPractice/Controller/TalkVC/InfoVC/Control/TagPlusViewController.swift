@@ -49,8 +49,6 @@ class TagPlusViewController: UIViewController {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = UIColor(named: "gray2")
-        
-        
 
         return collectionView
     }()

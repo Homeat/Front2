@@ -54,20 +54,10 @@ class PostViewController: UIViewController, UIScrollViewDelegate,UICollectionVie
         $0.backgroundColor = UIColor.init(named: "gray3")
         $0.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         $0.register(CommentTableViewCell.self, forCellReuseIdentifier: CommentTableViewCell.identifier)
+        $0.isScrollEnabled = false
+        $0.bounces = false
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
-    //댓글 header
-    lazy var commentHeaderView: UIView = {
-        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: commenttableView.frame.width, height: 85.5))
-        headerView.backgroundColor = UIColor(named: "gray2") // 적절한 색상으로 설정합니다.
-        return headerView
-    }()
-    //대댓글 footer
-//    lazy var plusCommentFooterView: UIView = {
-//        let footerView = UIView(frame: CGRect(x: 0, y: 0, width: commenttableView.frame.width, height: 265))
-//        footerView.backgroundColor = UIColor(named: "gray2") // 적절한 색상으로 설정합니다.
-//        return footerView
-//    }()
     // MARK: - 프로퍼티 생성
     //프로필이미지 넣을 원형뷰
     lazy var circleView: UIView = {
@@ -300,33 +290,34 @@ class PostViewController: UIViewController, UIScrollViewDelegate,UICollectionVie
         contentView.addSubview(postContentLabel)
         contentView.addSubview(scrollView)
         contentView.addSubview(pageControl)
-        view.addSubview(inputUIView)
+        
         contentView.addSubview(SmallheartButton)
         contentView.addSubview(heartCountLabel)
         contentView.addSubview(SmallChatButton)
         contentView.addSubview(chatCountLabel)
         contentView.addSubview(barView)
         contentView.addSubview(commenttableView)
+        view.addSubview(inputUIView)
         inputUIView.addSubview(heartButton)
         inputUIView.addSubview(inputTextField)
         inputUIView.addSubview(sendButton)
+        
         
     }
     
     func configUI() {
         NSLayoutConstraint.activate([
             self.mainScrollview.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
-            self.mainScrollview.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
-            self.mainScrollview.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
-            self.mainScrollview.bottomAnchor.constraint(equalTo: inputUIView.topAnchor),
+            self.mainScrollview.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            self.mainScrollview.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            self.mainScrollview.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
         ])
 
         NSLayoutConstraint.activate([
-            contentView.topAnchor.constraint(equalTo: mainScrollview.contentLayoutGuide.topAnchor),
-            contentView.leadingAnchor.constraint(equalTo: mainScrollview.contentLayoutGuide.leadingAnchor),
-            contentView.trailingAnchor.constraint(equalTo: mainScrollview.contentLayoutGuide.trailingAnchor),
-            contentView.bottomAnchor.constraint(equalTo: inputUIView.topAnchor), // inputUIView의 top에서 20만큼 위로 설정
-            contentView.widthAnchor.constraint(equalTo: mainScrollview.frameLayoutGuide.widthAnchor) // contentView의 너비를 scrollView의 frameLayoutGuide의 너비와 같도록 설정
+            contentView.topAnchor.constraint(equalTo: mainScrollview.topAnchor),
+            contentView.leadingAnchor.constraint(equalTo: mainScrollview.leadingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: mainScrollview.trailingAnchor),
+            contentView.widthAnchor.constraint(equalTo: mainScrollview.frameLayoutGuide.widthAnchor),
         ])
 
         // inputUIView의 레이아웃 설정
@@ -398,6 +389,7 @@ class PostViewController: UIViewController, UIScrollViewDelegate,UICollectionVie
             barView.heightAnchor.constraint(equalToConstant: 4),
             
             commenttableView.topAnchor.constraint(equalTo: barView.bottomAnchor),
+            commenttableView.heightAnchor.constraint(equalToConstant: commenttableView.contentSize.height),
             commenttableView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             commenttableView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             commenttableView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
@@ -677,7 +669,9 @@ class PostViewController: UIViewController, UIScrollViewDelegate,UICollectionVie
             let keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
                 return
         }
-        let finalHeight = keyboardFrame.size.height - self.view.safeAreaInsets.bottom
+        //키보드의 높이
+        let keyboardHeight = keyboardFrame.size.height
+        let finalHeight = keyboardHeight - self.view.safeAreaInsets.bottom
 
         let animationDuration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as! TimeInterval
 
@@ -689,13 +683,7 @@ class PostViewController: UIViewController, UIScrollViewDelegate,UICollectionVie
             self.inputUIView.frame.origin.y = newYPosition
         }
     }
-    @objc func heartButtonTapped() {
-        // 버튼을 눌렀을 때의 동작 구현
-        heartButton.setImage(UIImage(named: "Talk16"), for: .normal) // talk16 이미지로 변경
-        
-        // Love 값을 증가시킴
-        updateUI()
-    }
+    
     @objc private func keyboardWillHideNotification(_ notification: NSNotification) {
         guard let animationDuration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? TimeInterval else {
             return
@@ -709,7 +697,13 @@ class PostViewController: UIViewController, UIScrollViewDelegate,UICollectionVie
             self.inputUIView.frame.origin.y = originalYPosition
         }
     }
-    
+    @objc func heartButtonTapped() {
+        // 버튼을 눌렀을 때의 동작 구현
+        heartButton.setImage(UIImage(named: "Talk16"), for: .normal) // talk16 이미지로 변경
+        
+        // Love 값을 증가시킴
+        updateUI()
+    }
     }
 extension PostViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     //셀 개수 카운팅 

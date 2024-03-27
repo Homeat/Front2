@@ -108,6 +108,8 @@
 		58A40D792B5805520053E302 /* UIColor + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A40D782B5805520053E302 /* UIColor + Extension.swift */; };
 		58A40D802B5BEFC40053E302 /* CalendarCheckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A40D7F2B5BEFC40053E302 /* CalendarCheckViewController.swift */; };
 		58A40D9E2B5FF1560053E302 /* TabbarInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A40D9D2B5FF1560053E302 /* TabbarInfo.swift */; };
+		58D15E832B84839F00EB74E9 /* MapViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58D15E822B84839F00EB74E9 /* MapViewController2.swift */; };
+		58D15E852B8483E900EB74E9 /* ReLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58D15E842B8483E900EB74E9 /* ReLocationViewController.swift */; };
 		8ECF68A20C6802496B2B5BE9 /* Pods_HomeEatPractice.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827ED5B3B017327767649ADC /* Pods_HomeEatPractice.framework */; };
 /* End PBXBuildFile section */
 
@@ -215,6 +217,8 @@
 		58A40D782B5805520053E302 /* UIColor + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor + Extension.swift"; sourceTree = "<group>"; };
 		58A40D7F2B5BEFC40053E302 /* CalendarCheckViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarCheckViewController.swift; sourceTree = "<group>"; };
 		58A40D9D2B5FF1560053E302 /* TabbarInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarInfo.swift; sourceTree = "<group>"; };
+		58D15E822B84839F00EB74E9 /* MapViewController2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController2.swift; sourceTree = "<group>"; };
+		58D15E842B8483E900EB74E9 /* ReLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReLocationViewController.swift; sourceTree = "<group>"; };
 		5CF3251AB730DFAD7043486D /* Pods-HomeEatPractice.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HomeEatPractice.debug.xcconfig"; path = "Target Support Files/Pods-HomeEatPractice/Pods-HomeEatPractice.debug.xcconfig"; sourceTree = "<group>"; };
 		827ED5B3B017327767649ADC /* Pods_HomeEatPractice.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HomeEatPractice.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBD28DEFC31B1BB454FB5CB1 /* Pods-HomeEatPractice.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HomeEatPractice.release.xcconfig"; path = "Target Support Files/Pods-HomeEatPractice/Pods-HomeEatPractice.release.xcconfig"; sourceTree = "<group>"; };
@@ -468,8 +472,10 @@
 		2D7985732B84055700183012 /* MapVC */ = {
 			isa = PBXGroup;
 			children = (
+				58D15E822B84839F00EB74E9 /* MapViewController2.swift */,
 				2D7985742B84055700183012 /* MapViewController.swift */,
 				2D7985752B84055700183012 /* View */,
+				58D15E842B8483E900EB74E9 /* ReLocationViewController.swift */,
 			);
 			path = MapVC;
 			sourceTree = "<group>";
@@ -793,6 +799,7 @@
 				2D7985262B84043C00183012 /* TagCollectionViewCell.swift in Sources */,
 				2D7985A82B84055C00183012 /* MonthMoneyEditViewController.swift in Sources */,
 				2D7985A62B84055C00183012 /* LeaveViewController.swift in Sources */,
+				58D15E832B84839F00EB74E9 /* MapViewController2.swift in Sources */,
 				2D7985802B84055700183012 /* RegisterAPI.swift in Sources */,
 				2D7985982B84055700183012 /* BankSelectViewController.swift in Sources */,
 				2D79858D2B84055700183012 /* RegisterDoneViewController.swift in Sources */,
@@ -824,6 +831,7 @@
 				2D79853D2B84043C00183012 /* MealViewCell.swift in Sources */,
 				2D7985452B84043C00183012 /* FoodId.swift in Sources */,
 				2D7985AB2B84055C00183012 /* MyPageViewController.swift in Sources */,
+				58D15E852B8483E900EB74E9 /* ReLocationViewController.swift in Sources */,
 				2D79852B2B84043C00183012 /* Member.swift in Sources */,
 				2D7985832B84055700183012 /* RegisterData.swift in Sources */,
 				2D79859A2B84055700183012 /* SelectMangeUnitViewController.swift in Sources */,
@@ -993,7 +1001,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = GH95G7PN63;
+				DEVELOPMENT_TEAM = G62DUX396A;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = HomeEatPractice/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "카메라 접근권한";
@@ -1026,7 +1034,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = GH95G7PN63;
+				DEVELOPMENT_TEAM = G62DUX396A;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = HomeEatPractice/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "카메라 접근권한";
